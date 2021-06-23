@@ -3,6 +3,13 @@ import { makeAutoObservable } from 'mobx';
 import { AuthI } from '@/types/auth';
 import { AUTH_NAME } from '@/utils/consts';
 import { PodgotovkaAPI } from '@/api/instance';
+import { deleteCookie, setCookie } from '@/utils/cookie';
+
+const cookieOptions = {
+  path: '/',
+  expires: 7,
+  domain: '.podgotovka.ru'
+};
 
 export class AuthStore {
   public auth: AuthI | undefined;
@@ -11,17 +18,17 @@ export class AuthStore {
     makeAutoObservable(this);
   }
 
-  // TODO: LS => Cookie
   setAuth(v: AuthI): void {
     this.auth = v;
     PodgotovkaAPI.updateToken(v.access_token);
-    window.localStorage.setItem(AUTH_NAME, JSON.stringify(v));
+    setCookie(AUTH_NAME, JSON.stringify(v), cookieOptions);
   }
 
   remove(): void {
     this.auth = undefined;
     PodgotovkaAPI.updateToken('');
     window.localStorage.removeItem(AUTH_NAME);
+    deleteCookie(AUTH_NAME, cookieOptions);
   }
 }
 

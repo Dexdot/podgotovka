@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { API_BASE, AUTH_NAME } from '@/utils/consts';
+import { getCookie } from '@/utils/cookie';
+import { AuthI } from '@/types/auth';
 
 // Class
 export class PodgotovkaAPIClass {
@@ -31,15 +33,14 @@ export class PodgotovkaAPIClass {
 }
 
 // Token
-let token;
+let token = '';
 
-// TODO: LS => Cookie
 if (process.browser) {
-  const payload = window.localStorage.getItem(AUTH_NAME);
+  const authInCookie = getCookie(AUTH_NAME);
 
-  if (payload) {
-    const { access_token } = JSON.parse(payload);
-    token = access_token;
+  if (authInCookie) {
+    const { access_token } = JSON.parse(authInCookie) as AuthI;
+    if (access_token) token = access_token;
   }
 }
 

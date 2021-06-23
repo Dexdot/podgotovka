@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { AUTH_NAME } from '@/utils/consts';
 import { AuthI } from '@/types/auth';
 import { AuthContext } from '@/store/auth';
+import { getCookie } from '@/utils/cookie';
 
 export function useApp(): void {
   const authStore = useContext(AuthContext);
@@ -17,13 +18,12 @@ export function useApp(): void {
     calc();
   }, []);
 
-  // Get auth from storage
-  // TODO: LS => Cookie
+  // Get auth from cookie
   useEffect(() => {
-    const authInStorage = window.localStorage.getItem(AUTH_NAME);
+    const authInCookie = getCookie(AUTH_NAME);
 
-    if (authInStorage) {
-      const parsedAuth = JSON.parse(authInStorage) as AuthI;
+    if (authInCookie) {
+      const parsedAuth = JSON.parse(authInCookie) as AuthI;
       if (parsedAuth) authStore.setAuth(parsedAuth);
     }
   }, []);

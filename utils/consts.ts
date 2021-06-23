@@ -8,7 +8,7 @@ export const API_BASE = isDevBuild
   ? 'https://devapi.podgotovka.ru'
   : 'https://api.podgotovka.ru';
 
-export const AUTH_NAME = 'podgotovka-auth';
+export const AUTH_NAME = 'podgotovka_auth';
 
 export const DOMAINS = {
   school: isDevBuild ? 'devschool' : 'school',
