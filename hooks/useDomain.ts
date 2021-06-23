@@ -28,8 +28,5 @@ export function useDomain(): ReturnData {
     }
   }, [windowLocation]);
 
-  console.log('DOMAINS', DOMAINS);
-  console.log('NODE_ENV', NODE_ENV);
-
   return { isAdmin, isSchool };
 }
