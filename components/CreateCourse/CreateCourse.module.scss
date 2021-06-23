@@ -1,0 +1,27 @@
+.root {
+  padding: 36px 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+
+.title {
+  font-size: 28px;
+}
+
+.subject {
+  display: flex;
+  align-items: center;
+
+  font-weight: 600;
+  font-size: 18px;
+
+  svg {
+    color: #99a2ad;
+    margin-right: 8px;
+  }
+}

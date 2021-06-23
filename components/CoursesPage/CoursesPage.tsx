@@ -12,7 +12,7 @@ export const CoursesPage: React.FC = () => {
       <BackLink href="/app/subjects" text="Все предметы" />
 
       <header className={cls.header}>
-        <h1>Русский язык</h1>
+        <h1 className={cls.title}>Русский язык</h1>
         <ButtonLink href="/courses/new">Добавить курс</ButtonLink>
       </header>
 
