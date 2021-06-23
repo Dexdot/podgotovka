@@ -1,0 +1,30 @@
+$header-h: 56px;
+
+.root {
+  position: relative;
+  background: #fafbfc;
+
+  overflow-y: auto;
+  min-height: calc(100vh - #{$header-h});
+  min-width: 240px;
+  width: 240px;
+  padding: 36px 16px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3px;
+    height: 100%;
+
+    background: linear-gradient(
+      270deg,
+      #091e42 -340.65%,
+      rgba(9, 30, 66, 0.551037) -207.28%,
+      rgba(9, 30, 66, 0.173565) -96.18%,
+      rgba(9, 30, 66, 0.0001) 97.56%
+    );
+    opacity: 0.5;
+  }
+}

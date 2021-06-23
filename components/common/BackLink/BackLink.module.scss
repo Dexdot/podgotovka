@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  align-items: center;
+
+  color: var(--color-primary);
+  transition: opacity 0.175s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  svg {
+    margin-right: 4px;
+  }
+}

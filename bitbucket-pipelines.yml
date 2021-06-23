@@ -1,0 +1,125 @@
+# This is a sample build configuration for all languages.
+# Check our guides at https://confluence.atlassian.com/x/5Q4SMw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+# image: docker-image:tag
+
+image: node:14.15.1
+
+clone:
+  depth: 100
+
+definitions:
+  caches:
+    next-cache: .next/cache
+  steps:
+    - step: &NOTIFY-SLACK
+        name: NOTIFY SLACK
+        caches:
+          - node
+        script:
+          - export COMMIT_MESSAGE=`git log --format=%B -n 1 $BITBUCKET_COMMIT`
+          - yarn add axios
+          - node slack-bot.js
+
+pipelines:
+  branches:
+    dev:
+      - step:
+          name: Build and test
+          caches:
+            - node
+          script:
+            - export BUILD_ENV=development
+            - yarn
+            - yarn build
+            - echo $BITBUCKET_COMMIT > public/build-commit
+          artifacts:
+            - .next/**
+            - package.json
+            - public/**
+      - step:
+          name: Deploy artifacts using RSYNC to DEV
+          caches:
+            - node
+            - next-cache
+          deployment: development
+          script:
+            - export LAST_COMMIT=`echo $BITBUCKET_COMMIT`
+            - export LAST_COMMIT=`curl -X GET "https://$SERVER/build-commit" --insecure` || export CHANGELOG_REQUEST_ERROR=true
+            - pipe: atlassian/rsync-deploy:0.4.3
+              variables:
+                USER: $USER
+                SERVER: $SERVER
+                REMOTE_PATH: '/var/www/podgotovka.frontend/dist'
+                LOCAL_PATH: './.next ./package.json public'
+            - ssh $USER@$SERVER "cd /var/www/podgotovka.frontend/dist && . ~/.nvm/nvm.sh && yarn"
+            - ssh $USER@$SERVER ". ~/.nvm/nvm.sh && pm2 delete podgotovka-frontend || true"
+            - ssh $USER@$SERVER "cd /var/www/podgotovka.frontend/dist && . ~/.nvm/nvm.sh && pm2 start npm --name \"podgotovka-frontend\" -- start"
+            - printenv > ENVIRONMENT_VARIABLES.txt
+          after-script:
+            - export $(cat ENVIRONMENT_VARIABLES.txt | xargs)
+            - export COMMIT_MESSAGE=`git log --format=%B -n 1 $BITBUCKET_COMMIT`
+            - export COMMIT_MESSAGE=`git log --format="-->commit %H %B" -n 100 "$LAST_COMMIT".."$BITBUCKET_COMMIT"`
+            - yarn add axios
+            - node slack-bot.js
+
+    master:
+      - step:
+          name: Build and test
+          caches:
+            - node
+            - next-cache
+          script:
+            - export BUILD_ENV=production
+            - yarn
+            - yarn build
+            - echo $BITBUCKET_COMMIT > public/build-commit
+          artifacts:
+            - .next/**
+            - package.json
+            - public/**
+      - step:
+          name: Deploy artifacts using RSYNC to PROD
+          deployment: production
+          caches:
+            - node
+            - next-cache
+          script:
+            - export LAST_COMMIT=`echo $BITBUCKET_COMMIT`
+            - export LAST_COMMIT=`curl -X GET "https://$SERVER/build-commit" --insecure` || export CHANGELOG_REQUEST_ERROR=true
+            - pipe: atlassian/rsync-deploy:0.4.3
+              variables:
+                USER: $USER
+                SERVER: $SERVER
+                REMOTE_PATH: '/var/www/podgotovka.frontend/dist'
+                LOCAL_PATH: './.next ./package.json public'
+            - ssh $USER@$SERVER "cd /var/www/podgotovka.frontend/dist && . ~/.nvm/nvm.sh && yarn"
+            - ssh $USER@$SERVER ". ~/.nvm/nvm.sh && pm2 delete podgotovka-frontend || true"
+            - ssh $USER@$SERVER "cd /var/www/podgotovka.frontend/dist && . ~/.nvm/nvm.sh && pm2 start npm --name \"podgotovka-frontend\" -- start"
+            - printenv > ENVIRONMENT_VARIABLES.txt
+          after-script:
+            - export $(cat ENVIRONMENT_VARIABLES.txt | xargs)
+            - export COMMIT_MESSAGE=`git log --format=%B -n 1 $BITBUCKET_COMMIT`
+            - export COMMIT_MESSAGE=`git log --format="-->commit %H %B" -n 100 "$LAST_COMMIT".."$BITBUCKET_COMMIT"`
+            - yarn add axios
+            - node slack-bot.js
+
+  pull-requests:
+    '{feature,hotfix,bugfix,release}/**':
+      - step:
+          clone:
+            depth: 2
+          name: Build and test
+          caches:
+            - node
+            - next-cache
+          script:
+            - export BUILD_ENV=production
+            - yarn
+            - yarn build
+          artifacts:
+            - .next/**
+            - package.json
+            - public/**

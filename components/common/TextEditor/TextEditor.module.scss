@@ -1,0 +1,11 @@
+.root {
+  :global {
+    .ce-paragraph[data-placeholder]:empty::before {
+      color: #7a869a;
+    }
+
+    .codex-editor__redactor {
+      padding-bottom: 16px !important;
+    }
+  }
+}

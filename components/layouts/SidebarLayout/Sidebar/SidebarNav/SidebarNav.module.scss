@@ -1,0 +1,28 @@
+.root {
+  a {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 8px;
+
+    font-weight: 600;
+    font-size: 16px;
+    color: #42526e;
+
+    transition: 0.2s ease;
+    border-radius: 3px;
+
+    svg {
+      margin-right: 12px;
+    }
+
+    &:hover {
+      background: #f2f3f5;
+    }
+
+    &.link_active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+  }
+}
