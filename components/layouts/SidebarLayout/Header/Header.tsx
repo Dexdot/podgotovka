@@ -23,7 +23,7 @@ export const Header: React.FC = observer(() => {
         </div>
 
         <div className={cls.right}>
-          {/* TODO: Change to user name */}
+          {/* TODO: Change to username */}
           <Avatar user={{ name: auth?.access_token || '' }} />
         </div>
       </div>
