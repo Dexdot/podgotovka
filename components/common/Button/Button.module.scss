@@ -17,8 +17,9 @@
   border-radius: 4px;
 
   &:disabled {
-    background: #f2f3f5;
-    color: #7a869a;
+    background: var(--color-primary);
+    color: #fff;
+    opacity: 0.5;
   }
 
   &:hover:not(:disabled) {
