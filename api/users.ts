@@ -8,7 +8,6 @@ import {
   UpdateUserI
 } from '@/types/users';
 import { PodgotovkaAPI } from '@/api/instance';
-import { qs } from '@/utils/ajax';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1';
@@ -16,7 +15,9 @@ const SERVICE_PATH = '/core/v1';
 export function fetchUsers(
   searchParams: SearchParamsI
 ): Promise<AxiosResponse<UserI[]>> {
-  return axios.get<UserI[]>(`${SERVICE_PATH}/users?${qs({ ...searchParams })}`);
+  return axios.get<UserI[]>(`${SERVICE_PATH}/users`, {
+    params: { ...searchParams }
+  });
 }
 
 export function fetchUserDetails(
