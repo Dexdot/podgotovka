@@ -82,6 +82,11 @@
         flex-direction: column;
         margin-top: 24px;
 
+        &_title {
+          font-size: 16px;
+          color: #7A869A; 
+        }
+
         &_input {
             display: flex;
             align-items: center;

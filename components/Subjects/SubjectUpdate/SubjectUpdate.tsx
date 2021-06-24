@@ -12,12 +12,14 @@ export const SubjectUpdate: React.FC = () => {
   const [isOpen, toggleOpen] = useState<boolean>(false);
   return (
     <div className={cls.subject_update}>
-      <SubjectHeader
-        title="Изменение предмета"
-        buttonText="Сохранить"
-        onClick={() => console.log('update')}
-        isDisable
-      />
+      <div className={cls.subject_update_header}>
+        <SubjectHeader
+          title="Изменение предмета"
+          buttonText="Сохранить"
+          onClick={() => console.log('update')}
+          isDisable
+        />
+      </div>
 
       <SectionCollapse
         isOpen={isOpen}
