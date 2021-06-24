@@ -15,14 +15,15 @@ import { Avatar } from '@/components/common/Avatar/Avatar';
 import cls from './Users.module.scss';
 
 export const Table: React.FC = observer(() => {
-  const { users, updateUser } = useContext(UsersContext);
+  const { users } = useContext(UsersContext);
 
   const [statuses] = useUserStatuses();
   const [subjects] = useSubjects();
   const [roles] = useRoles();
 
   const updateUserStatus = (userId: number, newStatus: string): void => {
-    // updateUser()
+    // call updateUser() from store here
+    console.log(userId, newStatus);
   };
 
   return (

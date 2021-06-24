@@ -34,6 +34,7 @@ export const CreateUser: React.FC = observer(() => {
 
   const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
     try {
+      console.log(file);
       // upload file
       const photo_link = '';
       addUser({ ...form, photo_link });
@@ -67,7 +68,8 @@ export const CreateUser: React.FC = observer(() => {
   };
 
   const checkRole = (roleId: string) => {
-    form.setFieldValue('roleId', roleId).then(() => setCollapse(MAIN_COLLAPSE));
+    form.setFieldValue('roleId', roleId);
+    setCollapse(MAIN_COLLAPSE);
   };
 
   useEffect(() => {

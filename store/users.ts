@@ -1,8 +1,8 @@
 import { createContext } from 'react';
-import { action, makeAutoObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { UserI, NewUserI, UpdateUserI, SearchParamsI } from '@/types/users';
-import { UsersAPI } from '@/api/users';
-import { showAlert } from '@/utils/network';
+// import { UsersAPI } from '@/api/users';
+// import { showAlert } from '@/utils/network';
 
 export class UsersStore {
   public users: UserI[] = [];
