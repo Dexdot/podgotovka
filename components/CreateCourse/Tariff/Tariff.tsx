@@ -4,6 +4,7 @@ import { LevelType, TariffLevelType } from '@/types/common';
 
 import cls from './Tariff.module.scss';
 import { Levels } from './Levels';
+import { Options } from './Options/Options';
 
 type Props = {
   type: TariffLevelType;
@@ -17,10 +18,12 @@ const levels: LevelType[] = [
 
 export const Tariff: React.FC<Props> = ({ type }) => {
   const isMany = type === 'many';
+  const levelsByType = isMany ? levels : levels.slice(0, 1);
 
   return (
     <div className={cls.root}>
-      <Levels type={type} levels={isMany ? levels : levels.slice(0, 1)} />
+      <Levels type={type} levels={levelsByType} />
+      <Options levels={levelsByType} />
     </div>
   );
 };

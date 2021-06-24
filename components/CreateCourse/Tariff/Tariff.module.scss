@@ -6,6 +6,8 @@
 .levels {
   display: flex;
   justify-content: flex-end;
+  padding-right: 16px;
+  margin-bottom: 24px;
 
   &_list {
     display: flex;
@@ -33,7 +35,7 @@
 
   b {
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 
     font-weight: bold;
     font-size: 18px;
