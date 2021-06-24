@@ -1,26 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { LevelType, OptionI } from '@/types/common';
 import { reorderDND } from '@/utils/common';
+import { CourseEditContext } from '@/store/course-edit';
 
 import cls from './Options.module.scss';
 import { Option } from './Option';
 
-const initialOptions: OptionI[] = [
-  { id: 1, name: 'Какая-то строковая опция', type: 'string' },
-  { id: 2, name: 'Беседа единомышленников', type: 'numeric' },
-  { id: 3, name: 'Хэлпер', type: 'boolean' }
-];
+export const OptionsList: React.FC = observer(() => {
+  const store = useContext(CourseEditContext);
 
-type Props = {
-  levels: LevelType[];
-};
-
-export const OptionsList: React.FC<Props> = ({ levels }) => {
-  const [options, setOptions] = useState(initialOptions);
+  const { options, setOptions } = store;
 
   const onDragEnd = (result: any) => {
     if (!result.destination) {
@@ -59,7 +52,6 @@ export const OptionsList: React.FC<Props> = ({ levels }) => {
                         style={draggableProps.style}
                       >
                         <Option
-                          levels={levels}
                           option={option}
                           dragHandleProps={dragHandleProps}
                         />
@@ -75,4 +67,4 @@ export const OptionsList: React.FC<Props> = ({ levels }) => {
       </DragDropContext>
     </div>
   );
-};
+});

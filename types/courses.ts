@@ -1,10 +1,33 @@
+import { LevelI, OptionI, TariffValueType } from './common';
+import { SubjectI } from './subjects';
+
 export type CourseStatus = 'draft' | 'archive' | 'removed' | 'published';
 
-export interface CourseI {
+interface CourseBaseI {
   id: number;
   name: string;
-  photo_link: string;
-  status: CourseStatus;
+  description: string;
   time_start: number;
   time_finish: number;
+}
+
+export interface CourseI extends CourseBaseI {
+  status: CourseStatus;
+}
+
+export interface CourseEditI extends CourseBaseI {
+  subject_id: number;
+  tariff: {
+    values: TariffValueType[];
+  };
+}
+
+export interface CourseEditDetailI extends CourseBaseI {
+  // TODO: Add id on backend
+  subject: SubjectI;
+  tariff: {
+    levels: LevelI[];
+    options: OptionI[];
+    values: TariffValueType[];
+  };
 }
