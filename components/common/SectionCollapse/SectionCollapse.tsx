@@ -9,28 +9,36 @@ import cls from './SectionCollapse.module.scss';
 
 type Props = {
   isOpen: boolean;
-  onClick: () => void;
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  onClick?: () => void;
+  headerChildren?: React.ReactNode;
 };
 
 export const SectionCollapse: React.FC<Props> = ({
   isOpen,
   onClick,
   title,
-  children
+  children,
+  headerChildren
 }) => {
   return (
     <section className={cn(cls.root, { [cls.root_open]: isOpen })}>
       <button className={cls.toggle_btn} type="button" onClick={onClick} />
-      <b className={cls.title}>
-        {title}
-        <ChevronIcon />
-      </b>
+      <header className={cls.header}>
+        <b className={cls.title}>
+          {title}
+          <ChevronIcon />
+        </b>
 
-      <Collapse isOpened={isOpen}>
-        <div className={cls.content}>{children}</div>
-      </Collapse>
+        {headerChildren}
+      </header>
+
+      {children && (
+        <Collapse isOpened={isOpen}>
+          <div className={cls.content}>{children}</div>
+        </Collapse>
+      )}
     </section>
   );
 };

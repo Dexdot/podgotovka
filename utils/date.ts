@@ -1,8 +1,7 @@
 /* eslint-disable import/no-duplicates */
 
-import isToday from 'date-fns/isToday';
-import format from 'date-fns/format';
 import ru from 'date-fns/locale/ru';
+import format from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
@@ -15,10 +14,8 @@ export function getDDMMYY(d: Date): string {
 export function getDateText(d: Date): string {
   const day = format(d, 'd', options);
   const month = format(d, 'MMMM', options);
-  const weekDay = format(d, 'eeee', options);
-  const today = isToday(d) ? 'Сегодня, ' : '';
 
-  const result = `${today}${day} ${month}, ${weekDay}`;
+  const result = `${day} ${month}`;
   return result;
 }
 

@@ -1,6 +1,6 @@
 import Embed from '@editorjs/embed';
 import Table from '@editorjs/table';
-// TODO: Find table with remove/i18n/readonly support
+// TODO: Find table tool with remove/i18n/readonly support
 // import Table from 'editorjs-table';
 import List from '@editorjs/list';
 import Warning from '@editorjs/warning';
