@@ -1,6 +1,6 @@
 export interface InputProps {
   value: string;
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.FormEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FormEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   placeholder?: string;

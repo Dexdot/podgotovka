@@ -13,6 +13,8 @@ const Index: React.FC = () => {
   return (
     <div style={{ maxWidth: 400, padding: 24 }}>
       <ButtonLink href="/signin">Авторизация</ButtonLink>
+      <div style={{ height: '25px' }} />
+      <ButtonLink href="/app/subjects">Предметы</ButtonLink>
     </div>
   );
 };
