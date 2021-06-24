@@ -2,7 +2,6 @@ import { createContext } from 'react';
 import { makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { PodgotovkaAPI } from '@/api/instance';
 import { CourseEditDetailI } from '@/types/courses';
 import { SubjectI } from '@/types/subjects';
 import {
