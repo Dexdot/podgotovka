@@ -1,8 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from 'react';
-import cn from 'classnames';
-import { Collapse } from 'react-collapse';
-import { ChevronIcon } from '@/components/common/SectionCollapse/icons';
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 

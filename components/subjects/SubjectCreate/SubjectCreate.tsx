@@ -1,9 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState } from 'react';
-import { Collapse } from 'react-collapse';
-import cn from 'classnames';
 
-import { ChevronIcon } from '@/components/common/SectionCollapse/icons';
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
@@ -42,22 +39,6 @@ export const SubjectCreate: React.FC = () => {
         Collapse content
       </SectionCollapse>
       <div className={cls.subject_create_section}>
-        {/* <section className={cn(cls.root, { [cls.root_open]: isOpen })}>
-          <button
-            className={cls.toggle_btn}
-            type="button"
-            onClick={() => toggleOpen(!isOpen)}
-          />
-          <b className={cls.title}>
-            Основная информация
-            <ChevronIcon />
-          </b>
-
-          <Collapse isOpened={isOpen}>
-           
-          </Collapse>
-        </section> */}
-
         <SectionCollapse
           isOpen={isOpen}
           onClick={() => toggleOpen(!isOpen)}
