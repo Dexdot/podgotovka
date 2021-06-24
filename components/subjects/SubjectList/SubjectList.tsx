@@ -12,12 +12,8 @@ export const SubjectList: React.FC = () => {
   return (
     <div className={cls.subject_list}>
       {items.map((el) => {
-        const { id, name, direction, color } = el;
-        return <SubjectListItem subject={{ id, name, direction, color }} />;
+        return <SubjectListItem subject={el} />;
       })}
-      {/* <SubjectListItem title="Русский язык" subtitle="ЕГЭ" />
-      <SubjectListItem title="Русский язык" subtitle="ЕГЭ" />
-      <SubjectListItem title="Русский язык" subtitle="ЕГЭ" /> */}
     </div>
   );
 };
