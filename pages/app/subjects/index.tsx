@@ -1,8 +1,8 @@
 import React from 'react';
-import { Subject } from '@/components/subjects/Subject';
+import { SubjectsPage } from '@/components/Subjects/SubjectsPage';
 
-const SubjectPage: React.FC = () => {
-  return <Subject />;
+const AppSubjectPage: React.FC = () => {
+  return <SubjectsPage />;
 };
 
-export default SubjectPage;
+export default AppSubjectPage;

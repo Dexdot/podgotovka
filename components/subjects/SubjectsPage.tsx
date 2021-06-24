@@ -1,11 +1,11 @@
 import router from 'next/router';
 import React from 'react';
 
-import cls from './Subject.module.scss';
+import cls from './Subjects.module.scss';
 import { SubjectHeader } from './SubjectHeader/SubjectHeader';
 import { SubjectList } from './SubjectList/SubjectList';
 
-export const Subject: React.FC = () => {
+export const SubjectsPage: React.FC = () => {
   return (
     <div className={cls.subject}>
       <SubjectHeader

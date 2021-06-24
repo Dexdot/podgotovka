@@ -6,7 +6,7 @@ import { ChevronIcon } from '@/components/common/SectionCollapse/icons';
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 
-import { SubjectHeader } from '@/components/subjects/SubjectHeader/SubjectHeader';
+import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
 import cls from './SubjectUpdate.module.scss';
 
 export const SubjectUpdate: React.FC = () => {
