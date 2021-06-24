@@ -3,13 +3,18 @@
   
     background: rgba(#fff, 0);
     border: 2px solid rgba(#f2f3f5, 0);
-    box-shadow: 0px 3px 24px rgba(0, 0, 0, 0);
+    box-shadow: 0px 3px 5px rgba(9, 30, 66, 0.05), 0px 0px 1px rgba(9, 30, 66, 0.31);
     border-radius: 12px;
     transition: 0.2s ease;
 
     padding: 16px;
+    margin-top: 12px;
   
     border: 2px solid rgba(#f2f3f5, 1);
+
+    &:nth-child(1) {
+      margin-top: 0;
+    }
   }
   
   
@@ -72,6 +77,7 @@
     margin-left: 16px;
 
     &_title {
+      font-family: Nunito;
       font-weight: 600;
       font-size: 16px;
       color: #282A2F;
