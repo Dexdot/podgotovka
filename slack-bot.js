@@ -121,7 +121,7 @@ function notifySlack(webhook) {
         },
         {
           type: 'mrkdwn',
-          text: '<https://uchitel.podgotovka.ru/|uchitel.podgotovka.ru>'
+          text: '<https://admin.podgotovka.ru/|admin.podgotovka.ru>'
         }
       ]
     });
@@ -141,7 +141,7 @@ function notifySlack(webhook) {
         },
         {
           type: 'mrkdwn',
-          text: '<https://devuchitel.podgotovka.ru/|devuchitel.podgotovka.ru>'
+          text: '<https://devadmin.podgotovka.ru/|devadmin.podgotovka.ru>'
         }
       ]
     });

@@ -7,9 +7,9 @@ import cls from './SidebarNav.module.scss';
 import { UsersIcon, BoardIcon, TasksIcon } from './icons';
 
 const PATHS = {
-  users: '/users',
-  subjects: '/subjects',
-  homeworks: '/homeworks'
+  users: '/app/users',
+  subjects: '/app/subjects',
+  homeworks: '/app/homeworks'
 };
 
 export const SidebarNav: React.FC = () => {
@@ -21,7 +21,9 @@ export const SidebarNav: React.FC = () => {
         <li>
           <Link href={PATHS.users}>
             <a
-              className={cn({ [cls.link_active]: pathname === PATHS.users })}
+              className={cn({
+                [cls.link_active]: pathname.startsWith(PATHS.users)
+              })}
               href={PATHS.users}
             >
               <UsersIcon />
@@ -32,7 +34,9 @@ export const SidebarNav: React.FC = () => {
         <li>
           <Link href={PATHS.subjects}>
             <a
-              className={cn({ [cls.link_active]: pathname === PATHS.subjects })}
+              className={cn({
+                [cls.link_active]: pathname.startsWith(PATHS.subjects)
+              })}
               href={PATHS.subjects}
             >
               <BoardIcon />
@@ -44,7 +48,7 @@ export const SidebarNav: React.FC = () => {
           <Link href={PATHS.homeworks}>
             <a
               className={cn({
-                [cls.link_active]: pathname === PATHS.homeworks
+                [cls.link_active]: pathname.startsWith(PATHS.homeworks)
               })}
               href={PATHS.homeworks}
             >

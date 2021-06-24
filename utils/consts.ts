@@ -1,3 +1,5 @@
+import { CourseStatus } from '@/types/courses';
+
 const isDevBuild = process.env.BUILD_ENV === 'development';
 
 export const COLORS = {
@@ -13,4 +15,11 @@ export const AUTH_NAME = 'podgotovka_auth';
 export const DOMAINS = {
   school: isDevBuild ? 'devschool' : 'school',
   admin: isDevBuild ? 'devadmin' : 'admin'
+};
+
+export const COURSE_STATUSES: Record<string, CourseStatus> = {
+  draft: 'draft',
+  archive: 'archive',
+  published: 'published',
+  removed: 'removed'
 };
