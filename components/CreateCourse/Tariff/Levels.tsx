@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { LevelType, TariffLevelType } from '@/types/common';
 import { Input } from '@/components/common/Input/Input';
 
-import { onlyNumbers } from '@/utils/format';
+import { numberWithSpaces, onlyNumbers } from '@/utils/format';
 import cls from './Tariff.module.scss';
 
 type Props = {
@@ -56,7 +56,7 @@ export const Levels: React.FC<Props> = ({ type, levels }) => {
               {type === 'many' && <b>{l.name}</b>}
 
               <Input
-                value={String(l.price)}
+                value={String(numberWithSpaces(l.price))}
                 onChange={(e) =>
                   setLevelPrice(l.id, onlyNumbers(e.currentTarget.value))
                 }
