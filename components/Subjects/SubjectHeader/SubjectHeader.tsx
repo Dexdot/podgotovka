@@ -7,23 +7,24 @@ type Props = {
   buttonText: string;
   title: string;
   onClick: () => void;
-  isDisable: boolean;
+  disabled: boolean;
 };
 
 export const SubjectHeader: React.FC<Props> = ({
   buttonText,
   title,
   onClick,
-  isDisable
+  disabled
 }) => {
   return (
-    <div className={cls.subject_header}>
-      <div className={cls.subject_header_title}>{title}</div>
-      <div className={cls.subject_header_action}>
-        <Button variant="primary" onClick={onClick} disabled={isDisable}>
+    <header className={cls.header}>
+      <h1 className={cls.title}>{title}</h1>
+
+      <div className={cls.action}>
+        <Button onClick={onClick} disabled={disabled}>
           {buttonText}
         </Button>
       </div>
-    </div>
+    </header>
   );
 };

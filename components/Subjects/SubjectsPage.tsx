@@ -1,19 +1,22 @@
-import router from 'next/router';
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import cls from './Subjects.module.scss';
 import { SubjectHeader } from './SubjectHeader/SubjectHeader';
 import { SubjectList } from './SubjectList/SubjectList';
 
 export const SubjectsPage: React.FC = () => {
+  const router = useRouter();
+
   return (
     <div className={cls.subject}>
       <SubjectHeader
         title="Предметы"
-        buttonText="Добавить"
+        buttonText="Добавить предмет"
         onClick={() => router.push('/app/subjects/create')}
-        isDisable={false}
+        disabled={false}
       />
+
       <SubjectList />
     </div>
   );

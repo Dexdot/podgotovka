@@ -9,9 +9,9 @@ import cls from './SectionCollapse.module.scss';
 
 type Props = {
   isOpen: boolean;
-  onClick: () => void;
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  onClick?: () => void;
   headerChildren?: React.ReactNode;
 };
 
@@ -34,9 +34,11 @@ export const SectionCollapse: React.FC<Props> = ({
         {headerChildren}
       </header>
 
-      <Collapse isOpened={isOpen}>
-        <div className={cls.content}>{children}</div>
-      </Collapse>
+      {children && (
+        <Collapse isOpened={isOpen}>
+          <div className={cls.content}>{children}</div>
+        </Collapse>
+      )}
     </section>
   );
 };

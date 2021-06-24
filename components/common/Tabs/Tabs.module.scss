@@ -1,0 +1,31 @@
+.tabs {
+  display: flex;
+  background: #e8e9eb;
+  border-radius: 8px;
+  padding: 2px;
+
+  > li {
+    flex: 1;
+  }
+}
+
+.tab {
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+
+  width: 100%;
+  padding: 6px 0;
+
+  border-radius: 6px;
+  background: rgba(#fff, 0);
+  border: 1px solid rgba(0, 0, 0, 0);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0), 0px 3px 1px rgba(0, 0, 0, 0);
+  transition: 0.2s ease;
+}
+
+.tab_active {
+  background: rgba(#fff, 1);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12), 0px 3px 1px rgba(0, 0, 0, 0.04);
+}
