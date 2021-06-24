@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  display: none;
+}
+
+.photo {
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 16px;
+
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  border-radius: 36px;
+}
+
+.placeholder {
+  background-color: var(--color-lightgray);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
