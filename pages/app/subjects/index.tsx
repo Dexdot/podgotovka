@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubjectsPage } from '@/components/Subjects/SubjectsPage';
+import { SubjectsPage } from '@/components/aidarrrrr/SubjectsPage';
 
 const AppSubjectPage: React.FC = () => {
   return <SubjectsPage />;
