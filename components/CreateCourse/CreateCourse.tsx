@@ -66,7 +66,7 @@ export const CreateCourse: React.FC = () => {
           ) : null
         }
       >
-        <Tariff type={selectedLevel} />
+        {isTariffOpen && <Tariff type={selectedLevel} />}
       </SectionCollapse>
     </div>
   );

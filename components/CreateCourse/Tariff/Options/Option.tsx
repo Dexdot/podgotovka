@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React, { useEffect, useState } from 'react';
 
 import { Input } from '@/components/common/Input/Input';
@@ -12,9 +14,14 @@ import { ValueType, getInitialValues } from './helpers';
 type Props = {
   option: OptionI;
   levels: LevelType[];
+  dragHandleProps: any;
 };
 
-export const Option: React.FC<Props> = ({ levels, option }) => {
+export const Option: React.FC<Props> = ({
+  levels,
+  option,
+  dragHandleProps
+}) => {
   const [values, setValues] = useState<ValueType[]>(
     getInitialValues(option, levels)
   );
@@ -41,7 +48,7 @@ export const Option: React.FC<Props> = ({ levels, option }) => {
 
   return (
     <div className={cls.option}>
-      <div className={cls.drag}>
+      <div className={cls.drag} {...dragHandleProps} tabIndex={-1}>
         <DragIcon />
       </div>
 
