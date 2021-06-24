@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 
-import { SubjectHeader } from '@/components/aidarrrrr/SubjectHeader/SubjectHeader';
+import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import cls from './SubjectUpdate.module.scss';
 

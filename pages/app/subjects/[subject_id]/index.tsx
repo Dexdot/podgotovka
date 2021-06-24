@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubjectUpdate } from '@/components/aidarrrrr/SubjectUpdate/SubjectUpdate';
+import { SubjectUpdate } from '@/components/Subjects/SubjectUpdate/SubjectUpdate';
 
 const SubjectUpdatePage: React.FC = () => {
   return <SubjectUpdate />;
