@@ -16,9 +16,9 @@ export const SubjectUpdate: React.FC = () => {
     <div className={cls.subject_update}>
       <SubjectHeader
         title="Изменение предмета"
-        buttonText="Добавить"
+        buttonText="Сохранить"
         onClick={() => console.log('update')}
-        isDisable={false}
+        isDisable
       />
       <div className={cls.subject_update_section}>
         <section className={cn(cls.root, { [cls.root_open]: isOpen })}>

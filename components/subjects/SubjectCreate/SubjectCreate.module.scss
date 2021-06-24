@@ -6,6 +6,20 @@
     &_section {
         margin-top: 36px;
     }
+
+    &_header {
+        margin-bottom: 60px;
+    }
+}
+
+.selected_value {
+    display: flex;
+    align-items: center;
+
+    svg {
+        margin-right: 8px;
+        color: #b5b5b5
+    }
 }
 
 .root {

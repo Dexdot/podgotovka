@@ -6,22 +6,41 @@ import cn from 'classnames';
 import { ChevronIcon } from '@/components/common/SectionCollapse/icons';
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
+import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { SubjectHeader } from '../SubjectHeader/SubjectHeader';
 
 import cls from './SubjectCreate.module.scss';
+import { SubjectIcon } from './Icons';
 
 export const SubjectCreate: React.FC = () => {
   const [color, setColor] = useState<string>('');
   const [isOpen, toggleOpen] = useState<boolean>(false);
+  const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
 
   return (
     <div className={cls.subject_create}>
-      <SubjectHeader
-        title="Создание предмета"
-        buttonText="Сохранить"
-        onClick={() => console.log('Create')}
-        isDisable
-      />
+      <div className={cls.subject_create_header}>
+        <SubjectHeader
+          title="Создание предмета"
+          buttonText="Сохранить"
+          onClick={() => console.log('Create')}
+          isDisable
+        />
+      </div>
+
+      <SectionCollapse
+        isOpen={isOpenSubject}
+        onClick={() => toggleOpenSubject(!isOpenSubject)}
+        title="Направление"
+        headerChildren={
+          <div className={cls.selected_value}>
+            <SubjectIcon />
+            Русский язык
+          </div>
+        }
+      >
+        Collapse content
+      </SectionCollapse>
       <div className={cls.subject_create_section}>
         <section className={cn(cls.root, { [cls.root_open]: isOpen })}>
           <button

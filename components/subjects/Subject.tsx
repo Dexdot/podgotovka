@@ -11,7 +11,7 @@ export const Subject: React.FC = () => {
       <SubjectHeader
         title="Предметы"
         buttonText="Добавить"
-        onClick={() => router.push('/app/subjects_create')}
+        onClick={() => router.push('/app/subjects/create')}
         isDisable={false}
       />
       <SubjectList />
