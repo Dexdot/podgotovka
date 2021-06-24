@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
+import { SubjectContext } from '@/store/subjects';
 import { SubjectHeader } from '../SubjectHeader/SubjectHeader';
 
 import cls from './SubjectCreate.module.scss';
@@ -11,8 +12,10 @@ import { SubjectIcon } from './Icons';
 
 export const SubjectCreate: React.FC = () => {
   const [color, setColor] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
+  const subjectStore = useContext(SubjectContext);
 
   return (
     <div className={cls.subject_create}>
@@ -46,7 +49,11 @@ export const SubjectCreate: React.FC = () => {
         >
           <div className={cls.content}>
             <div className={cls.content_input}>
-              <Input value="" placeholder="Название предмета" />
+              <Input
+                value={name}
+                placeholder="Название предмета"
+                onChange={(e) => setName(e.currentTarget.value)}
+              />
             </div>
             <div className={cls.content_color}>
               <div className={cls.content_color_title}>Цвет предмета</div>
