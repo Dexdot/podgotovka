@@ -1,0 +1,19 @@
+div.container {
+  max-width: 100%;
+  width: 100%;
+  align-self: flex-end;
+
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  transition: 0.2s ease-in-out;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+[data-open='true'] {
+  div.container {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

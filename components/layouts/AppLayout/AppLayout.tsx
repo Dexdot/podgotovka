@@ -22,6 +22,7 @@ export const AppLayout: React.FC<Props> = observer(({ children }) => {
       {children}
 
       <ToastContainer transition={Slide} />
+      <div id="modal-root" />
     </div>
   );
 });

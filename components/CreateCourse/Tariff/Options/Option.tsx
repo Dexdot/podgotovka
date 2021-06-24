@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/common/Input/Input';
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 import { LevelType, OptionI, OptionValueType } from '@/types/common';
-import { onlyNumbers } from '@/utils/format';
+import { numberWithSpaces, onlyNumbers } from '@/utils/format';
 
 import cls from './Options.module.scss';
 import { DragIcon, RemoveIcon } from './icons';
@@ -75,7 +75,9 @@ export const Option: React.FC<Props> = ({
                 value={String(v.value as number)}
                 onChange={(e) =>
                   handleChange(
-                    Number(onlyNumbers(e.currentTarget.value)),
+                    numberWithSpaces(
+                      Number(onlyNumbers(e.currentTarget.value))
+                    ),
                     v.level_id
                   )
                 }
