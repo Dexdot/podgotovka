@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { EditUser } from '@/components/Users/User/EditUser';
+import { CreateUser } from '@/components/Users/User/CreateUser';
 
 const UserPage: React.FC = () => {
-  return <EditUser />;
+  return <CreateUser />;
 };
 
 export default UserPage;
