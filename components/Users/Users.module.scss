@@ -1,0 +1,132 @@
+.root {
+  margin-top: 38px;
+
+  header {
+    justify-content: space-between;
+
+    margin-bottom: 36px;
+
+    h1 {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 28px;
+      line-height: 38px;
+      color: var(--color-black);
+    }
+
+    a > span {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 22px;
+    }
+  }
+}
+
+.flex_center {
+  display: flex;
+  align-items: center;
+}
+
+.filters {
+  margin-bottom: 24px;
+}
+
+.search {
+  width: 200px;
+
+  margin-right: 24px;
+
+  div {
+    height: 36px;
+
+    input {
+      height: 36px;
+    }
+  }
+}
+
+.input:not(:last-child) {
+  margin-right: 12px;
+}
+
+.table {
+  width: 100%;
+
+  display: grid;
+  gap: 12px;
+}
+
+.table_header {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--color-gray);
+
+  border-width: 2px !important;
+}
+
+.row {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 165px;
+  gap: 12px;
+
+  &:not(:last-child) {
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid var(--color-lightgray);
+  }
+}
+
+.user_info {
+  display: flex;
+
+  div {
+    &:first-child {
+      margin-right: 12px;
+    }
+  }
+
+  .name_and_login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .user_name {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+    color: var(--color-black);
+  }
+
+  .user_login {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--color-gray);
+  }
+}
+
+.subject_and_role {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--color-black);
+}
+
+.user_status {
+  button {
+    width: 165px;
+
+    svg {
+      margin-left: auto;
+    }
+  }
+}

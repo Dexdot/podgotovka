@@ -1,7 +1,7 @@
 import { SubjectI } from '@/types/subjects';
 import React from 'react';
 import cls from './SubjectList.module.scss';
-import { SubjectListItem } from './SubjectListItem.tsx/SubjectListItem';
+import { SubjectListItem } from './SubjectListItem/SubjectListItem';
 
 type Props = {
   items: SubjectI[];
@@ -9,10 +9,12 @@ type Props = {
 
 export const SubjectList: React.FC<Props> = ({ items }) => {
   return (
-    <div className={cls.subject_list}>
-      {items.map((el) => {
-        return <SubjectListItem subject={el} />;
-      })}
-    </div>
+    <ul className={cls.list}>
+      {items.map((el) => (
+        <li key={el.id}>
+          <SubjectListItem subject={el} />
+        </li>
+      ))}
+    </ul>
   );
 };

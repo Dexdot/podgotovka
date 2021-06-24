@@ -1,6 +1,7 @@
 import React from 'react';
 import EditorJs from 'react-editor-js';
 import type { API, OutputData } from '@editorjs/editorjs';
+import cn from 'classnames';
 
 import { EDITOR_JS_TOOLS } from './tools.js';
 import { i18n } from './i18n';
@@ -12,6 +13,7 @@ interface Props {
   onReady?: () => void;
   readOnly?: boolean;
   autofocus?: boolean;
+  resetStyles?: boolean;
   placeholder?: string;
 }
 
@@ -28,10 +30,11 @@ const TextEditor: React.FC<Props> = ({
   onReady,
   onChange,
   autofocus,
-  placeholder
+  placeholder,
+  resetStyles
 }) => {
   return (
-    <div className={cls.root}>
+    <div className={cn(cls.root, { [cls.root_reset]: resetStyles })}>
       <EditorJs
         i18n={i18n}
         data={data}

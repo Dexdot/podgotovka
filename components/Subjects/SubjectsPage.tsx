@@ -1,4 +1,4 @@
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 
 import { SubjectContext } from '@/store/subjects';
@@ -9,14 +9,15 @@ import { SubjectList } from './SubjectList/SubjectList';
 export const SubjectsPage: React.FC = () => {
   const subjectStore = useContext(SubjectContext);
   const elems = subjectStore.subjects;
+  const router = useRouter();
 
   return (
     <div className={cls.subject}>
       <SubjectHeader
         title="Предметы"
-        buttonText="Добавить"
+        buttonText="Добавить предмет"
         onClick={() => router.push('/app/subjects/create')}
-        isDisable={false}
+        disabled={false}
       />
       <SubjectList items={elems} />
     </div>

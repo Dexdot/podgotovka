@@ -24,23 +24,21 @@ export const SubjectCreate: React.FC = () => {
           title="Создание предмета"
           buttonText="Сохранить"
           onClick={() => console.log('Create')}
-          isDisable
+          disabled
         />
       </div>
 
       <SectionCollapse
-        isOpen={isOpenSubject}
-        onClick={() => toggleOpenSubject(!isOpenSubject)}
+        isOpen={false}
         title="Направление"
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
-            Русский язык
+            ЕГЭ
           </div>
         }
-      >
-        Collapse content
-      </SectionCollapse>
+      />
+
       <div className={cls.subject_create_section}>
         <SectionCollapse
           isOpen={isOpen}
@@ -55,6 +53,7 @@ export const SubjectCreate: React.FC = () => {
                 onChange={(e) => setName(e.currentTarget.value)}
               />
             </div>
+
             <div className={cls.content_color}>
               <div className={cls.content_color_title}>Цвет предмета</div>
               <div className={cls.content_color_input}>

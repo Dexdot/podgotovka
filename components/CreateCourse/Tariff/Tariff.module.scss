@@ -1,0 +1,43 @@
+.column {
+  width: 120px;
+}
+
+// Levels
+.levels {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 16px;
+  margin-bottom: 24px;
+
+  &_list {
+    display: flex;
+    align-items: center;
+    margin-left: -24px;
+
+    > li {
+      margin-left: 24px;
+    }
+  }
+
+  &_label {
+    margin-right: 24px;
+    margin-bottom: 16px;
+    align-self: flex-end;
+  }
+}
+
+.level_item {
+  text-align: center;
+
+  input {
+    text-align: center;
+  }
+
+  b {
+    display: block;
+    margin-bottom: 8px;
+
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
