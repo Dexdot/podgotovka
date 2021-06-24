@@ -26,23 +26,23 @@ export const SubjectListItem: React.FC<Props> = ({ subject }) => {
     <div className={cls.root}>
       <section>
         <Link href={`/app/subjects/${id}`}>
-          <a href={`/app/subjects/${id}`} className={cls.toggle_btn} />
+          <a href={`/app/subjects/${id}`} className={cls.link} />
         </Link>
 
-        <b className={cls.title}>
+        <div className={cls.inner}>
           <div style={{ color }}>
             <SubjectIcon />
           </div>
 
           <div className={cls.text_header}>
-            <div className={cls.text_header_title}>{name}</div>
-            <div className={cls.text_header_subtitle}>{direction}</div>
+            <p className={cls.text_header_title}>{name}</p>
+            <p className={cls.text_header_subtitle}>{direction}</p>
           </div>
 
           <div className={cls.chevron_icon}>
             <ChevronIcon />
           </div>
-        </b>
+        </div>
       </section>
     </div>
   );
