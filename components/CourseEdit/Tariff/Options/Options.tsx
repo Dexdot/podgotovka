@@ -12,8 +12,8 @@ import cls from './Options.module.scss';
 import { OptionsList } from './OptionsList';
 
 export const Options: React.FC = observer(() => {
-  const [allOptions] = useOptions();
   const { options, addOption } = useContext(CourseEditContext);
+  const [allOptions] = useOptions();
   const [isSelectOpen, setSelectOpen] = useState(false);
 
   const filteredOptions = useMemo(() => {

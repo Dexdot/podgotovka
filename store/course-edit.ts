@@ -12,6 +12,7 @@ import {
 } from '@/types/common';
 import { CoursesAPI } from '@/api/courses';
 import { showAlert } from '@/utils/network';
+import { OPTION_TYPES } from '@/utils/consts';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
@@ -132,12 +133,34 @@ export class CourseEditStore {
     this.options = [...v];
   };
 
-  addOption = (v: OptionI): void => {
-    this.options = [...this.options, v];
+  addOption = (option: OptionI): void => {
+    this.options = [...this.options, option];
+
+    if (this.levelsWithPrice) {
+      const levelsIDs = this.levelsWithPrice.map((l) => l.id);
+      let value: OptionValueType = '';
+
+      if (option.type === 'numeric') {
+        value = 0;
+      }
+
+      if (option.type === 'boolean') {
+        value = false;
+      }
+
+      const newValues: TariffValueType[] = levelsIDs.map((level_id) => {
+        return { level_id, option_id: option.id, value };
+      });
+      this.addValues(newValues);
+    }
   };
 
   setValues = (v: TariffValueType[]): void => {
     this.values = [...v];
+  };
+
+  addValues = (v: TariffValueType[]): void => {
+    this.values = [...this.values, ...v];
   };
 
   setOptionValue = (
