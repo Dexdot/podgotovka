@@ -30,7 +30,7 @@ export const CreateUser: React.FC = observer(() => {
   const { addUser } = useContext(UsersContext);
 
   const [collapse, setCollapse] = useState<number>(ROLE_COLLAPSE);
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<Blob | null>(null);
 
   const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
     try {
