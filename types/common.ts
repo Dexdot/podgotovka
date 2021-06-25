@@ -21,8 +21,10 @@ export type OptionValueType = string | number | boolean;
 export interface OptionI {
   id: number;
   name: string;
+  description?: string;
   type: OptionType;
   is_systemic: boolean;
+  created_at: number;
 }
 
 export type DirectionItem = {

@@ -5,11 +5,19 @@ import { AUTH_NAME } from '@/utils/consts';
 import { PodgotovkaAPI } from '@/api/instance';
 import { deleteCookie, setCookie } from '@/utils/cookie';
 
-const cookieOptions = {
+const prodCookieOptions = {
   path: '/',
   expires: 7,
   domain: '.podgotovka.ru'
 };
+
+const devCookieOptions = {
+  path: '/',
+  expires: 7
+};
+
+const cookieOptions =
+  process.env.NODE_ENV === 'development' ? devCookieOptions : prodCookieOptions;
 
 export class AuthStore {
   public auth: AuthI | undefined;

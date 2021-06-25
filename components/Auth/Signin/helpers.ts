@@ -3,19 +3,19 @@ type Errors = {
 };
 
 export interface FormI {
-  login: string;
+  username: string;
   password: string;
 }
 
-export const initialValues: FormI = { login: '', password: '' };
+export const initialValues: FormI = { username: '', password: '' };
 
 export const validate = (values: FormI): Errors => {
   const errors = {} as Errors;
-  const { login, password } = values;
+  const { username, password } = values;
 
   // Login
-  if (!login) {
-    errors.login = 'Введите логин';
+  if (!username) {
+    errors.username = 'Введите логин';
   }
 
   // Password
