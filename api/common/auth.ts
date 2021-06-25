@@ -11,11 +11,6 @@ const SERVICE_PATH = '/core/v1';
 export function auth(form: FormI): Promise<AxiosResponse<AuthI>> {
   return axios.post<AuthI>(
     `${SERVICE_PATH}/accounts/auth/base`,
-    getFormData({ ...form }),
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }
+    getFormData({ ...form })
   );
 }
