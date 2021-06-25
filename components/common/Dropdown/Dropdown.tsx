@@ -10,6 +10,12 @@ export type DropdownItem = {
   text: string;
 };
 
+export type DropdownItemSub = {
+  id: string;
+  text: string;
+  value: string;
+};
+
 type Props = {
   beforeText?: React.ReactNode;
   placeholder?: string;

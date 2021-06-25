@@ -5,17 +5,36 @@ import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { SubjectContext } from '@/store/subjects';
+
+import { useSubjectsCheck } from '@/api/hooks/useSubjectsCheck';
+import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 import { SubjectHeader } from '../SubjectHeader/SubjectHeader';
 
 import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
+import { SubjectCheckbox } from './SubjectCheckbox/SubjectCheckbox';
 
-export const SubjectCreate: React.FC = () => {
+export const SubjectCreate: React.FC = observer(() => {
   const [color, setColor] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [isOpen, toggleOpen] = useState<boolean>(false);
   const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
-  const subjectStore = useContext(SubjectContext);
+  const [subjects] = useSubjectsCheck();
+  const [collapse, setCollapse] = useState<number | null>(null);
+  const subjectsStore = useContext(SubjectContext);
+  const router = useRouter();
+
+  const createTask = () => {
+    const elem = {
+      name,
+      color,
+      direction: subjects.find((el) => el.id === collapse?.toString())!.value
+    };
+
+    subjectsStore.createSubject({ ...elem });
+    router.push('/app/subjects');
+  };
 
   return (
     <div className={cls.subject_create}>
@@ -23,21 +42,30 @@ export const SubjectCreate: React.FC = () => {
         <SubjectHeader
           title="Создание предмета"
           buttonText="Сохранить"
-          onClick={() => console.log('Create')}
-          disabled
+          onClick={createTask}
+          disabled={collapse === null || name === '' || color === ''}
         />
       </div>
 
       <SectionCollapse
-        isOpen={false}
+        isOpen={isOpenSubject}
         title="Направление"
+        onClick={() => toggleOpenSubject(!isOpenSubject)}
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
-            ЕГЭ
+            {collapse
+              ? subjects.find((el) => el.id === collapse?.toString())!.text
+              : ''}
           </div>
         }
-      />
+      >
+        <SubjectCheckbox
+          collapse={collapse}
+          setCollapse={setCollapse}
+          subjects={subjects}
+        />
+      </SectionCollapse>
 
       <div className={cls.subject_create_section}>
         <SectionCollapse
@@ -71,4 +99,4 @@ export const SubjectCreate: React.FC = () => {
       </div>
     </div>
   );
-};
+});
