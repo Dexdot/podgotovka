@@ -1,5 +1,9 @@
 import { OptionType } from '@/types/common';
 
+import { OPTION_TYPES } from '@/utils/consts';
+
+import { DropdownItem } from '@/components/common/Dropdown/Dropdown';
+
 type Errors = {
   [K in keyof FormI]: string;
 };
@@ -26,3 +30,8 @@ export const validate = (values: FormI): Errors => {
 
   return errors;
 };
+
+export const optionTypes: DropdownItem[] = OPTION_TYPES.map((item) => ({
+  id: item.type,
+  text: item.name
+}));

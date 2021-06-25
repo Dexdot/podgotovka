@@ -8,7 +8,7 @@ const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1';
 
 export function fetchOptions(
-  searchParams: SearchParamsI
+  searchParams?: SearchParamsI
 ): Promise<AxiosResponse<OptionI[]>> {
   return axios.get<OptionI[]>(`${SERVICE_PATH}/options`, {
     params: { ...searchParams }

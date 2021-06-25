@@ -1,40 +1,31 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 
-import { OptionsContext } from '@/store/options';
+import { SearchParamsI } from '@/types/options';
 
 import { useDebounce } from '@/hooks/useDebounce';
-
-import { OPTION_FORMATS } from '@/utils/consts';
 
 import { Input } from '@/components/common/Input/Input';
 import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
 
+import { optionTypes } from './helpers';
 import cls from './Options.module.scss';
 
-export const Search: React.FC = observer(() => {
+interface PropsI {
+  fetch: (params?: SearchParamsI) => Promise<void>;
+}
+
+export const Search: React.FC<PropsI> = ({ fetch }) => {
   const [search, setSearch] = useState<string>('');
   const debouncedSearch = useDebounce(search, 300);
-  const [format, setFormat] = useState<DropdownItem | null>(null);
-
-  const { fetchOptions } = useContext(OptionsContext);
-
-  const optionFormats = useMemo<DropdownItem[]>(
-    () =>
-      OPTION_FORMATS.map((item) => ({
-        id: item.type,
-        text: item.name
-      })),
-    []
-  );
+  const [type, setType] = useState<DropdownItem | null>(null);
 
   useEffect(() => {
-    fetchOptions({
+    fetch({
       search: debouncedSearch,
-      type: format?.id
+      type: type?.id
     });
-  }, [debouncedSearch, format]);
+  }, [debouncedSearch, type]);
 
   return (
     <div className={cn(cls.filters, cls.flex_center)}>
@@ -49,12 +40,12 @@ export const Search: React.FC = observer(() => {
 
       <div className={cn(cls.input)}>
         <Dropdown
-          items={optionFormats}
-          value={format}
-          onChange={setFormat}
+          items={optionTypes}
+          value={type}
+          onChange={setType}
           placeholder="Формат"
         />
       </div>
     </div>
   );
-});
+};

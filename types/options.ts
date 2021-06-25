@@ -6,7 +6,7 @@ export interface CreateOptionI {
 
 export interface UpdateOptionI {
   id: number;
-  name: string;
+  name?: string;
   description?: string;
 }
 

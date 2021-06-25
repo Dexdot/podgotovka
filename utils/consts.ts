@@ -24,7 +24,7 @@ export const COURSE_STATUSES: Record<string, CourseStatus> = {
   removed: 'removed'
 };
 
-export const OPTION_FORMATS = [
+export const OPTION_TYPES = [
   { name: 'Текст', type: 'string' },
   { name: 'Число', type: 'numeric' },
   { name: 'Да или нет', type: 'boolean' }

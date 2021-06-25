@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
 
-import { OptionsContext } from '@/store/options';
+import { OptionI } from '@/types/common';
 
-import { OPTION_FORMATS } from '@/utils/consts';
+import { OPTION_TYPES } from '@/utils/consts';
 // import { getDDMMYY } from '@/utils/date';
 
 import { EditIcon } from './Icons';
@@ -12,12 +11,11 @@ import { EditIcon } from './Icons';
 import cls from './Options.module.scss';
 
 interface PropsI {
-  open: (id: number) => void;
+  open: (option: OptionI) => void;
+  options: OptionI[];
 }
 
-export const Table: React.FC<PropsI> = observer(({ open }) => {
-  const { options } = useContext(OptionsContext);
-
+export const Table: React.FC<PropsI> = ({ open, options }) => {
   return (
     <div className={cls.table}>
       <div className={cn(cls.row, cls.table_header)}>
@@ -32,17 +30,17 @@ export const Table: React.FC<PropsI> = observer(({ open }) => {
             <p className={cls.option_name}>{option.name}</p>
             <p className={cls.option_desc}>{option.description}</p>
           </div>
-          <div className={cn(cls.flex_center, cls.format_date)}>
-            {OPTION_FORMATS.find((item) => item.type === option.type)?.name}
+          <div className={cn(cls.flex_center, cls.option_type_date)}>
+            {OPTION_TYPES.find((item) => item.type === option.type)?.name}
           </div>
-          <div className={cn(cls.flex_center, cls.format_date)}>
+          <div className={cn(cls.flex_center, cls.option_type_date)}>
             {/* {getDDMMYY(new Date(option.timestamp * 1000))} */}
             todo
           </div>
           {!option.is_systemic && (
             <button
               type="button"
-              onClick={() => open(option.id)}
+              onClick={() => open(option)}
               className={cls.option_edit}
             >
               <EditIcon />
@@ -52,4 +50,4 @@ export const Table: React.FC<PropsI> = observer(({ open }) => {
       ))}
     </div>
   );
-});
+};
