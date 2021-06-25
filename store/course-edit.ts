@@ -12,7 +12,6 @@ import {
 } from '@/types/common';
 import { CoursesAPI } from '@/api/courses';
 import { showAlert } from '@/utils/network';
-import { OPTION_TYPES } from '@/utils/consts';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
@@ -153,6 +152,11 @@ export class CourseEditStore {
       });
       this.addValues(newValues);
     }
+  };
+
+  removeOption = (optionID: number): void => {
+    this.options = [...this.options.filter((o) => o.id !== optionID)];
+    this.values = [...this.values.filter((v) => v.option_id !== optionID)];
   };
 
   setValues = (v: TariffValueType[]): void => {

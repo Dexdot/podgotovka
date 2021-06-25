@@ -20,7 +20,7 @@ type Props = {
 
 export const Option: React.FC<Props> = observer(
   ({ option, dragHandleProps }) => {
-    const { values, setOptionValue, levelsWithPrice } =
+    const { values, setOptionValue, removeOption, levelsWithPrice } =
       useContext(CourseEditContext);
     const optionID = option.id;
     const valuesByLevels =
@@ -35,7 +35,11 @@ export const Option: React.FC<Props> = observer(
           <DragIcon />
         </div>
 
-        <button className={cls.remove} type="button">
+        <button
+          className={cls.remove}
+          type="button"
+          onClick={() => removeOption(optionID)}
+        >
           <RemoveIcon />
         </button>
 
