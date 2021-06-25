@@ -25,7 +25,7 @@ export const EditUser: React.FC = observer(() => {
   // @ts-ignore
   const { updateUser } = useContext(UsersContext);
 
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<Blob | null>(null);
 
   const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
     try {

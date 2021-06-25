@@ -17,7 +17,7 @@ import cls from './User.module.scss';
 interface PropsI {
   form: FormikProps<FormI>;
   photo: string;
-  onFileLoad: (file: File | null) => void;
+  onFileLoad: (file: Blob | null) => void;
 }
 
 export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
