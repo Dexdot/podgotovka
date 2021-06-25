@@ -41,7 +41,7 @@ export const validate = (values: FormI, isUserNew: boolean): Errors => {
     errors.login = 'Введите логин';
   }
 
-  if (!password) {
+  if (isUserNew && !password) {
     errors.password = 'Введите пароль';
   }
 

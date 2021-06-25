@@ -36,10 +36,12 @@ export function updateUser(data: UpdateUserI): Promise<AxiosResponse<UserI>> {
 }
 
 export function resetUserPassword(
-  id: number
-): Promise<AxiosResponse<{ password: string }>> {
-  return axios.patch<{ password: string }>(
-    `${SERVICE_PATH}/accounts/${id}/reset-password`
+  id: number,
+  password: string
+): Promise<AxiosResponse<{ result: boolean }>> {
+  return axios.patch<{ result: boolean }>(
+    `${SERVICE_PATH}/accounts/${id}/reset-password`,
+    password
   );
 }
 

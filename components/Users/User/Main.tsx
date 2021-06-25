@@ -18,9 +18,15 @@ interface PropsI {
   form: FormikProps<FormI>;
   photo: string;
   onFileLoad: (file: Blob | null) => void;
+  withPassword?: boolean;
 }
 
-export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
+export const Main: React.FC<PropsI> = ({
+  form,
+  photo,
+  onFileLoad,
+  withPassword = true
+}) => {
   const subjects = useSubjects();
 
   return (
@@ -62,33 +68,37 @@ export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
         />
       </div>
 
-      <div className={cls.br} />
+      {withPassword && (
+        <>
+          <div className={cls.br} />
 
-      <h3>
-        Пароль для пользователя система генерирует автоматически.
-        <br />
-        Скопируйте и передайте логин и пароль нужному пользователю.
-      </h3>
+          <h3>
+            Пароль для пользователя система генерирует автоматически.
+            <br />
+            Скопируйте и передайте логин и пароль нужному пользователю.
+          </h3>
 
-      <div className={cls.pass}>
-        <Input
-          name="password"
-          placeholder="Пароль*"
-          value={form.values.password}
-          onChange={form.handleChange}
-          onBlur={form.handleBlur}
-          errorText={form.touched.password ? form.errors.password : ''}
-          disabled
-        />
-        <button
-          onClick={() => copyToClipboard(form.values.password)}
-          type="button"
-          className={cls.copy}
-        >
-          <CopyIcon />
-          <p>Скопировать пароль</p>
-        </button>
-      </div>
+          <div className={cls.pass}>
+            <Input
+              name="password"
+              placeholder="Пароль*"
+              value={form.values.password}
+              onChange={form.handleChange}
+              onBlur={form.handleBlur}
+              errorText={form.touched.password ? form.errors.password : ''}
+              disabled
+            />
+            <button
+              onClick={() => copyToClipboard(form.values.password)}
+              type="button"
+              className={cls.copy}
+            >
+              <CopyIcon />
+              <p>Скопировать пароль</p>
+            </button>
+          </div>
+        </>
+      )}
 
       <div className={cls.br} />
 

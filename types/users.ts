@@ -32,7 +32,6 @@ export interface UserI {
 
 export interface UserDetailsI extends UserI {
   created_at: number;
-  password: string;
 }
 
 export interface SearchParamsI {

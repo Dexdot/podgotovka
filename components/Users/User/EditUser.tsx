@@ -5,8 +5,6 @@ import { observer } from 'mobx-react-lite';
 
 import { UsersContext } from '@/store/users';
 
-import { showAlert } from '@/utils/network';
-
 import { Button } from '@/components/common/Button/Button';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
@@ -25,19 +23,18 @@ export const EditUser: React.FC = observer(() => {
 
   const [file, setFile] = useState<Blob | null>(null);
 
-  const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
-    try {
-      let photo_link;
-      if (file) {
-        // await upload photo
-      }
-      updateUser({ ...form, id: Number(id), photo_link });
-      router.push('/app/users');
-    } catch (error) {
-      showAlert({ error });
-    } finally {
-      helpers.setSubmitting(false);
+  const submit = (form: FormI, helpers: FormikHelpers<FormI>) => {
+    let photo_link;
+    if (file) {
+      // await upload photo
     }
+    updateUser({ ...form, id: Number(id), photo_link })
+      .then(() => {
+        router.push('/app/users');
+      })
+      .finally(() => {
+        helpers.setSubmitting(false);
+      });
   };
 
   const form = useFormik<FormI>({
@@ -59,7 +56,8 @@ export const EditUser: React.FC = observer(() => {
       const { subject, ...details } = userDetails;
       form.setValues({
         ...details,
-        subject_id: subject.id
+        subject_id: subject.id,
+        password: ''
       });
     }
   }, [userDetails.id]);
@@ -90,6 +88,7 @@ export const EditUser: React.FC = observer(() => {
             form={form}
             onFileLoad={setFile}
             photo={form.values.photo_link || ''}
+            withPassword={false}
           />
         </SectionCollapse>
       </form>

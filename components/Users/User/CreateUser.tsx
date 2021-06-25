@@ -6,8 +6,6 @@ import { nanoid } from 'nanoid';
 
 import { UsersContext } from '@/store/users';
 
-import { showAlert } from '@/utils/network';
-
 import { Button } from '@/components/common/Button/Button';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
@@ -33,18 +31,17 @@ export const CreateUser: React.FC = observer(() => {
   const [file, setFile] = useState<Blob | null>(null);
 
   const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
-    try {
-      let photo_link;
-      if (file) {
-        // upload file
-      }
-      createUser({ ...form, photo_link });
-      router.push('/app/users');
-    } catch (error) {
-      showAlert({ error });
-    } finally {
-      helpers.setSubmitting(false);
+    let photo_link;
+    if (file) {
+      // upload file
     }
+    createUser({ ...form, photo_link })
+      .then(() => {
+        router.push('/app/users');
+      })
+      .finally(() => {
+        helpers.setSubmitting(false);
+      });
   };
 
   const form = useFormik<FormI>({

@@ -19,10 +19,18 @@ export class UsersStore {
     makeAutoObservable(this);
   }
 
+  updateUsers = (newUsers: UserI[]): void => {
+    this.users = newUsers;
+  };
+
+  updateUserDetails = (newUserDetails: UserDetailsI): void => {
+    this.userDetails = newUserDetails;
+  };
+
   fetchUsers = (searchParams: SearchParamsI): void => {
     UsersAPI.fetchUsers(searchParams).then(
       action('fetchSuccess', ({ data }) => {
-        this.users = data;
+        this.updateUsers(data);
       }),
       action('fetchError', (error) => {
         showAlert({ error });
@@ -33,7 +41,7 @@ export class UsersStore {
   fetchUserDetails = (id: number): void => {
     UsersAPI.fetchUserDetails(id).then(
       action('fetchSuccess', ({ data }) => {
-        this.userDetails = data;
+        this.updateUserDetails(data);
       }),
       action('fetchError', (error) => {
         showAlert({ error });
@@ -41,38 +49,56 @@ export class UsersStore {
     );
   };
 
-  createUser = (newUser: NewUserI): void => {
-    UsersAPI.createUser(newUser).then(
-      action('fetchSuccess', ({ data }) => {
-        this.users = [...this.users, data];
-      }),
-      action('fetchError', (error) => {
-        showAlert({ error });
-      })
-    );
+  createUser = (newUser: NewUserI): Promise<void> => {
+    return new Promise<void>((res, rej) => {
+      UsersAPI.createUser(newUser).then(
+        action('fetchSuccess', ({ data }) => {
+          this.updateUsers([...this.users, data]);
+          res();
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          rej();
+        })
+      );
+    });
   };
 
-  updateUser = (updatedUser: UpdateUserI): void => {
-    UsersAPI.updateUser(updatedUser).then(
-      action('fetchSuccess', ({ data }) => {
-        this.users = this.users.map((item) => {
-          if (item.id === data.id) {
-            return data;
-          }
-          return item;
-        });
-      }),
-      action('fetchError', (error) => {
-        showAlert({ error });
-      })
-    );
+  updateUser = (updatedUser: UpdateUserI): Promise<void> => {
+    return new Promise<void>((res, rej) => {
+      UsersAPI.updateUser(updatedUser).then(
+        action('fetchSuccess', ({ data }) => {
+          const newUsers = this.users.map((item) => {
+            if (item.id === data.id) {
+              return data;
+            }
+            return item;
+          });
+          this.updateUsers(newUsers);
+          res();
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          rej();
+        })
+      );
+    });
   };
 
-  resetUserPassword = (id: number): void => {
-    UsersAPI.resetUserPassword(id).then(
+  resetUserPassword = ({
+    id,
+    password
+  }: {
+    id: number;
+    password: string;
+  }): void => {
+    UsersAPI.resetUserPassword(id, password).then(
       action('fetchSuccess', ({ data }) => {
-        this.userDetails = { ...this.userDetails, ...data };
-        showAlert({ text: 'Пароль был успешно сброшен' });
+        if (data) {
+          showAlert({ text: 'Пароль был успешно изменен' });
+        } else {
+          showAlert({ text: 'Не удалось изменить пароль' });
+        }
       }),
       action('fetchError', (error) => {
         showAlert({ error });
