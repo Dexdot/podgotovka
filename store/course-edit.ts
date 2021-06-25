@@ -46,7 +46,7 @@ export class CourseEditStore {
     if (data) {
       this.courseData = data;
       this.setSubject(data.subject);
-      this.setName(data.name);
+      this.setName(data.name || '');
       this.setDescription(data.description ? JSON.parse(data.description) : []);
       this.setDateStart(
         data.time_start ? new Date(data.time_start * 1000) : now
@@ -54,8 +54,8 @@ export class CourseEditStore {
       this.setDateFinish(
         data.time_finish ? new Date(data.time_finish * 1000) : now
       );
-      this.setLevels(data.tariff.levels);
-      this.setOptions(data.tariff.options);
+      if (data.tariff?.levels) this.setLevels(data.tariff.levels);
+      if (data.tariff?.options) this.setOptions(data.tariff.options);
     }
   };
 

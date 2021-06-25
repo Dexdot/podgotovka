@@ -118,10 +118,6 @@ function notifySlack(webhook) {
         {
           type: 'mrkdwn',
           text: '<https://school.podgotovka.ru/|school.podgotovka.ru>'
-        },
-        {
-          type: 'mrkdwn',
-          text: '<https://admin.podgotovka.ru/|admin.podgotovka.ru>'
         }
       ]
     });
@@ -138,10 +134,6 @@ function notifySlack(webhook) {
         {
           type: 'mrkdwn',
           text: '<https://devschool.podgotovka.ru|devschool.podgotovka.ru>'
-        },
-        {
-          type: 'mrkdwn',
-          text: '<https://devadmin.podgotovka.ru/|devadmin.podgotovka.ru>'
         }
       ]
     });

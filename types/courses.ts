@@ -5,10 +5,10 @@ export type CourseStatus = 'draft' | 'archive' | 'removed' | 'published';
 
 interface CourseBaseI {
   id: number;
-  name: string;
-  description: string;
-  time_start: number;
-  time_finish: number;
+  name?: string;
+  description?: string;
+  time_start?: number;
+  time_finish?: number;
 }
 
 export interface CourseI extends CourseBaseI {
@@ -23,11 +23,11 @@ export interface CourseEditI extends CourseBaseI {
 }
 
 export interface CourseEditDetailI extends CourseBaseI {
-  // TODO: Add id on backend
+  status: CourseStatus;
   subject: SubjectI;
-  tariff: {
-    levels: LevelI[];
-    options: OptionI[];
-    values: TariffValueType[];
+  tariff?: {
+    levels?: LevelI[];
+    options?: OptionI[];
+    values?: TariffValueType[];
   };
 }
