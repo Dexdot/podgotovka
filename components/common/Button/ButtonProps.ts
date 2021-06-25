@@ -1,6 +1,6 @@
 export type ButtonProps = {
   children?: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'green';
+  variant?: 'primary' | 'secondary' | 'green' | 'grey';
   fullWidth?: boolean;
   loading?: boolean;
 };

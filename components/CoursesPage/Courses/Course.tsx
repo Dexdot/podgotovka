@@ -14,17 +14,21 @@ import cls from './Course.module.scss';
 import { CalendarIcon, CopyIcon, EditIcon } from './icons';
 import { getStatusColor, statuses, statusesMap } from './helpers';
 
-const photo_link =
-  'https://storage.yandexcloud.net/nastavnik-data-dev/tmp/enpzmm/rqtlrg/obzqca/nurfek/gvguba/qauedy/a7b8c7a1-d0a9-45b6-bca1-b417b80bf17c.jpg';
-
 type Props = {
   course: CourseI;
 };
 
+// TODO: Add API
 export const Course: React.FC<Props> = ({ course }) => {
+  const editHref = `/app/courses/${course.id}`;
+
   // Date
-  const dateStart = new Date(course.time_start * 1000);
-  const dateFinish = new Date(course.time_finish * 1000);
+  const dateStart = course.time_start
+    ? new Date(course.time_start * 1000)
+    : null;
+  const dateFinish = course.time_finish
+    ? new Date(course.time_finish * 1000)
+    : null;
 
   // Status
   const [status, setStatus] = useState<CourseStatus>(course.status);
@@ -46,22 +50,24 @@ export const Course: React.FC<Props> = ({ course }) => {
 
   return (
     <div className={cls.course}>
-      <Link href="/">
+      <Link href={editHref}>
         <a
-          href="/"
+          href={editHref}
           className={cls.image}
-          style={{ backgroundImage: `url(${photo_link})` }}
+          style={{ backgroundImage: `url(${course.photo_link})` }}
         />
       </Link>
 
       <div className={cls.info}>
-        <div className={cls.date}>
-          <Baige>
-            <CalendarIcon />
-            {getDateText(dateStart)} - {getDateText(dateFinish)},{' '}
-            {dateFinish.getFullYear()}
-          </Baige>
-        </div>
+        {dateStart && dateFinish && (
+          <div className={cls.date}>
+            <Baige>
+              <CalendarIcon />
+              {getDateText(dateStart)} - {getDateText(dateFinish)},{' '}
+              {dateFinish.getFullYear()}
+            </Baige>
+          </div>
+        )}
 
         <h3 className={cls.name}>{course.name}</h3>
       </div>
@@ -73,8 +79,8 @@ export const Course: React.FC<Props> = ({ course }) => {
           </button>
         </li>
         <li>
-          <Link href="/">
-            <a href="/" className={cls.tool_btn}>
+          <Link href={editHref}>
+            <a href={editHref} className={cls.tool_btn}>
               <EditIcon />
             </a>
           </Link>

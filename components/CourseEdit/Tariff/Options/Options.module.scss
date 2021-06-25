@@ -67,3 +67,23 @@
     }
   }
 }
+
+.select_wrap {
+  position: relative;
+}
+
+.select {
+  z-index: 1;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.select_open {
+  opacity: 1;
+  pointer-events: auto;
+}

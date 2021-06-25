@@ -5,8 +5,17 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 36px;
+
+  .buttons {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+
+    button {
+      margin-left: 12px;
+    }
+  }
 }
 
 .title {

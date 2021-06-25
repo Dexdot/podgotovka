@@ -22,7 +22,13 @@
   margin-left: -12px;
 
   > div {
+    width: calc(50% - 12px);
     margin-left: 12px;
+
+    > div,
+    input {
+      width: 100%;
+    }
   }
 }
 
