@@ -48,6 +48,11 @@
 
 .input:not(:last-child) {
   margin-right: 12px;
+
+  ul {
+    max-height: 190px;
+    overflow: scroll;
+  }
 }
 
 .table {

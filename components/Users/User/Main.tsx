@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormikProps } from 'formik';
 
-import { useSubjects } from '@/api/hooks/useSubjects';
+import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 
 import { copyToClipboard } from '@/utils/copyToClipboard';
 
@@ -21,7 +21,7 @@ interface PropsI {
 }
 
 export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
-  const [subjects] = useSubjects();
+  const subjects = useSubjects();
 
   return (
     <div className={cls.form}>
@@ -53,12 +53,12 @@ export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
       </div>
       <div className={cls.input}>
         <Input
-          name="vk"
-          placeholder="Ссылка VK*"
-          value={form.values.vk || ''}
+          name="vk_link"
+          placeholder="Ссылка VK"
+          value={form.values.vk_link || ''}
           onChange={form.handleChange}
           onBlur={form.handleBlur}
-          errorText={form.touched.vk ? form.errors.vk : ''}
+          errorText={form.touched.vk_link ? form.errors.vk_link : ''}
         />
       </div>
 
@@ -72,16 +72,16 @@ export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
 
       <div className={cls.pass}>
         <Input
-          name="pass"
+          name="password"
           placeholder="Пароль*"
-          value={form.values.pass}
+          value={form.values.password}
           onChange={form.handleChange}
           onBlur={form.handleBlur}
-          errorText={form.touched.pass ? form.errors.pass : ''}
+          errorText={form.touched.password ? form.errors.password : ''}
           disabled
         />
         <button
-          onClick={() => copyToClipboard(form.values.pass)}
+          onClick={() => copyToClipboard(form.values.password)}
           type="button"
           className={cls.copy}
         >
@@ -95,18 +95,18 @@ export const Main: React.FC<PropsI> = ({ form, photo, onFileLoad }) => {
       <h2>Предмет</h2>
       <h3>Выберите предмет, к которому будет закреплен пользователь</h3>
 
-      {subjects.map((item) => (
+      {subjects?.map((item) => (
         <div key={item.id} className={cls.checkbox}>
           <Checkbox
             id={`subject_${item.id}`}
-            onChange={() => form.setFieldValue('subjectId', item.id)}
-            checked={form.values.subjectId === item.id}
+            onChange={() => form.setFieldValue('subject_id', item.id)}
+            checked={form.values.subject_id === item.id}
           />
-          <label htmlFor={`subject_${item.id}`}>{item.text}</label>
+          <label htmlFor={`subject_${item.id}`}>{item.name}</label>
         </div>
       ))}
-      {form.touched.subjectId && form.errors.subjectId && (
-        <p className={cls.error}>{form.errors.subjectId}</p>
+      {form.touched.subject_id && form.errors.subject_id && (
+        <p className={cls.error}>{form.errors.subject_id}</p>
       )}
     </div>
   );

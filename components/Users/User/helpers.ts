@@ -6,31 +6,31 @@ type Errors = {
 };
 
 export interface FormI {
-  roleId: string;
-  name: string;
   login: string;
-  pass: string;
-  subjectId: string;
-  vk?: string;
+  password: string;
+  name: string;
+  role: string;
+  subject_id: number;
+  vk_link?: string;
   photo_link?: string;
 }
 
 export const initialValues: FormI = {
-  roleId: '',
+  role: '',
   name: '',
   login: '',
-  vk: '',
-  pass: '',
-  subjectId: '',
-  photo_link: ''
+  vk_link: undefined,
+  password: '',
+  subject_id: -1,
+  photo_link: undefined
 };
 
 export const validate = (values: FormI, isUserNew: boolean): Errors => {
   const errors = {} as Errors;
-  const { roleId, name, login, pass, subjectId } = values;
+  const { role, name, login, password, subject_id } = values;
 
-  if (isUserNew && !roleId) {
-    errors.roleId = 'Выберите роль';
+  if (isUserNew && !role) {
+    errors.role = 'Выберите роль';
   }
 
   if (!name) {
@@ -41,12 +41,12 @@ export const validate = (values: FormI, isUserNew: boolean): Errors => {
     errors.login = 'Введите логин';
   }
 
-  if (!pass) {
-    errors.pass = 'Введите пароль';
+  if (!password) {
+    errors.password = 'Введите пароль';
   }
 
-  if (!subjectId) {
-    errors.subjectId = 'Выберите предмет';
+  if (subject_id === -1) {
+    errors.subject_id = 'Выберите предмет';
   }
 
   return errors;

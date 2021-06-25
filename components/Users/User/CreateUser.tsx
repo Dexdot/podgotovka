@@ -27,17 +27,18 @@ import cls from './User.module.scss';
 export const CreateUser: React.FC = observer(() => {
   const router = useRouter();
 
-  const { addUser } = useContext(UsersContext);
+  const { createUser } = useContext(UsersContext);
 
   const [collapse, setCollapse] = useState<number>(ROLE_COLLAPSE);
   const [file, setFile] = useState<Blob | null>(null);
 
   const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
     try {
-      console.log(file);
-      // upload file
-      const photo_link = '';
-      addUser({ ...form, photo_link });
+      let photo_link;
+      if (file) {
+        // upload file
+      }
+      createUser({ ...form, photo_link });
       router.push('/app/users');
     } catch (error) {
       showAlert({ error });
@@ -56,8 +57,8 @@ export const CreateUser: React.FC = observer(() => {
 
   const toggleCollapse = (): void => {
     if (collapse === ROLE_COLLAPSE) {
-      if (!form.values.roleId) {
-        form.setFieldTouched('roleId');
+      if (!form.values.role) {
+        form.setFieldTouched('role');
       } else {
         setCollapse(MAIN_COLLAPSE);
       }
@@ -67,14 +68,14 @@ export const CreateUser: React.FC = observer(() => {
     }
   };
 
-  const checkRole = (roleId: string) => {
-    form.setFieldValue('roleId', roleId);
+  const checkRole = (role: string) => {
+    form.setFieldValue('role', role);
     setCollapse(MAIN_COLLAPSE);
   };
 
   useEffect(() => {
-    const pass = nanoid(16);
-    form.setFieldValue('pass', pass);
+    const password = nanoid(16);
+    form.setFieldValue('password', password);
   }, []);
 
   return (
@@ -91,14 +92,14 @@ export const CreateUser: React.FC = observer(() => {
         </Button>
       </div>
 
-      <form id="role-form">
+      <form id="role-form" onSubmit={form.handleSubmit}>
         <SectionCollapse
           isOpen={collapse === ROLE_COLLAPSE}
           onClick={toggleCollapse}
           title="Роль"
           headerChildren={
             collapse !== ROLE_COLLAPSE && (
-              <RoleInCollapseHeader roleId={form.values.roleId} />
+              <RoleInCollapseHeader role={form.values.role} />
             )
           }
         >

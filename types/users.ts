@@ -1,41 +1,45 @@
+import { SubjectI } from '@/types/subjects';
+
 export interface NewUserI {
-  name: string;
   login: string;
-  pass: string;
-  vk?: string;
+  password: string;
+  name: string;
+  role: string;
   photo_link?: string;
-  subjectId: string;
-  roleId: string;
+  vk_link?: string;
+  subject_id: number;
 }
 
 export interface UpdateUserI {
   id: number;
   name?: string;
   login?: string;
-  vk?: string;
+  vk_link?: string;
   photo_link?: string;
-  subjectId?: string;
-  statusId?: string;
+  subjectId?: number;
 }
 
 export interface UserI {
   id: number;
   name: string;
   login: string;
+  role: string;
+  is_active: boolean;
+  vk_link?: string;
   photo_link?: string;
-  subjectId: string;
-  roleId: string;
-  statusId: string;
+  subject: SubjectI;
 }
 
-export interface UserDetailI extends NewUserI {
-  id: number;
-  statusId: string;
+export interface UserDetailsI extends UserI {
+  created_at: number;
+  password: string;
 }
 
 export interface SearchParamsI {
-  search?: string;
-  statusId?: string;
-  subjectId?: string;
-  roleId?: string;
+  role?: string;
+  is_active?: boolean;
+  subject_id?: number;
+  name_like?: string;
+  limit?: number;
+  skip?: number;
 }
