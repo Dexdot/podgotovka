@@ -3,11 +3,7 @@ import { useRouter } from 'next/router';
 import { useFormik, FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
 
-import { UsersAPI } from '@/api/users';
-
 import { UsersContext } from '@/store/users';
-
-import { showAlert } from '@/utils/network';
 
 import { Button } from '@/components/common/Button/Button';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
@@ -22,23 +18,23 @@ export const EditUser: React.FC = observer(() => {
   const router = useRouter();
   const { id } = router.query;
 
-  // @ts-ignore
-  const { updateUser } = useContext(UsersContext);
+  const { updateUser, fetchUserDetails, userDetails } =
+    useContext(UsersContext);
 
   const [file, setFile] = useState<Blob | null>(null);
 
-  const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
-    try {
-      if (file) {
-        // await upload photo
-      }
-      updateUser({ ...form, id: Number(id) });
-      router.push('/app/users');
-    } catch (error) {
-      showAlert({ error });
-    } finally {
-      helpers.setSubmitting(false);
+  const submit = (form: FormI, helpers: FormikHelpers<FormI>) => {
+    let photo_link;
+    if (file) {
+      // await upload photo
     }
+    updateUser({ ...form, id: Number(id), photo_link })
+      .then(() => {
+        router.push('/app/users');
+      })
+      .finally(() => {
+        helpers.setSubmitting(false);
+      });
   };
 
   const form = useFormik<FormI>({
@@ -49,23 +45,22 @@ export const EditUser: React.FC = observer(() => {
     }
   });
 
-  const fetchUserDetails = async (userId: number) => {
-    try {
-      form.setSubmitting(true);
-      const formData = await UsersAPI.fetchUserDetails(userId);
-      form.setValues({ ...formData.data });
-    } catch (error) {
-      showAlert({ error });
-    } finally {
-      form.setSubmitting(false);
-    }
-  };
-
   useEffect(() => {
     if (id) {
       fetchUserDetails(Number(id));
     }
   }, [id]);
+
+  useEffect(() => {
+    if (userDetails.id) {
+      const { subject, ...details } = userDetails;
+      form.setValues({
+        ...details,
+        subject_id: subject.id,
+        password: ''
+      });
+    }
+  }, [userDetails.id]);
 
   return (
     <section className={cls.root}>
@@ -81,11 +76,11 @@ export const EditUser: React.FC = observer(() => {
         </Button>
       </div>
 
-      <form id="role-form">
+      <form id="role-form" onSubmit={form.handleSubmit}>
         <SectionCollapse
           isOpen={false}
           title="Роль"
-          headerChildren={<RoleInCollapseHeader roleId={form.values.roleId} />}
+          headerChildren={<RoleInCollapseHeader role={form.values.role} />}
         />
 
         <SectionCollapse isOpen title="Основная информация">
@@ -93,6 +88,7 @@ export const EditUser: React.FC = observer(() => {
             form={form}
             onFileLoad={setFile}
             photo={form.values.photo_link || ''}
+            withPassword={false}
           />
         </SectionCollapse>
       </form>

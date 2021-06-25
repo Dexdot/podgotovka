@@ -1,25 +1,21 @@
 import React from 'react';
 
-import { useRoles } from '@/api/hooks/useRoles';
-
 import { UserIcon } from './Icons';
 
+import { roles } from '../helpers';
 import cls from './User.module.scss';
 
 interface PropsI {
-  roleId: string;
+  role: string;
 }
 
-export const RoleInCollapseHeader: React.FC<PropsI> = ({ roleId }) => {
-  const [roles] = useRoles();
-
-  if (roleId) {
+export const RoleInCollapseHeader: React.FC<PropsI> = ({ role }) => {
+  if (role) {
+    const currentRole = roles.find((item) => item.id === role);
     return (
       <div className={cls.collapse_header}>
         <UserIcon />
-        <p className={cls.collapse_header_text}>
-          {roles.find((item) => item.id === roleId)?.text}
-        </p>
+        <p className={cls.collapse_header_text}>{currentRole?.text}</p>
       </div>
     );
   }
