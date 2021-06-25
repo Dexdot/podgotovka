@@ -23,14 +23,15 @@ export function ButtonLink({
   const isPrimary = variant === 'primary';
   const isSecondary = variant === 'secondary';
   const isGreen = variant === 'green';
+  const isGrey = variant === 'grey';
 
   const loaderColor = useMemo(() => {
-    if (isSecondary) {
+    if (isSecondary || isGrey) {
       return COLORS.primary;
     }
 
     return '#fff';
-  }, [isSecondary]);
+  }, [isSecondary, isGrey]);
 
   return (
     <Link href={href}>
@@ -40,7 +41,8 @@ export function ButtonLink({
           [cls.button_loading]: loading,
           [cls.button_primary]: isPrimary,
           [cls.button_secondary]: isSecondary,
-          [cls.button_green]: isGreen
+          [cls.button_green]: isGreen,
+          [cls.button_grey]: isGrey
         })}
         href={href}
         // eslint-disable-next-line react/jsx-props-no-spreading

@@ -30,14 +30,15 @@ export function Button({
   const isPrimary = variant === 'primary';
   const isSecondary = variant === 'secondary';
   const isGreen = variant === 'green';
+  const isGrey = variant === 'grey';
 
   const loaderColor = useMemo(() => {
-    if (isSecondary || disabled) {
+    if (isSecondary || isGrey || disabled) {
       return COLORS.primary;
     }
 
     return '#fff';
-  }, [disabled, isSecondary]);
+  }, [disabled, isSecondary, isGrey]);
 
   return (
     <button
@@ -46,7 +47,8 @@ export function Button({
         [cls.button_loading]: loading,
         [cls.button_primary]: isPrimary,
         [cls.button_secondary]: isSecondary,
-        [cls.button_green]: isGreen
+        [cls.button_green]: isGreen,
+        [cls.button_grey]: isGrey
       })}
       disabled={disabled}
       onClick={onClick}

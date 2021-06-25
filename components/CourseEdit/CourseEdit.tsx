@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { Button } from '@/components/common/Button/Button';
+import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Tabs } from '@/components/common/Tabs/Tabs';
 
 import { TariffLevelType } from '@/types/common';
@@ -31,6 +32,13 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
 
   // Store
   const store = useContext(CourseEditContext);
+  const { name, fetchCourse } = store;
+
+  useEffect(() => {
+    if (courseID) {
+      fetchCourse(courseID);
+    }
+  }, [courseID, fetchCourse]);
 
   // Subjects
   const subjects = useSubjects();
@@ -55,8 +63,13 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
   return (
     <div className={cls.root}>
       <header className={cls.header}>
-        <h1 className={cls.title}>Создание курса</h1>
-        <Button disabled>Сохранить</Button>
+        <h1 className={cls.title}>{name || 'Новый курс'}</h1>
+        <div className={cls.buttons}>
+          <ButtonLink href="/app/courses" variant="grey">
+            Отмена
+          </ButtonLink>
+          <Button disabled>Сохранить</Button>
+        </div>
       </header>
 
       <SectionCollapse
@@ -75,13 +88,13 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         {subjects && subject && <Subjects subjects={subjects} />}
       </SectionCollapse>
 
-      {/* <SectionCollapse
+      <SectionCollapse
         isOpen={collapse === 'basic'}
         onClick={() => toggleCollapse('basic')}
         title="Основная информация"
       >
         <BasicInfo />
-      </SectionCollapse> */}
+      </SectionCollapse>
 
       {/* <SectionCollapse
         isOpen={isTariffOpen}

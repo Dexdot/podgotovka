@@ -1,8 +1,8 @@
 import { createContext } from 'react';
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { CourseEditDetailI } from '@/types/courses';
+import { CourseEditDetailI, CourseTariffI } from '@/types/courses';
 import { SubjectI } from '@/types/subjects';
 import {
   LevelI,
@@ -10,8 +10,11 @@ import {
   OptionValueType,
   TariffValueType
 } from '@/types/common';
+import { getCourseDetail, getCourseTariff } from '@/api/courses';
+import { showAlert } from '@/utils/network';
 
 const now = new Date();
+now.setHours(0, 0, 0, 0);
 
 interface LevelWithPriceI extends LevelI {
   price: number;
@@ -42,7 +45,27 @@ export class CourseEditStore {
     makeAutoObservable(this);
   }
 
-  handleData = (data: CourseEditDetailI): void => {
+  fetchCourse = (courseID: number): void => {
+    getCourseDetail(courseID).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseData(data);
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
+
+    getCourseTariff(courseID).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseTariff(data);
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
+  };
+
+  handleCourseData = (data: CourseEditDetailI): void => {
     if (data) {
       this.courseData = data;
       this.setSubject(data.subject);
@@ -54,12 +77,17 @@ export class CourseEditStore {
       this.setDateFinish(
         data.time_finish ? new Date(data.time_finish * 1000) : now
       );
-      if (data.tariff?.levels) this.setLevels(data.tariff.levels);
-      if (data.tariff?.options) this.setOptions(data.tariff.options);
     }
   };
 
-  // prepareData = (data: CourseEditDetailI): CourseEditI => {};
+  handleCourseTariff = (tariff: CourseTariffI | null): void => {
+    if (tariff) {
+      if (tariff?.levels) this.setLevels(tariff.levels);
+      if (tariff?.options) this.setOptions(tariff.options);
+    }
+  };
+
+  // prepareData = (data: CourseEditDetailI) => {};
 
   setSubject = (v: SubjectI): void => {
     this.subject = v;

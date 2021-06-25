@@ -14,9 +14,7 @@ const Index: React.FC = () => {
         Курсы предмета с ID 1
       </ButtonLink>
       <br />
-      <ButtonLink href="/app/subjects/1/courses/create">
-        Создать курс предмета с ID 1
-      </ButtonLink>
+      <ButtonLink href="/app/courses/1">Курс с ID 1</ButtonLink>
     </div>
   );
 };

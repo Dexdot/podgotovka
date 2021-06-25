@@ -18,6 +18,7 @@ type Props = {
   showTimeInput?: boolean;
   onlyTime?: boolean;
   remove?: boolean;
+  dateFormat?: string;
 };
 
 export const DateTimePicker: React.FC<Props> = ({
@@ -27,8 +28,10 @@ export const DateTimePicker: React.FC<Props> = ({
   inline,
   showTimeInput,
   onlyTime,
-  remove
+  remove,
+  dateFormat
 }) => {
+  const defaultDateFormat = showTimeInput ? 'd MMMM, p' : 'd MMMM';
   return (
     <div
       className={cn(cls.root, {
@@ -46,7 +49,7 @@ export const DateTimePicker: React.FC<Props> = ({
             onChange(d as Date);
           }
         }}
-        dateFormat="d MMMM, p"
+        dateFormat={dateFormat || defaultDateFormat}
         timeInputLabel="Время:"
         showTimeInput={showTimeInput}
         inline={inline}
