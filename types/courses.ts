@@ -29,3 +29,11 @@ export interface CourseTariffI {
   options?: OptionI[];
   values?: TariffValueType[];
 }
+
+export interface UpdateCourseDataI {
+  subject_id?: number;
+  name?: string;
+  description?: string;
+  time_start?: number;
+  time_finish?: number;
+}

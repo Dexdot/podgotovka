@@ -2,7 +2,11 @@ import { createContext } from 'react';
 import { action, makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { CourseEditDetailI, CourseTariffI } from '@/types/courses';
+import {
+  CourseEditDetailI,
+  CourseTariffI,
+  UpdateCourseDataI
+} from '@/types/courses';
 import { SubjectI } from '@/types/subjects';
 import {
   LevelI,
@@ -87,7 +91,18 @@ export class CourseEditStore {
     }
   };
 
-  // prepareData = (data: CourseEditDetailI) => {};
+  prepareData = (): void => {
+    const courseData: UpdateCourseDataI = {
+      name: this.name || '',
+      description: this.description ? JSON.stringify(this.description) : '',
+      time_start: this.dateStart.getTime() / 1000,
+      time_finish: this.dateFinish.getTime() / 1000
+    };
+
+    if (this.subject) {
+      courseData.subject_id = this.subject.id;
+    }
+  };
 
   setSubject = (v: SubjectI): void => {
     this.subject = v;
