@@ -2,8 +2,6 @@
 import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { Input } from '@/components/common/Input/Input';
-import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
 

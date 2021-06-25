@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { Input } from '@/components/common/Input/Input';
-import { InputColor } from '@/components/common/Input/InputColor';
 import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
