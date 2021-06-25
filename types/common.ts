@@ -24,3 +24,9 @@ export interface OptionI {
   type: OptionType;
   is_systemic: boolean;
 }
+
+export type DirectionItem = {
+  id: string;
+  text: string;
+  value: string;
+};

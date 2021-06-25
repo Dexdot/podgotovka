@@ -10,7 +10,7 @@ export interface SubjectI {
 export interface RequestCreateI {
   name: string;
   color: string;
-  direction: string;
+  direction: DirectionType;
 }
 
 export interface RequestUpdateI {

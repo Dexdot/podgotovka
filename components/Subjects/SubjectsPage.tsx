@@ -1,21 +1,15 @@
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 
-// import { SubjectContext, subjectsStore } from '@/store/subjects';
-import { observer } from 'mobx-react-lite';
+import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+
 import cls from './Subjects.module.scss';
 import { SubjectHeader } from './SubjectHeader/SubjectHeader';
 import { SubjectList } from './SubjectList/SubjectList';
 
-export const SubjectsPage: React.FC = observer(() => {
-  // const subjectStore = useContext(SubjectContext);
+export const SubjectsPage: React.FC = () => {
   const router = useRouter();
-
-  // useEffect(() => {
-  //   if (router.pathname === '/app/subjects') {
-  //     subjectsStore.getSubjects();
-  //   }
-  // }, []);
+  const subjects = useSubjects();
 
   return (
     <div className={cls.subject}>
@@ -25,7 +19,7 @@ export const SubjectsPage: React.FC = observer(() => {
         onClick={() => router.push('/app/subjects/create')}
         disabled={false}
       />
-      <SubjectList items={subjectStore.subjects} />
+      {subjects && <SubjectList items={subjects} />}
     </div>
   );
-});
+};

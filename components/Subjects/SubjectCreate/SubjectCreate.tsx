@@ -1,39 +1,54 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
-import { SubjectContext } from '@/store/subjects';
+import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
 
-import { useSubjectsCheck } from '@/api/hooks/useSubjectsCheck';
-import { useRouter } from 'next/router';
-import { observer } from 'mobx-react-lite';
-import { SubjectHeader } from '../SubjectHeader/SubjectHeader';
+import { SubjectContext } from '@/store/subjects';
+import { useDirections } from '@/hooks/useDirections';
+import { DirectionType } from '@/types/common';
+import { COLORS } from '@/utils/consts';
 
 import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
-import { SubjectCheckbox } from './SubjectCheckbox/SubjectCheckbox';
+import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
 
 export const SubjectCreate: React.FC = observer(() => {
-  const [color, setColor] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [isOpen, toggleOpen] = useState<boolean>(false);
-  const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
-  const [subjects] = useSubjectsCheck();
-  const [collapse, setCollapse] = useState<number | null>(null);
   const subjectsStore = useContext(SubjectContext);
   const router = useRouter();
 
-  const createTask = () => {
-    const elem = {
+  const [color, setColor] = useState<string>(COLORS.primary);
+  const [name, setName] = useState<string>('');
+
+  const [isOpen, toggleOpen] = useState<boolean>(false);
+  const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
+
+  const [directions] = useDirections();
+  const [directionID, setDirectionID] = useState<DirectionType>('USE');
+  const selectedDirection = directions.find((d) => d.id === directionID);
+
+  const isFormValid = useMemo(() => {
+    if (!name || !color) {
+      return false;
+    }
+
+    return true;
+  }, [color, name]);
+
+  const create = () => {
+    const subjectData = {
       name,
       color,
-      direction: subjects.find((el) => el.id === collapse?.toString())!.value
+      direction: directionID
     };
 
-    subjectsStore.createSubject({ ...elem });
-    router.push('/app/subjects');
+    subjectsStore.createSubject({ ...subjectData }).then(() => {
+      router.push('/app/subjects');
+    });
   };
 
   return (
@@ -42,8 +57,8 @@ export const SubjectCreate: React.FC = observer(() => {
         <SubjectHeader
           title="Создание предмета"
           buttonText="Сохранить"
-          onClick={createTask}
-          disabled={collapse === null || name === '' || color === ''}
+          onClick={create}
+          disabled={!isFormValid}
         />
       </div>
 
@@ -54,16 +69,14 @@ export const SubjectCreate: React.FC = observer(() => {
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
-            {collapse
-              ? subjects.find((el) => el.id === collapse?.toString())!.text
-              : ''}
+            {selectedDirection?.text}
           </div>
         }
       >
-        <SubjectCheckbox
-          collapse={collapse}
-          setCollapse={setCollapse}
-          subjects={subjects}
+        <DirectionCheckbox
+          directionID={directionID}
+          setDirectionID={setDirectionID}
+          subjects={directions}
         />
       </SectionCollapse>
 

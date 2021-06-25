@@ -1,9 +1,6 @@
 import { createContext } from 'react';
 import { action, makeAutoObservable } from 'mobx';
-import { AuthI } from '@/types/auth';
-import { AUTH_NAME } from '@/utils/consts';
-import { PodgotovkaAPI } from '@/api/instance';
-import { deleteCookie, setCookie } from '@/utils/cookie';
+
 import { RequestCreateI, RequestUpdateI, SubjectI } from '@/types/subjects';
 import {
   fetchAllSubjects,
@@ -33,15 +30,19 @@ export class SubjectsStore {
     );
   };
 
-  createSubject = (item: RequestCreateI): void => {
-    createSubject(item).then(
-      action('fetchSuccess', ({ data }) => {
-        this.subjects.push(data);
-      }),
-      action('fetchError', (error) => {
-        showAlert({ error });
-      })
-    );
+  createSubject = (item: RequestCreateI): Promise<SubjectI> => {
+    return new Promise<SubjectI>((resolve, reject) => {
+      createSubject(item).then(
+        action('fetchSuccess', ({ data }) => {
+          this.subjects.push(data);
+          resolve(data);
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          reject();
+        })
+      );
+    });
   };
 
   getSubjectDetail = (id: number): void => {
