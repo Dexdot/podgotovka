@@ -1,21 +1,56 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
+import React, { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
-import React, { useState } from 'react';
-
-import { Input } from '@/components/common/Input/Input';
-import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
-import { COLORS } from '@/utils/consts';
 
+import { useDirections } from '@/hooks/useDirections';
+import { DirectionType } from '@/types/common';
+import { COLORS } from '@/utils/consts';
+import { createSubject } from '@/api/subjects';
+
+import { showAlert } from '@/utils/network';
 import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
+import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
+import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
 export const SubjectCreate: React.FC = () => {
-  const [name, setName] = useState<string>('');
+  const router = useRouter();
+
   const [color, setColor] = useState<string>(COLORS.primary);
+  const [name, setName] = useState<string>('');
 
   const [isOpen, toggleOpen] = useState<boolean>(false);
+  const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
+
+  const [directions] = useDirections();
+  const [directionID, setDirectionID] = useState<DirectionType>('USE');
+  const selectedDirection = directions.find((d) => d.id === directionID);
+
+  const isFormValid = useMemo(() => {
+    if (!name || !color) {
+      return false;
+    }
+
+    return true;
+  }, [color, name]);
+
+  const create = async () => {
+    const subjectData = {
+      name,
+      color,
+      direction: directionID
+    };
+
+    try {
+      await createSubject(subjectData);
+      router.push('/app/subjects');
+    } catch (error) {
+      showAlert({ error });
+    }
+  };
 
   return (
     <div className={cls.subject_create}>
@@ -23,21 +58,28 @@ export const SubjectCreate: React.FC = () => {
         <SubjectHeader
           title="Создание предмета"
           buttonText="Сохранить"
-          onClick={() => console.log('Create')}
-          disabled
+          onClick={create}
+          disabled={!isFormValid}
         />
       </div>
 
       <SectionCollapse
-        isOpen={false}
+        isOpen={isOpenSubject}
         title="Направление"
+        onClick={() => toggleOpenSubject(!isOpenSubject)}
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
-            ЕГЭ
+            {selectedDirection?.text}
           </div>
         }
-      />
+      >
+        <DirectionCheckbox
+          directionID={directionID}
+          setDirectionID={setDirectionID}
+          subjects={directions}
+        />
+      </SectionCollapse>
 
       <div className={cls.subject_create_section}>
         <SectionCollapse
@@ -45,28 +87,13 @@ export const SubjectCreate: React.FC = () => {
           onClick={() => toggleOpen(!isOpen)}
           title="Основная информация"
         >
-          <div className={cls.content}>
-            <div className={cls.content_input}>
-              <Input
-                value={name}
-                onChange={(e) => setName(e.currentTarget.value)}
-                placeholder="Название предмета"
-              />
-            </div>
-
-            <div className={cls.content_color}>
-              <div className={cls.content_color_title}>Цвет предмета</div>
-              <div className={cls.content_color_input}>
-                <InputColor
-                  value={color}
-                  onChange={(e) => setColor(e.currentTarget.value)}
-                />
-                <div className={cls.input_color_value_container}>
-                  <Input value={color} onChange={() => null} />
-                </div>
-              </div>
-            </div>
-          </div>
+          <SubjectEdit
+            placeholderNameSubject="Название предмета"
+            nameColor={color}
+            nameSubject={name}
+            setColor={setColor}
+            setName={setName}
+          />
         </SectionCollapse>
       </div>
     </div>

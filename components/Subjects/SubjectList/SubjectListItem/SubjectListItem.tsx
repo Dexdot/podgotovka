@@ -23,7 +23,7 @@ export const SubjectListItem: React.FC<Props> = ({ subject }) => {
   const { id, name, direction, color } = subject;
 
   return (
-    <div className={cls.root}>
+    <div className={cls.root} key={id}>
       <section>
         <Link href={`/app/subjects/${id}`}>
           <a href={`/app/subjects/${id}`} className={cls.link} />

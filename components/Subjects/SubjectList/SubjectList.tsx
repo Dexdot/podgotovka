@@ -1,14 +1,13 @@
+import { SubjectI } from '@/types/subjects';
 import React from 'react';
 import cls from './SubjectList.module.scss';
 import { SubjectListItem } from './SubjectListItem/SubjectListItem';
 
-const items = [
-  { id: 1, name: 'Русский язык', direction: 'ЕГЭ', color: 'red' },
-  { id: 1, name: 'Математика', direction: 'ОГЭ', color: 'orange' },
-  { id: 1, name: 'Русский язык', direction: 'ОГЭ', color: 'red' }
-];
+type Props = {
+  items: SubjectI[];
+};
 
-export const SubjectList: React.FC = () => {
+export const SubjectList: React.FC<Props> = ({ items }) => {
   return (
     <ul className={cls.list}>
       {items.map((el) => (
