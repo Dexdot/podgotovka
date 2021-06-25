@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import cn from 'classnames';
 
 import cls from './SidebarNav.module.scss';
-import { UsersIcon, BoardIcon, TasksIcon } from './icons';
+import { UsersIcon, BoardIcon, TasksIcon, OptionsIcon } from './icons';
 
 const PATHS = {
   users: '/app/users',
   subjects: '/app/subjects',
-  homeworks: '/app/homeworks'
+  homeworks: '/app/homeworks',
+  options: '/app/options'
 };
 
 export const SidebarNav: React.FC = () => {
@@ -54,6 +55,19 @@ export const SidebarNav: React.FC = () => {
             >
               <TasksIcon />
               Домашки
+            </a>
+          </Link>
+        </li>
+        <li>
+          <Link href={PATHS.options}>
+            <a
+              className={cn({
+                [cls.link_active]: pathname.startsWith(PATHS.options)
+              })}
+              href={PATHS.options}
+            >
+              <OptionsIcon />
+              Опции
             </a>
           </Link>
         </li>
