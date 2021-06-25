@@ -1,11 +1,7 @@
 import { AxiosResponse } from 'axios';
 
-import {
-  OptionI,
-  SearchParamsI,
-  CreateOptionI,
-  UpdateOptionI
-} from '@/types/options';
+import { OptionI } from '@/types/common';
+import { SearchParamsI, CreateOptionI, UpdateOptionI } from '@/types/options';
 import { PodgotovkaAPI } from '@/api/instance';
 
 const { axios } = PodgotovkaAPI;
@@ -22,7 +18,7 @@ export function fetchOptions(
 export function createOption(
   option: CreateOptionI
 ): Promise<AxiosResponse<OptionI>> {
-  return axios.post<OptionI>(`${SERVICE_PATH}/options/create`, option);
+  return axios.post<OptionI>(`${SERVICE_PATH}/options`, option);
 }
 
 export function updateOption(
@@ -32,8 +28,15 @@ export function updateOption(
   return axios.patch<OptionI>(`${SERVICE_PATH}/options/${id}`, rest);
 }
 
+export function removeOption(
+  id: number
+): Promise<AxiosResponse<{ result: boolean }>> {
+  return axios.delete<{ result: boolean }>(`${SERVICE_PATH}/options/${id}`);
+}
+
 export const OptionsAPI = {
   fetchOptions,
   createOption,
-  updateOption
+  updateOption,
+  removeOption
 };

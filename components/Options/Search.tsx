@@ -23,7 +23,7 @@ export const Search: React.FC = observer(() => {
   const optionFormats = useMemo<DropdownItem[]>(
     () =>
       OPTION_FORMATS.map((item) => ({
-        id: item.id.toString(),
+        id: item.type,
         text: item.name
       })),
     []
@@ -32,7 +32,7 @@ export const Search: React.FC = observer(() => {
   useEffect(() => {
     fetchOptions({
       search: debouncedSearch,
-      formatId: format ? Number(format.id) : undefined
+      type: format?.id
     });
   }, [debouncedSearch, format]);
 

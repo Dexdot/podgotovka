@@ -1,13 +1,12 @@
 import { createContext } from 'react';
-import { makeAutoObservable } from 'mobx';
-import {
-  OptionI,
-  CreateOptionI,
-  UpdateOptionI,
-  SearchParamsI
-} from '@/types/options';
-// import { OptionsAPI } from '@/api/options';
-// import { showAlert } from '@/utils/network';
+import { action, makeAutoObservable } from 'mobx';
+
+import { OptionI } from '@/types/common';
+import { CreateOptionI, UpdateOptionI, SearchParamsI } from '@/types/options';
+
+import { OptionsAPI } from '@/api/options';
+
+import { showAlert } from '@/utils/network';
 
 export class OptionsStore {
   public options: OptionI[] = [];
@@ -17,65 +16,56 @@ export class OptionsStore {
   }
 
   fetchOptions = (searchParams: SearchParamsI): void => {
-    // OptionsAPI.fetchOptions(searchParams).then(
-    //   action('fetchSuccess', (newOptions) => {
-    //     this.options = newOptions.data;
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
-
-    console.log(searchParams);
-    this.options = [
-      {
-        id: 1,
-        name: 'Вебинары с психологом',
-        desc: 'Описание вебинара',
-        formatId: 1,
-        date: 1624592380,
-        isSystem: true
-      },
-      {
-        id: 2,
-        name: 'Хоум-чекер',
-        desc: 'Описание опции',
-        formatId: 2,
-        date: 1624419580,
-        isSystem: false
-      }
-    ];
+    OptionsAPI.fetchOptions(searchParams).then(
+      action('fetchSuccess', ({ data }) => {
+        this.options = data;
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
   };
 
-  addOption = (newOption: CreateOptionI): void => {
-    console.log(newOption);
-
-    // OptionsAPI.createOption(newOption).then(
-    //   action('fetchSuccess', (option) => {
-    //     this.options = [...this.options, option.data];
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
+  createOption = (newOption: CreateOptionI): void => {
+    OptionsAPI.createOption(newOption).then(
+      action('fetchSuccess', ({ data }) => {
+        this.options = [...this.options, data];
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
   };
 
   updateOption = (option: UpdateOptionI): void => {
-    console.log(option);
+    OptionsAPI.updateOption(option).then(
+      action('fetchSuccess', ({ data }) => {
+        this.options = this.options.map((item) => {
+          if (item.id === data.id) {
+            return data;
+          }
+          return item;
+        });
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
+  };
 
-    // OptionsAPI.updateOption(option).then(
-    //   action('fetchSuccess', (updatedOption) => {
-    //     this.options = this.options.map((item) => {
-    //       if (item.id === updatedOption.data.id) {
-    //         return updatedOption.data;
-    //       }
-    //       return item;
-    //     });
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
+  removeOption = (id: number): void => {
+    OptionsAPI.removeOption(id).then(
+      action('fetchSuccess', ({ data }) => {
+        if (data.result) {
+          this.options = this.options.filter((item) => item.id !== id);
+        } else {
+          showAlert({ type: 'error', text: 'Не удалось удалить опцию' });
+        }
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
   };
 }
 

@@ -1,20 +1,18 @@
 export interface CreateOptionI {
   name: string;
-  desc?: string;
-  formatId: number;
+  description?: string;
+  type: string;
 }
 
-export interface UpdateOptionI extends CreateOptionI {
+export interface UpdateOptionI {
   id: number;
-}
-
-export interface OptionI extends CreateOptionI {
-  id: number;
-  date: number;
-  isSystem: boolean;
+  name: string;
+  description?: string;
 }
 
 export interface SearchParamsI {
   search?: string;
-  formatId?: number;
+  type?: string;
+  limit?: number;
+  skip?: number;
 }

@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { OptionsContext } from '@/store/options';
 
 import { OPTION_FORMATS } from '@/utils/consts';
-import { getDDMMYY } from '@/utils/date';
+// import { getDDMMYY } from '@/utils/date';
 
 import { EditIcon } from './Icons';
 
@@ -30,15 +30,16 @@ export const Table: React.FC<PropsI> = observer(({ open }) => {
         <div key={option.id} className={cls.row}>
           <div className={cls.option_name_desc}>
             <p className={cls.option_name}>{option.name}</p>
-            <p className={cls.option_desc}>{option.desc}</p>
+            <p className={cls.option_desc}>{option.description}</p>
           </div>
           <div className={cn(cls.flex_center, cls.format_date)}>
-            {OPTION_FORMATS.find((item) => item.id === option.formatId)?.name}
+            {OPTION_FORMATS.find((item) => item.type === option.type)?.name}
           </div>
           <div className={cn(cls.flex_center, cls.format_date)}>
-            {getDDMMYY(new Date(option.date * 1000))}
+            {/* {getDDMMYY(new Date(option.timestamp * 1000))} */}
+            todo
           </div>
-          {!option.isSystem && (
+          {!option.is_systemic && (
             <button
               type="button"
               onClick={() => open(option.id)}

@@ -25,12 +25,12 @@ interface PropsI {
 
 export const EditOptionModal: React.FC<PropsI> = observer(
   ({ optionId, close, isOpen }) => {
-    const { options } = useContext(OptionsContext);
+    const { options, updateOption, createOption } = useContext(OptionsContext);
 
     const optionFormats = useMemo<DropdownItem[]>(
       () =>
         OPTION_FORMATS.map((item) => ({
-          id: item.id.toString(),
+          id: item.type,
           text: item.name
         })),
       []
@@ -38,7 +38,15 @@ export const EditOptionModal: React.FC<PropsI> = observer(
 
     const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
       try {
-        console.log(form);
+        if (optionId) {
+          updateOption({
+            id: optionId,
+            description: form.description,
+            name: form.name
+          });
+        } else {
+          createOption({ ...form });
+        }
         close();
         helpers.resetForm();
       } catch (error) {
@@ -97,12 +105,14 @@ export const EditOptionModal: React.FC<PropsI> = observer(
           </div>
           <div className={cls.input}>
             <Input
-              name="desc"
+              name="description"
               placeholder="Описание опции"
-              value={form.values.desc || ''}
+              value={form.values.description || ''}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
-              errorText={form.touched.desc ? form.errors.desc : ''}
+              errorText={
+                form.touched.description ? form.errors.description : ''
+              }
             />
             <p>Описание будут видеть только администраторы платформы</p>
           </div>
@@ -110,12 +120,11 @@ export const EditOptionModal: React.FC<PropsI> = observer(
           <h3>Формат</h3>
           <Dropdown
             value={
-              optionFormats.find(
-                (item) => item.id === form.values.formatId.toString()
-              ) || null
+              optionFormats.find((item) => item.id === form.values.type) || null
             }
-            onChange={(value) => form.setFieldValue('formatId', value.id)}
+            onChange={(value) => form.setFieldValue('type', value.id)}
             items={optionFormats}
+            disabled={!!optionId}
           />
         </form>
 

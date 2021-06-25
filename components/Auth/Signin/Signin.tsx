@@ -10,9 +10,7 @@ import { FormI } from './helpers';
 
 export const Signin: React.FC = () => {
   const submit = (f: FormI) => {
-    // TODO: Submit auth
-    console.log('submit auth', f);
-    return auth();
+    return auth(f);
   };
 
   return (
