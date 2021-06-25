@@ -10,7 +10,7 @@ import {
   OptionValueType,
   TariffValueType
 } from '@/types/common';
-import { getCourseDetail, getCourseTariff } from '@/api/courses';
+import { CoursesAPI } from '@/api/courses';
 import { showAlert } from '@/utils/network';
 
 const now = new Date();
@@ -46,7 +46,7 @@ export class CourseEditStore {
   }
 
   fetchCourse = (courseID: number): void => {
-    getCourseDetail(courseID).then(
+    CoursesAPI.getCourseDetail(courseID).then(
       action('fetchSuccess', ({ data }) => {
         this.handleCourseData(data);
       }),
@@ -55,7 +55,7 @@ export class CourseEditStore {
       })
     );
 
-    getCourseTariff(courseID).then(
+    CoursesAPI.getCourseTariff(courseID).then(
       action('fetchSuccess', ({ data }) => {
         this.handleCourseTariff(data);
       }),
@@ -130,6 +130,10 @@ export class CourseEditStore {
 
   setOptions = (v: OptionI[]): void => {
     this.options = [...v];
+  };
+
+  addOption = (v: OptionI): void => {
+    this.options = [...this.options, v];
   };
 
   setValues = (v: TariffValueType[]): void => {

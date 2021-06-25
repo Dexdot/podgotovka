@@ -7,7 +7,6 @@ import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Tabs } from '@/components/common/Tabs/Tabs';
 
 import { TariffLevelType } from '@/types/common';
-import { SubjectI } from '@/types/subjects';
 import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 import { CourseEditContext } from '@/store/course-edit';
 
@@ -55,6 +54,8 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
   useEffect(() => {
     if (courseLevels) {
       selectTab(courseLevels.length > 1 ? 'many' : 'one');
+    } else {
+      selectTab('many');
     }
   }, [courseLevels]);
 
@@ -96,7 +97,7 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         <BasicInfo />
       </SectionCollapse>
 
-      {/* <SectionCollapse
+      <SectionCollapse
         isOpen={isTariffOpen}
         onClick={() => toggleCollapse('tariff')}
         title="Тарифы"
@@ -113,7 +114,7 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         }
       >
         {isTariffOpen && selectedTab && <Tariff type={selectedTab} />}
-      </SectionCollapse> */}
+      </SectionCollapse>
     </div>
   );
 });

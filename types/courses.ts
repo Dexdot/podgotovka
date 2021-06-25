@@ -3,10 +3,12 @@ import { SubjectI } from './subjects';
 
 export type CourseStatus = 'draft' | 'archive' | 'removed' | 'published';
 
+// TODO: Add name, photo_link on backend
 export interface CourseI {
   id: number;
   name?: string;
   description?: string;
+  photo_link?: string;
   time_start?: number;
   time_finish?: number;
   status: CourseStatus;
