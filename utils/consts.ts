@@ -6,9 +6,9 @@ export const COLORS = {
   primary: '#4949d3'
 };
 
-export const API_BASE = 'https://devapi.podgotovka.ru';
-// // ?
-//   : 'https://api.podgotovka.ru';
+export const API_BASE = isDevBuild
+  ? 'https://devapi.podgotovka.ru'
+  : 'https://api.podgotovka.ru';
 
 export const AUTH_NAME = 'podgotovka_auth';
 

@@ -11,7 +11,6 @@ export function useSubject(subject_id: number): SubjectI | undefined {
 
     try {
       const { data } = await getSubjectDetail(subject_id);
-
       setSubject(data);
     } catch (error) {
       showAlert({ error });

@@ -1,24 +1,23 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { observer } from 'mobx-react-lite';
 
 import { Input } from '@/components/common/Input/Input';
 import { InputColor } from '@/components/common/Input/InputColor';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
 
-import { SubjectContext } from '@/store/subjects';
 import { useDirections } from '@/hooks/useDirections';
 import { DirectionType } from '@/types/common';
 import { COLORS } from '@/utils/consts';
+import { createSubject } from '@/api/subjects';
 
+import { showAlert } from '@/utils/network';
 import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
 import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
 
-export const SubjectCreate: React.FC = observer(() => {
-  const subjectsStore = useContext(SubjectContext);
+export const SubjectCreate: React.FC = () => {
   const router = useRouter();
 
   const [color, setColor] = useState<string>(COLORS.primary);
@@ -39,16 +38,19 @@ export const SubjectCreate: React.FC = observer(() => {
     return true;
   }, [color, name]);
 
-  const create = () => {
+  const create = async () => {
     const subjectData = {
       name,
       color,
       direction: directionID
     };
 
-    subjectsStore.createSubject({ ...subjectData }).then(() => {
+    try {
+      await createSubject(subjectData);
       router.push('/app/subjects');
-    });
+    } catch (error) {
+      showAlert({ error });
+    }
   };
 
   return (
@@ -112,4 +114,4 @@ export const SubjectCreate: React.FC = observer(() => {
       </div>
     </div>
   );
-});
+};
