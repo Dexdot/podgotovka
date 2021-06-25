@@ -14,6 +14,9 @@ import cls from './Course.module.scss';
 import { CalendarIcon, CopyIcon, EditIcon } from './icons';
 import { getStatusColor, statuses, statusesMap } from './helpers';
 
+const photo_link =
+  'https://storage.yandexcloud.net/nastavnik-data-dev/tmp/enpzmm/rqtlrg/obzqca/nurfek/gvguba/qauedy/a7b8c7a1-d0a9-45b6-bca1-b417b80bf17c.jpg';
+
 type Props = {
   course: CourseI;
 };
@@ -47,7 +50,7 @@ export const Course: React.FC<Props> = ({ course }) => {
         <a
           href="/"
           className={cls.image}
-          style={{ backgroundImage: `url(${course.photo_link})` }}
+          style={{ backgroundImage: `url(${photo_link})` }}
         />
       </Link>
 

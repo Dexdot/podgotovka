@@ -1,8 +1,19 @@
-import React from 'react';
-import { CreateCourse } from '@/components/CreateCourse/CreateCourse';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+
+import { CourseEdit } from '@/components/CourseEdit/CourseEdit';
+import { CourseEditContext, CourseEditStore } from '@/store/course-edit';
 
 const AppCoursesCreate: React.FC = () => {
-  return <CreateCourse />;
+  const router = useRouter();
+  const subjectID = router.query.subject_id as string;
+  const [store] = useState<CourseEditStore>(new CourseEditStore());
+
+  return (
+    <CourseEditContext.Provider value={store}>
+      {subjectID && <CourseEdit subjectID={Number(subjectID)} isCreate />}
+    </CourseEditContext.Provider>
+  );
 };
 
 export default AppCoursesCreate;

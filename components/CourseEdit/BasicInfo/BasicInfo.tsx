@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import dynamic from 'next/dynamic';
-import type { OutputBlockData } from '@editorjs/editorjs';
 
 import { Input } from '@/components/common/Input/Input';
-
 import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
+
+import { CourseEditContext } from '@/store/course-edit';
+
 import cls from './BasicInfo.module.scss';
 
 const TextEditor = dynamic(
@@ -12,11 +14,18 @@ const TextEditor = dynamic(
   { ssr: false }
 );
 
-export const BasicInfo: React.FC = () => {
-  const [name, setName] = useState<string>('');
-  const [dateStart, setDateStart] = useState<Date>(new Date());
-  const [dateFinish, setDateFinish] = useState<Date>(new Date());
-  const [description, setDescription] = useState<OutputBlockData[]>([]);
+export const BasicInfo: React.FC = observer(() => {
+  // Store
+  const store = useContext(CourseEditContext);
+
+  // Name
+  const { name, setName } = store;
+
+  // Description
+  const { description, setDescription } = store;
+
+  // Period dates
+  const { dateStart, setDateStart, dateFinish, setDateFinish } = store;
 
   return (
     <div className={cls.root}>
@@ -30,6 +39,7 @@ export const BasicInfo: React.FC = () => {
 
       <div className={cls.period}>
         <p>Период</p>
+
         <div className={cls.period_row}>
           <DateTimePicker
             showTimeInput
@@ -61,4 +71,4 @@ export const BasicInfo: React.FC = () => {
       </div>
     </div>
   );
-};
+});
