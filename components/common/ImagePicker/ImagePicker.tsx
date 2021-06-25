@@ -105,6 +105,7 @@ export function ImagePicker({ href, onChange }: PropsI): JSX.Element {
         close={() => toggleOpen(false)}
         url={img}
         onCropped={handleCrop}
+        aspectRatio={1}
       />
     </div>
   );
