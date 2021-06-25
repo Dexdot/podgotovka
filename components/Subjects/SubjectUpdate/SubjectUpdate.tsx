@@ -13,6 +13,7 @@ import { updateSubject } from '@/api/subjects';
 import { useSubject } from '@/api/hooks/subjects/useSubject';
 import { showAlert } from '@/utils/network';
 import cls from './SubjectUpdate.module.scss';
+import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
 type Props = {
   subjectID: number;
@@ -66,28 +67,13 @@ export const SubjectUpdate: React.FC<Props> = ({ subjectID }) => {
         onClick={() => toggleOpen(!isOpen)}
         title="Основная информация"
       >
-        <div className={cls.content}>
-          <div className={cls.content_input}>
-            <Input
-              value={name && name}
-              onChange={(e) => setName(e.currentTarget.value)}
-              placeholder="Название предмета"
-            />
-          </div>
-
-          <div className={cls.content_color}>
-            <div className={cls.content_color_title}>Цвет предмета</div>
-            <div className={cls.content_color_input}>
-              <InputColor
-                value={color && color}
-                onChange={(e) => setColor(e.currentTarget.value)}
-              />
-              <div className={cls.input_color_value_container}>
-                <Input value={color} onChange={() => null} />
-              </div>
-            </div>
-          </div>
-        </div>
+        <SubjectEdit
+          placeholderNameSubject="Название предмета"
+          nameColor={color}
+          nameSubject={name}
+          setColor={setColor}
+          setName={setName}
+        />
       </SectionCollapse>
     </div>
   );

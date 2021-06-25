@@ -74,44 +74,5 @@
   }
 }
 
-.content {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
 
-  &_color {
-    display: flex;
-    flex-direction: column;
-    margin-top: 24px;
 
-    &_title {
-      font-size: 16px;
-      color: #7a869a;
-    }
-
-    &_input {
-      display: flex;
-      align-items: center;
-      margin-top: 8px;
-
-      .input_color {
-        height: 100%;
-      }
-    }
-  }
-}
-
-.input {
-  width: 100%;
-  padding: 10px 12px;
-
-  background: #fafbfc;
-  border: 2px solid #f2f3f5;
-  box-sizing: border-box;
-  border-radius: 3px;
-}
-
-.input_color_value_container {
-  width: 100%;
-  margin-left: 12px;
-}

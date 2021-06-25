@@ -16,6 +16,7 @@ import { showAlert } from '@/utils/network';
 import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
 import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
+import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
 export const SubjectCreate: React.FC = () => {
   const router = useRouter();
@@ -88,28 +89,13 @@ export const SubjectCreate: React.FC = () => {
           onClick={() => toggleOpen(!isOpen)}
           title="Основная информация"
         >
-          <div className={cls.content}>
-            <div className={cls.content_input}>
-              <Input
-                value={name}
-                placeholder="Название предмета"
-                onChange={(e) => setName(e.currentTarget.value)}
-              />
-            </div>
-
-            <div className={cls.content_color}>
-              <div className={cls.content_color_title}>Цвет предмета</div>
-              <div className={cls.content_color_input}>
-                <InputColor
-                  value={color}
-                  onChange={(e) => setColor(e.currentTarget.value)}
-                />
-                <div className={cls.input_color_value_container}>
-                  <Input value={color} onChange={() => null} />
-                </div>
-              </div>
-            </div>
-          </div>
+          <SubjectEdit
+            placeholderNameSubject="Название предмета"
+            nameColor={color}
+            nameSubject={name}
+            setColor={setColor}
+            setName={setName}
+          />
         </SectionCollapse>
       </div>
     </div>

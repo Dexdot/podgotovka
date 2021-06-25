@@ -18,7 +18,7 @@ export const DirectionCheckbox: React.FC<Props> = ({
 }) => {
   return (
     <div className={cls.checkbox}>
-      <h3>Выберите роль пользователя</h3>
+      <h3>Выберте направление предмета</h3>
 
       {subjects.map((item) => (
         <div key={item.id} className={cls.checkbox_item}>
