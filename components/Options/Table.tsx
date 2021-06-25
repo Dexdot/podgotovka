@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { OptionI } from '@/types/common';
 
 import { OPTION_TYPES } from '@/utils/consts';
-// import { getDDMMYY } from '@/utils/date';
+import { getDDMMYY } from '@/utils/date';
 
 import { EditIcon } from './Icons';
 
@@ -34,8 +34,7 @@ export const Table: React.FC<PropsI> = ({ open, options }) => {
             {OPTION_TYPES.find((item) => item.type === option.type)?.name}
           </div>
           <div className={cn(cls.flex_center, cls.option_type_date)}>
-            {/* {getDDMMYY(new Date(option.timestamp * 1000))} */}
-            todo
+            {getDDMMYY(new Date(option.created_at * 1000))}
           </div>
           {!option.is_systemic && (
             <button

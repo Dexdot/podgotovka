@@ -1,27 +1,39 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormikHelpers } from 'formik';
+import cn from 'classnames';
 
 import { OptionI } from '@/types/common';
+import { SearchParamsI } from '@/types/options';
 
 import { OptionsAPI } from '@/api/options';
-import { useOptions } from '@/api/hooks/options/useOptions';
+import { useFilteredOptions } from '@/api/hooks/options/useFilteredOptions';
+import { useDebounce } from '@/hooks/useDebounce';
 
 import { showAlert } from '@/utils/network';
 
+import { Input } from '@/components/common/Input/Input';
+import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
 import { Button } from '@/components/common/Button/Button';
 
-import { Search } from './Search';
 import { Table } from './Table';
 import { EditOptionModal } from './EditOptionModal';
-import { FormI } from './helpers';
 
+import { optionTypes, FormI } from './helpers';
 import cls from './Options.module.scss';
 
 export const Options: React.FC = () => {
   const [option, setOption] = useState<OptionI | null>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>('');
+  const debouncedSearch = useDebounce(search, 300);
+  const [type, setType] = useState<DropdownItem | null>(null);
 
-  const [options, setOptions, fetchOptions] = useOptions();
+  const params = useMemo<SearchParamsI>(
+    () => ({ search: debouncedSearch, type: type?.id }),
+    [debouncedSearch, type]
+  );
+
+  const [options, setOptions] = useFilteredOptions(params);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -62,7 +74,7 @@ export const Options: React.FC = () => {
         helpers.setSubmitting(false);
       }
     },
-    [options, setOptions]
+    [options, setOptions, option, close]
   );
 
   return (
@@ -71,8 +83,25 @@ export const Options: React.FC = () => {
         <h1>Опции</h1>
         <Button onClick={() => setOpen(true)}>Добавить опцию</Button>
       </header>
-      <Search fetch={fetchOptions} />
-      <Table options={options} open={open} />
+      <div className={cn(cls.filters, cls.flex_center)}>
+        <div className={cn(cls.search, cls.input)}>
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.currentTarget.value)}
+            placeholder="Поиск"
+            search
+          />
+        </div>
+        <div className={cn(cls.input)}>
+          <Dropdown
+            items={optionTypes}
+            value={type}
+            onChange={setType}
+            placeholder="Формат"
+          />
+        </div>
+      </div>
+      <Table open={open} options={options} />
       <EditOptionModal
         isOpen={isOpen}
         option={option}

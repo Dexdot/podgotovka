@@ -24,6 +24,7 @@ export interface OptionI {
   description?: string;
   type: OptionType;
   is_systemic: boolean;
+  created_at: number;
 }
 
 export type DirectionItem = {

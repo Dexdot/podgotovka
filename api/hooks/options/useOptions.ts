@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react';
 
 import { OptionI } from '@/types/common';
-import { SearchParamsI } from '@/types/options';
 
 import { fetchOptions } from '@/api/options';
 
 import { showAlert } from '@/utils/network';
 
-export function useOptions(
-  withoutParams = false
-): [
+export function useOptions(): [
   OptionI[],
-  React.Dispatch<React.SetStateAction<OptionI[]>>,
-  (params?: SearchParamsI) => Promise<void>
+  React.Dispatch<React.SetStateAction<OptionI[]>>
 ] {
   const [state, setState] = useState<OptionI[]>([]);
+  const [isFetching, toggleFetching] = useState<boolean>(false);
 
-  const fetch = async (params?: SearchParamsI): Promise<void> => {
-    try {
-      const { data } = await fetchOptions(params);
-      setState(data);
-    } catch (error) {
-      showAlert({ error });
+  const fetch = async (): Promise<void> => {
+    if (!isFetching) {
+      try {
+        toggleFetching(true);
+        const { data } = await fetchOptions();
+        setState(data);
+      } catch (error) {
+        showAlert({ error });
+      } finally {
+        toggleFetching(false);
+      }
     }
   };
 
   useEffect(() => {
     fetch();
-  }, [withoutParams]);
+  }, []);
 
-  return [state, setState, fetch];
+  return [state, setState];
 }
