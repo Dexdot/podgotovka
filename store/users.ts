@@ -91,19 +91,25 @@ export class UsersStore {
   }: {
     id: number;
     password: string;
-  }): void => {
-    UsersAPI.resetUserPassword(id, password).then(
-      action('fetchSuccess', ({ data }) => {
-        if (data) {
-          showAlert({ text: 'Пароль был успешно изменен' });
-        } else {
-          showAlert({ text: 'Не удалось изменить пароль' });
-        }
-      }),
-      action('fetchError', (error) => {
-        showAlert({ error });
-      })
-    );
+  }): Promise<void> => {
+    return new Promise<void>((res, rej) => {
+      UsersAPI.resetUserPassword(id, password).then(
+        action('fetchSuccess', ({ data }) => {
+          if (data) {
+            this.updateUserDetails({ ...this.userDetails, password });
+            showAlert({ text: 'Пароль был успешно изменен' });
+            res();
+          } else {
+            showAlert({ text: 'Не удалось изменить пароль' });
+            rej();
+          }
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          rej();
+        })
+      );
+    });
   };
 }
 

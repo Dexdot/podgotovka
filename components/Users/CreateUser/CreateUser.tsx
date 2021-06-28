@@ -20,7 +20,7 @@ import {
   validate
 } from './helpers';
 
-import cls from './User.module.scss';
+import cls from './CreateUser.module.scss';
 
 export const CreateUser: React.FC = observer(() => {
   const router = useRouter();
@@ -108,7 +108,7 @@ export const CreateUser: React.FC = observer(() => {
           onClick={toggleCollapse}
           title="Основная информация"
         >
-          <Main form={form} onFileLoad={setFile} photo="" />
+          <Main form={form} onFileLoad={setFile} />
         </SectionCollapse>
       </form>
     </section>

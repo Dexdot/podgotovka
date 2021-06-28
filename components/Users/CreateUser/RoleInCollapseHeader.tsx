@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { UserIcon } from './Icons';
+import { UserIcon } from '../Icons';
 
 import { roles } from '../helpers';
-import cls from './User.module.scss';
+import cls from './CreateUser.module.scss';
 
 interface PropsI {
   role: string;
