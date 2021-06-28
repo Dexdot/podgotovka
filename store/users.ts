@@ -36,7 +36,7 @@ export class UsersStore {
   };
 
   fetchUsers = (searchParams: SearchParamsI): void => {
-    this.usersLoadingState = 'pending';
+    this.usersLoadingState = 'loading';
     UsersAPI.fetchUsers(searchParams).then(
       action('fetchSuccess', ({ data }) => {
         this.updateUsers(data);
@@ -50,7 +50,7 @@ export class UsersStore {
   };
 
   fetchUserDetails = (id: number): void => {
-    this.userDetailsLoadingState = 'pending';
+    this.userDetailsLoadingState = 'loading';
     UsersAPI.fetchUserDetails(id).then(
       action('fetchSuccess', ({ data }) => {
         this.updateUserDetails(data);
@@ -64,7 +64,7 @@ export class UsersStore {
   };
 
   createUser = (newUser: NewUserI): Promise<void> => {
-    this.usersLoadingState = 'pending';
+    this.usersLoadingState = 'loading';
     return new Promise<void>((res, rej) => {
       UsersAPI.createUser(newUser).then(
         action('fetchSuccess', ({ data }) => {
@@ -82,7 +82,7 @@ export class UsersStore {
   };
 
   updateUser = (updatedUser: UpdateUserI): Promise<void> => {
-    this.usersLoadingState = 'pending';
+    this.usersLoadingState = 'loading';
     return new Promise<void>((res, rej) => {
       UsersAPI.updateUser(updatedUser).then(
         action('fetchSuccess', ({ data }) => {
@@ -113,7 +113,7 @@ export class UsersStore {
     password: string;
   }): Promise<void> => {
     return new Promise<void>((res, rej) => {
-      this.userDetailsLoadingState = 'pending';
+      this.userDetailsLoadingState = 'loading';
       UsersAPI.resetUserPassword(id, password).then(
         action('fetchSuccess', ({ data }) => {
           if (data) {

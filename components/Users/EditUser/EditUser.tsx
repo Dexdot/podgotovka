@@ -66,7 +66,7 @@ export const EditUser: React.FC = observer(() => {
 
   const updateUserDetails = useCallback(
     (userId: number) => {
-      if (userDetailsLoadingState === 'pending') {
+      if (userDetailsLoadingState === 'loading') {
         setTimeout(() => {
           updateUserDetails(userId);
         }, 200);

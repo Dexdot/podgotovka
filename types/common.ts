@@ -4,7 +4,7 @@ export type TariffLevelType = 'one' | 'many';
 
 export type DirectionType = 'USE' | 'BSE';
 
-export type LoadingStateType = 'pending' | 'done' | 'error';
+export type LoadingStateType = 'loading' | 'done' | 'error';
 
 export interface LevelI {
   id: number;
