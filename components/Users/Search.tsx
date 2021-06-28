@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 
+import { UserDetailsI } from '@/types/users';
+
 import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 
 import { UsersContext } from '@/store/users';
@@ -14,7 +16,7 @@ import { statuses, roles } from './helpers';
 import cls from './Users.module.scss';
 
 export const Search: React.FC = () => {
-  const { fetchUsers } = useContext(UsersContext);
+  const { fetchUsers, updateUserDetails } = useContext(UsersContext);
 
   const subjects = useSubjects();
 
@@ -42,6 +44,10 @@ export const Search: React.FC = () => {
       role: role?.id
     });
   }, [debouncedSearch, status, subject, role]);
+
+  useEffect(() => {
+    updateUserDetails({} as UserDetailsI);
+  }, [updateUserDetails]);
 
   return (
     <div className={cn(cls.filters, cls.flex_center)}>
