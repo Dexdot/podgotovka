@@ -54,7 +54,11 @@ export const Course: React.FC<Props> = ({ course }) => {
         <a
           href={editHref}
           className={cls.image}
-          style={{ backgroundImage: `url(${course.photo_link})` }}
+          style={
+            course.photo_link
+              ? { backgroundImage: `url(${course.photo_link})` }
+              : {}
+          }
         />
       </Link>
 

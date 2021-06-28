@@ -4,6 +4,7 @@ import { PodgotovkaAPI } from '@/api/instance';
 import {
   CourseEditDetailI,
   CourseI,
+  CourseStatus,
   CourseTariffI,
   UpdateCourseDataI,
   UpdateCourseTariffI
@@ -12,11 +13,17 @@ import {
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/courses';
 
+export type CoursesFilters = {
+  limit?: number;
+  skip?: number;
+  subject_id?: number;
+  status?: CourseStatus;
+};
+
 function getCourses(
-  limit?: number,
-  skip?: number
+  filters: CoursesFilters
 ): Promise<AxiosResponse<CourseI[]>> {
-  return axios.get<CourseI[]>(`${SERVICE_PATH}`, { params: { limit, skip } });
+  return axios.get<CourseI[]>(`${SERVICE_PATH}`, { params: { ...filters } });
 }
 
 function getCourseDetail(
