@@ -15,5 +15,6 @@ export const CoursesWrap: React.FC<Props> = ({ subjectID }) => {
   );
 
   const courses = useCourses(filters);
+
   return courses ? <Courses courses={courses} /> : null;
 };

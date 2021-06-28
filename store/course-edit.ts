@@ -18,6 +18,7 @@ import {
 import { CoursesAPI } from '@/api/courses';
 import { showAlert } from '@/utils/network';
 
+const ONE_LEVEL_ID = -1;
 const now = new Date();
 now.setHours(0, 0, 0, 0);
 
@@ -123,13 +124,22 @@ export class CourseEditStore {
     }
 
     // Tariff
-    const level_prices = this.levelsWithPrice
-      ? this.levelsWithPrice.map(({ id, price }) => ({ level_id: id, price }))
-      : [];
+    const levelsWithPrice = this.levelsWithPrice || [];
+    const isOneLevel = levelsWithPrice.length === 1;
+    const levelsIDs = levelsWithPrice.map((l) => l.id);
+    const level_prices = levelsWithPrice.map(({ id, price }) => ({
+      level_id: isOneLevel ? ONE_LEVEL_ID : id,
+      price
+    }));
+    const values = this.values
+      .filter((v) => levelsIDs.includes(v.level_id))
+      .map((v) => ({ ...v, level_id: isOneLevel ? ONE_LEVEL_ID : v.level_id }));
+    const options_order = this.options.map((o) => o.id);
 
     const tariff: UpdateCourseTariffI = {
       level_prices,
-      values: [...this.values]
+      values,
+      options_order
     };
 
     return { course, tariff };

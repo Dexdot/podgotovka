@@ -30,7 +30,7 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       helpers.setSubmitting(false);
       helpers.resetForm();
 
-      router.push('/app');
+      router.push('/app/subjects');
     } catch (error) {
       showAlert({ error });
       helpers.setSubmitting(false);
