@@ -16,18 +16,33 @@ import { SubjectIcon } from './Icons';
 import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
 import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
+type CollapseType = 'info' | 'vector' | null;
+
 export const SubjectCreate: React.FC = () => {
   const router = useRouter();
 
   const [color, setColor] = useState<string>(COLORS.primary);
   const [name, setName] = useState<string>('');
 
-  const [isOpen, toggleOpen] = useState<boolean>(false);
-  const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
+  const [isOpen, toggleOpen] = useState<CollapseType>(null);
 
   const [directions] = useDirections();
   const [directionID, setDirectionID] = useState<DirectionType>('USE');
   const selectedDirection = directions.find((d) => d.id === directionID);
+
+  const openCollapse = (str: string): void => {
+    if (str === isOpen) {
+      toggleOpen(null);
+    } else {
+      if (str === 'vector') {
+        toggleOpen('vector');
+      }
+
+      if (str === 'info') {
+        toggleOpen('info');
+      }
+    }
+  };
 
   const isFormValid = useMemo(() => {
     if (!name || !color) {
@@ -64,9 +79,9 @@ export const SubjectCreate: React.FC = () => {
       </div>
 
       <SectionCollapse
-        isOpen={isOpenSubject}
+        isOpen={isOpen === 'vector'}
         title="Направление"
-        onClick={() => toggleOpenSubject(!isOpenSubject)}
+        onClick={() => openCollapse('vector')}
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
@@ -83,8 +98,8 @@ export const SubjectCreate: React.FC = () => {
 
       <div className={cls.subject_create_section}>
         <SectionCollapse
-          isOpen={isOpen}
-          onClick={() => toggleOpen(!isOpen)}
+          isOpen={isOpen === 'info'}
+          onClick={() => openCollapse('info')}
           title="Основная информация"
         >
           <SubjectEdit
