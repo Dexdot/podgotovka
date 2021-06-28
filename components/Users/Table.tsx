@@ -45,7 +45,11 @@ export const Table: React.FC = observer(() => {
         return (
           <div key={user.id} className={cls.row}>
             <div className={cls.user_info}>
-              <Avatar src={user.photo_link} size={48} />
+              <Avatar
+                src={user.photo_link}
+                size={48}
+                user={{ name: user.name || '' }}
+              />
               <div className={cls.name_and_login}>
                 <Link href={`/app/users/${user.id}`}>
                   <a href={`/app/users/${user.id}`} className={cls.user_name}>

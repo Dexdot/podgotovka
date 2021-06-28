@@ -21,8 +21,13 @@ export const EditUser: React.FC = observer(() => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { updateUser, fetchUserDetails, userDetails, resetUserPassword } =
-    useContext(UsersContext);
+  const {
+    updateUser,
+    fetchUserDetails,
+    userDetails,
+    userDetailsLoadingState,
+    resetUserPassword
+  } = useContext(UsersContext);
 
   const [file, setFile] = useState<Blob | null>(null);
   const [refreshBtnDisabled, toggleRefreshBtn] = useState<boolean>(false);
@@ -35,7 +40,7 @@ export const EditUser: React.FC = observer(() => {
     const { password, ...formData } = form;
     updateUser({ ...formData, id: Number(id), photo_link })
       .then(() => {
-        router.push('/app/users');
+        router.push(`/app/users/${id}`);
       })
       .finally(() => {
         helpers.setSubmitting(false);
@@ -59,9 +64,22 @@ export const EditUser: React.FC = observer(() => {
     });
   }, [id, resetUserPassword, form]);
 
+  const updateUserDetails = useCallback(
+    (userId: number) => {
+      if (userDetailsLoadingState === 'pending') {
+        setTimeout(() => {
+          updateUserDetails(userId);
+        }, 200);
+      } else if (!userDetails.id || userDetails.id !== userId) {
+        fetchUserDetails(userId);
+      }
+    },
+    [userDetailsLoadingState, fetchUserDetails, userDetails]
+  );
+
   useEffect(() => {
     if (id) {
-      fetchUserDetails(Number(id));
+      updateUserDetails(Number(id));
     }
   }, [id]);
 
@@ -80,7 +98,7 @@ export const EditUser: React.FC = observer(() => {
       <div className={cls.header}>
         <h1>Изменить пользователя</h1>
         <div className={cls.header_btns}>
-          <ButtonLink href="/app/users" variant="grey">
+          <ButtonLink href={`/app/users/${id}`} variant="grey">
             Отмена
           </ButtonLink>
           <Button
