@@ -41,7 +41,7 @@ export function resetUserPassword(
 ): Promise<AxiosResponse<{ result: boolean }>> {
   return axios.patch<{ result: boolean }>(
     `${SERVICE_PATH}/${id}/reset-password`,
-    password
+    { password }
   );
 }
 

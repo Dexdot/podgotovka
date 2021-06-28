@@ -17,6 +17,7 @@ export interface UpdateUserI {
   vk_link?: string;
   photo_link?: string;
   subjectId?: number;
+  is_active: boolean;
 }
 
 export interface UserI {
@@ -32,6 +33,7 @@ export interface UserI {
 
 export interface UserDetailsI extends UserI {
   created_at: number;
+  password: string;
 }
 
 export interface SearchParamsI {
