@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import cn from 'classnames';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
@@ -14,14 +14,16 @@ import { statuses, roles } from './helpers';
 import cls from './Users.module.scss';
 
 export const Table: React.FC = observer(() => {
-  const { users } = useContext(UsersContext);
+  const { users, updateUser } = useContext(UsersContext);
 
   const subjects = useSubjects();
 
-  const updateUserStatus = (userId: number, newStatus: string): void => {
-    // call updateUser() from store here
-    console.log(userId, newStatus);
-  };
+  const updateUserStatus = useCallback(
+    (userId: number, newStatus: string) => {
+      updateUser({ id: userId, is_active: JSON.parse(newStatus) });
+    },
+    [updateUser]
+  );
 
   return (
     <div className={cls.table}>
