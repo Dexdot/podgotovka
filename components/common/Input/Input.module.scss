@@ -18,7 +18,7 @@
   color: var(--color-black);
 
   &::placeholder {
-    color: #7a869a;
+    color: var(--color-gray);
   }
 }
 
@@ -59,7 +59,7 @@
   color: var(--color-black);
 
   &::placeholder {
-    color: #7a869a;
+    color: var(--color-gray);
   }
 
   &:disabled {

@@ -63,11 +63,11 @@
     }
 
     .react-datepicker__day--outside-month {
-      color: #7a869a;
+      color: var(--color-gray);
     }
 
     .react-datepicker__day--keyboard-selected {
-      background-color: #7a869a;
+      background-color: var(--color-gray);
       color: #fff;
     }
 
