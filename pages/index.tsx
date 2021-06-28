@@ -8,10 +8,6 @@ const Index: React.FC = () => {
     <div style={{ maxWidth: 400, padding: 24 }}>
       <ButtonLink href="/signin">Авторизация</ButtonLink>
       <br />
-      <ButtonLink href="/app/subjects/1/courses">
-        Курсы предмета с ID 1
-      </ButtonLink>
-      <br />
       <ButtonLink href="/app/courses/1">Курс с ID 1</ButtonLink>
     </div>
   );

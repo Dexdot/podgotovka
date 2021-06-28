@@ -52,6 +52,24 @@
   }
 }
 
+.edit_icon {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 20px;
+    height: 20px;
+    color: #7a869a;
+  }
+}
+
 .chevron_icon {
   margin-left: auto;
   display: flex;

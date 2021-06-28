@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { ChevronIcon } from '@/components/common/SectionCollapse/icons';
 import cls from './SubjectListItem.module.scss';
-import { SubjectIcon } from './Icons';
+import { EditIcon, SubjectIcon } from './Icons';
 
 type SubjectData = {
   id: number;
@@ -21,12 +21,14 @@ type Props = {
 
 export const SubjectListItem: React.FC<Props> = ({ subject }) => {
   const { id, name, direction, color } = subject;
+  const coursesHref = `/app/subjects/${id}/courses`;
+  const editHref = `/app/subjects/${id}`;
 
   return (
     <div className={cls.root} key={id}>
       <section>
-        <Link href={`/app/subjects/${id}`}>
-          <a href={`/app/subjects/${id}`} className={cls.link} />
+        <Link href={coursesHref}>
+          <a href={coursesHref} className={cls.link} />
         </Link>
 
         <div className={cls.inner}>
@@ -38,6 +40,12 @@ export const SubjectListItem: React.FC<Props> = ({ subject }) => {
             <p className={cls.text_header_title}>{name}</p>
             <p className={cls.text_header_subtitle}>{direction}</p>
           </div>
+
+          <Link href={editHref}>
+            <a href={editHref} className={cls.edit_icon}>
+              <EditIcon />
+            </a>
+          </Link>
 
           <div className={cls.chevron_icon}>
             <ChevronIcon />
