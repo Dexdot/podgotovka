@@ -26,6 +26,7 @@ export type CoursesFilters = {
   status?: CourseStatus;
 };
 
+// Not basic courses
 function getCourses(
   filters: CoursesFilters
 ): Promise<AxiosResponse<CourseI[]>> {
@@ -51,7 +52,6 @@ function getCourseTariff(
   return axios.get<CourseTariffI | null>(`${SERVICE_PATH}/${course_id}/tariff`);
 }
 
-// TODO: request data
 function updateCourseTariff(
   course_id: number,
   tariff: UpdateCourseTariffI
@@ -62,11 +62,21 @@ function updateCourseTariff(
   );
 }
 
+function updateCourseStatus(
+  course_id: number,
+  status: CourseStatus
+): Promise<AxiosResponse<CourseEditDetailI>> {
+  return axios.patch<CourseEditDetailI>(`${SERVICE_PATH}/${course_id}/status`, {
+    status
+  });
+}
+
 export const CoursesAPI = {
   createCourse,
   getCourses,
   getCourseDetail,
   getCourseTariff,
   updateCourse,
-  updateCourseTariff
+  updateCourseTariff,
+  updateCourseStatus
 };
