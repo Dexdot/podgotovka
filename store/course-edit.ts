@@ -87,8 +87,22 @@ export class CourseEditStore {
 
   handleCourseTariff = (tariff: CourseTariffI | null): void => {
     if (tariff) {
-      if (tariff?.levels) this.setLevels(tariff.levels);
       if (tariff?.options) this.setOptions(tariff.options);
+
+      if (tariff?.levels) {
+        this.setLevels(tariff.levels);
+
+        if (tariff?.level_prices) {
+          const prices = tariff?.level_prices;
+
+          const levelsWithPrice: LevelWithPriceI[] = tariff.levels.map((l) => {
+            const lvl = prices.find((lv) => lv.level_id === l.id);
+            const price = lvl ? lvl.price : 0;
+            return { ...l, price };
+          });
+          this.setLevelsWithPrice(levelsWithPrice);
+        }
+      }
     }
   };
 

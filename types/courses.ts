@@ -1,4 +1,4 @@
-import { LevelI, OptionI, TariffValueType } from './common';
+import { LevelI, LevelPriceI, OptionI, TariffValueType } from './common';
 import { SubjectI } from './subjects';
 
 export type CourseStatus = 'draft' | 'archive' | 'removed' | 'published';
@@ -26,12 +26,13 @@ export interface CourseEditDetailI {
 
 export interface CourseTariffI {
   levels?: LevelI[];
+  level_prices?: LevelPriceI[];
   options?: OptionI[];
   values?: TariffValueType[];
 }
 
 export interface UpdateCourseTariffI {
-  level_prices?: { level_id: number; price: number }[];
+  level_prices?: LevelPriceI[];
   values?: TariffValueType[];
 }
 
