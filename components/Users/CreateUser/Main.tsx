@@ -9,24 +9,17 @@ import { Input } from '@/components/common/Input/Input';
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 import { ImagePicker } from '@/components/common/ImagePicker/ImagePicker';
 
-import { CopyIcon } from './Icons';
+import { CopyIcon } from '../Icons';
 import { FormI } from './helpers';
 
-import cls from './User.module.scss';
+import cls from './CreateUser.module.scss';
 
 interface PropsI {
   form: FormikProps<FormI>;
-  photo: string;
   onFileLoad: (file: Blob | null) => void;
-  withPassword?: boolean;
 }
 
-export const Main: React.FC<PropsI> = ({
-  form,
-  photo,
-  onFileLoad,
-  withPassword = true
-}) => {
+export const Main: React.FC<PropsI> = ({ form, onFileLoad }) => {
   const subjects = useSubjects();
 
   return (
@@ -34,7 +27,10 @@ export const Main: React.FC<PropsI> = ({
       <h2>Основная информация</h2>
 
       <div className={cls.image_picker}>
-        <ImagePicker href={photo} onChange={onFileLoad} />
+        <ImagePicker
+          href={form.values.photo_link || ''}
+          onChange={onFileLoad}
+        />
       </div>
 
       <div className={cls.input}>
@@ -68,37 +64,33 @@ export const Main: React.FC<PropsI> = ({
         />
       </div>
 
-      {withPassword && (
-        <>
-          <div className={cls.br} />
+      <div className={cls.br} />
 
-          <h3>
-            Пароль для пользователя система генерирует автоматически.
-            <br />
-            Скопируйте и передайте логин и пароль нужному пользователю.
-          </h3>
+      <h3>
+        Пароль для пользователя система генерирует автоматически.
+        <br />
+        Скопируйте и передайте логин и пароль нужному пользователю.
+      </h3>
 
-          <div className={cls.pass}>
-            <Input
-              name="password"
-              placeholder="Пароль*"
-              value={form.values.password}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-              errorText={form.touched.password ? form.errors.password : ''}
-              disabled
-            />
-            <button
-              onClick={() => copyToClipboard(form.values.password)}
-              type="button"
-              className={cls.copy}
-            >
-              <CopyIcon />
-              <p>Скопировать пароль</p>
-            </button>
-          </div>
-        </>
-      )}
+      <div className={cls.pass}>
+        <Input
+          name="password"
+          placeholder="Пароль*"
+          value={form.values.password}
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          errorText={form.touched.password ? form.errors.password : ''}
+          disabled
+        />
+        <button
+          onClick={() => copyToClipboard(form.values.password)}
+          type="button"
+          className={cls.copy}
+        >
+          <CopyIcon />
+          <p>Скопировать пароль</p>
+        </button>
+      </div>
 
       <div className={cls.br} />
 

@@ -16,18 +16,23 @@ import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
 import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
 
+type CollapseType = 'direction' | 'info' | '';
+
 export const SubjectCreate: React.FC = () => {
   const router = useRouter();
 
   const [color, setColor] = useState<string>(COLORS.primary);
   const [name, setName] = useState<string>('');
 
-  const [isOpen, toggleOpen] = useState<boolean>(false);
-  const [isOpenSubject, toggleOpenSubject] = useState<boolean>(false);
+  const [collapse, setCollapse] = useState<CollapseType>('');
 
   const [directions] = useDirections();
   const [directionID, setDirectionID] = useState<DirectionType>('USE');
   const selectedDirection = directions.find((d) => d.id === directionID);
+
+  const toggleCollapse = (type: CollapseType): void => {
+    setCollapse(collapse === type ? '' : type);
+  };
 
   const isFormValid = useMemo(() => {
     if (!name || !color) {
@@ -64,9 +69,9 @@ export const SubjectCreate: React.FC = () => {
       </div>
 
       <SectionCollapse
-        isOpen={isOpenSubject}
+        isOpen={collapse === 'direction'}
         title="Направление"
-        onClick={() => toggleOpenSubject(!isOpenSubject)}
+        onClick={() => toggleCollapse('direction')}
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
@@ -83,8 +88,8 @@ export const SubjectCreate: React.FC = () => {
 
       <div className={cls.subject_create_section}>
         <SectionCollapse
-          isOpen={isOpen}
-          onClick={() => toggleOpen(!isOpen)}
+          isOpen={collapse === 'info'}
+          onClick={() => toggleCollapse('info')}
           title="Основная информация"
         >
           <SubjectEdit

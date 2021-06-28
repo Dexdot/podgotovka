@@ -93,11 +93,7 @@ export function ImagePicker({ href, onChange }: PropsI): JSX.Element {
           <ImageIcon />
         </div>
       )}
-      <Button
-        variant="secondary"
-        type="button"
-        onClick={() => ref.current?.click()}
-      >
+      <Button variant="grey" type="button" onClick={() => ref.current?.click()}>
         Добавить фото
       </Button>
       <CropModal

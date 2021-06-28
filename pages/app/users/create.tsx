@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CreateUser } from '@/components/Users/User/CreateUser';
+import { CreateUser } from '@/components/Users/CreateUser/CreateUser';
 
 const UserPage: React.FC = () => {
   return <CreateUser />;

@@ -6,7 +6,7 @@ import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 import { FormI } from './helpers';
 
 import { roles } from '../helpers';
-import cls from './User.module.scss';
+import cls from './CreateUser.module.scss';
 
 interface PropsI {
   onCheckRole: (role: string) => void;
