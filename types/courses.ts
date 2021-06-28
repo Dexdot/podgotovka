@@ -30,6 +30,11 @@ export interface CourseTariffI {
   values?: TariffValueType[];
 }
 
+export interface UpdateCourseTariffI {
+  level_prices?: { level_id: number; price: number }[];
+  values?: TariffValueType[];
+}
+
 export interface UpdateCourseDataI {
   subject_id?: number;
   name?: string;

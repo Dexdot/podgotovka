@@ -35,7 +35,6 @@ export class AuthStore {
   remove(): void {
     this.auth = undefined;
     PodgotovkaAPI.updateToken('');
-    window.localStorage.removeItem(AUTH_NAME);
     deleteCookie(AUTH_NAME, cookieOptions);
   }
 }

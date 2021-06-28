@@ -5,7 +5,8 @@ import {
   CourseEditDetailI,
   CourseI,
   CourseTariffI,
-  UpdateCourseDataI
+  UpdateCourseDataI,
+  UpdateCourseTariffI
 } from '@/types/courses';
 
 const { axios } = PodgotovkaAPI;
@@ -40,7 +41,7 @@ function getCourseTariff(
 // TODO: request data
 function updateCourseTariff(
   course_id: number,
-  tariff: any
+  tariff: UpdateCourseTariffI
 ): Promise<AxiosResponse<CourseTariffI>> {
   return axios.patch<CourseTariffI>(
     `${SERVICE_PATH}/${course_id}/tariff`,

@@ -5,7 +5,8 @@ import type { OutputBlockData } from '@editorjs/editorjs';
 import {
   CourseEditDetailI,
   CourseTariffI,
-  UpdateCourseDataI
+  UpdateCourseDataI,
+  UpdateCourseTariffI
 } from '@/types/courses';
 import { SubjectI } from '@/types/subjects';
 import {
@@ -91,8 +92,12 @@ export class CourseEditStore {
     }
   };
 
-  prepareData = (): void => {
-    const courseData: UpdateCourseDataI = {
+  prepareData = (): {
+    course: UpdateCourseDataI;
+    tariff: UpdateCourseTariffI;
+  } => {
+    // Course
+    const course: UpdateCourseDataI = {
       name: this.name || '',
       description: this.description ? JSON.stringify(this.description) : '',
       time_start: this.dateStart.getTime() / 1000,
@@ -100,8 +105,20 @@ export class CourseEditStore {
     };
 
     if (this.subject) {
-      courseData.subject_id = this.subject.id;
+      course.subject_id = this.subject.id;
     }
+
+    // Tariff
+    const level_prices = this.levelsWithPrice
+      ? this.levelsWithPrice.map(({ id, price }) => ({ level_id: id, price }))
+      : [];
+
+    const tariff: UpdateCourseTariffI = {
+      level_prices,
+      values: [...this.values]
+    };
+
+    return { course, tariff };
   };
 
   setSubject = (v: SubjectI): void => {
