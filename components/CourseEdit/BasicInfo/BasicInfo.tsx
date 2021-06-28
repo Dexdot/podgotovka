@@ -42,7 +42,7 @@ export const BasicInfo: React.FC = observer(() => {
 
         <div className={cls.period_row}>
           <DateTimePicker
-            showTimeInput
+            dateFormat="dd.MM.yyyy"
             date={dateStart}
             onChange={(d) => {
               if (d) setDateStart(d);
@@ -50,7 +50,7 @@ export const BasicInfo: React.FC = observer(() => {
           />
 
           <DateTimePicker
-            showTimeInput
+            dateFormat="dd.MM.yyyy"
             date={dateFinish}
             onChange={(d) => {
               if (d) setDateFinish(d);

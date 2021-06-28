@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 
-import { useUserStatuses } from '@/api/hooks/useUserStatuses';
-import { useRoles } from '@/api/hooks/useRoles';
-import { useSubjects } from '@/api/hooks/useSubjects';
+import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 
 import { UsersContext } from '@/store/users';
 
@@ -12,14 +10,23 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { Input } from '@/components/common/Input/Input';
 import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
 
+import { statuses, roles } from './helpers';
 import cls from './Users.module.scss';
 
 export const Search: React.FC = () => {
   const { fetchUsers } = useContext(UsersContext);
 
-  const [statuses] = useUserStatuses();
-  const [subjects] = useSubjects();
-  const [roles] = useRoles();
+  const subjects = useSubjects();
+
+  const subjectOptions = useMemo<DropdownItem[]>(() => {
+    if (subjects) {
+      return subjects.map((item) => ({
+        id: item.id.toString(),
+        text: item.name
+      }));
+    }
+    return [];
+  }, [subjects]);
 
   const [search, setSearch] = useState<string>('');
   const debouncedSearch = useDebounce(search, 300);
@@ -29,10 +36,10 @@ export const Search: React.FC = () => {
 
   useEffect(() => {
     fetchUsers({
-      search,
-      statusId: status?.id,
-      subjectId: subject?.id,
-      roleId: role?.id
+      name_like: debouncedSearch,
+      is_active: status ? JSON.parse(status.id) : undefined,
+      subject_id: subject ? Number(subject.id) : undefined,
+      role: role?.id
     });
   }, [debouncedSearch, status, subject, role]);
 
@@ -57,7 +64,7 @@ export const Search: React.FC = () => {
       </div>
       <div className={cn(cls.input)}>
         <Dropdown
-          items={subjects}
+          items={subjectOptions}
           value={subject}
           onChange={setSubject}
           placeholder="Предмет"

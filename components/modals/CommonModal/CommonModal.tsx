@@ -22,10 +22,12 @@ export const CommonModal: React.FC<CommonModalProps> = ({
   rootClass,
   containerClass
 }) => {
-  const root = useMemo(
-    () => document.querySelector('#modal-root') as Element,
-    []
-  );
+  const root = useMemo(() => {
+    if (process.browser) {
+      return document.querySelector('#modal-root') as Element;
+    }
+    return null;
+  }, []);
 
   const [waitAnimation, setWaitAnimation] = useState<boolean>(isOpen);
 
@@ -59,7 +61,7 @@ export const CommonModal: React.FC<CommonModalProps> = ({
     };
   }, [isOpen]);
 
-  return isOpen || waitAnimation
+  return root && (isOpen || waitAnimation)
     ? createPortal(
         <section
           className={cn(cls.root, rootClass)}

@@ -30,8 +30,7 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       helpers.setSubmitting(false);
       helpers.resetForm();
 
-      // TODO: Change path
-      router.push('/');
+      router.push('/app');
     } catch (error) {
       showAlert({ error });
       helpers.setSubmitting(false);
@@ -51,12 +50,12 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       <h2 className={cls.title}>Авторизация</h2>
       <Input
         type="text"
-        name="login"
+        name="username"
         placeholder="Логин"
-        value={form.values.login}
+        value={form.values.username}
         onChange={form.handleChange}
         onBlur={form.handleBlur}
-        errorText={form.touched.login ? form.errors.login : ''}
+        errorText={form.touched.username ? form.errors.username : ''}
       />
       <div className={cls.margin} />
       <Input

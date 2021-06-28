@@ -19,20 +19,24 @@ export const Subjects: React.FC<Props> = observer(({ subjects }) => {
       <p>Выберите предмет курса</p>
 
       <ul>
-        {subjects.map((s) => (
-          <li key={s.id}>
-            <Checkbox
-              id={String(s.id)}
-              checked={s.id === subject?.id}
-              onChange={(e) => {
-                if (e.currentTarget.checked) {
-                  setSubject(s);
-                }
-              }}
-            />
-            <label htmlFor={String(s.id)}>{s.name}</label>
-          </li>
-        ))}
+        {subjects.map((s) => {
+          const id = `subject-select-${s.id}`;
+
+          return (
+            <li key={s.id}>
+              <Checkbox
+                id={id}
+                checked={s.id === subject?.id}
+                onChange={(e) => {
+                  if (e.currentTarget.checked) {
+                    setSubject(s);
+                  }
+                }}
+              />
+              <label htmlFor={id}>{s.name}</label>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

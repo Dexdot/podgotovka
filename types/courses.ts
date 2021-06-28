@@ -3,31 +3,37 @@ import { SubjectI } from './subjects';
 
 export type CourseStatus = 'draft' | 'archive' | 'removed' | 'published';
 
-interface CourseBaseI {
+// TODO: Add name, photo_link on backend
+export interface CourseI {
   id: number;
-  name: string;
-  description: string;
-  time_start: number;
-  time_finish: number;
-}
-
-export interface CourseI extends CourseBaseI {
+  name?: string;
+  description?: string;
+  photo_link?: string;
+  time_start?: number;
+  time_finish?: number;
   status: CourseStatus;
 }
 
-export interface CourseEditI extends CourseBaseI {
-  subject_id: number;
-  tariff: {
-    values: TariffValueType[];
-  };
+export interface CourseEditDetailI {
+  id: number;
+  name?: string;
+  description?: string;
+  time_start?: number;
+  time_finish?: number;
+  status: CourseStatus;
+  subject: SubjectI;
 }
 
-export interface CourseEditDetailI extends CourseBaseI {
-  // TODO: Add id on backend
-  subject: SubjectI;
-  tariff: {
-    levels: LevelI[];
-    options: OptionI[];
-    values: TariffValueType[];
-  };
+export interface CourseTariffI {
+  levels?: LevelI[];
+  options?: OptionI[];
+  values?: TariffValueType[];
+}
+
+export interface UpdateCourseDataI {
+  subject_id?: number;
+  name?: string;
+  description?: string;
+  time_start?: number;
+  time_finish?: number;
 }

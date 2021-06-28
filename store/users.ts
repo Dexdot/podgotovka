@@ -1,91 +1,109 @@
 import { createContext } from 'react';
-import { makeAutoObservable } from 'mobx';
-import { UserI, NewUserI, UpdateUserI, SearchParamsI } from '@/types/users';
-// import { UsersAPI } from '@/api/users';
-// import { showAlert } from '@/utils/network';
+import { action, makeAutoObservable } from 'mobx';
+import {
+  UserI,
+  NewUserI,
+  UpdateUserI,
+  SearchParamsI,
+  UserDetailsI
+} from '@/types/users';
+import { UsersAPI } from '@/api/users';
+import { showAlert } from '@/utils/network';
 
 export class UsersStore {
   public users: UserI[] = [];
+
+  public userDetails: UserDetailsI = {} as UserDetailsI;
 
   constructor() {
     makeAutoObservable(this);
   }
 
+  updateUsers = (newUsers: UserI[]): void => {
+    this.users = newUsers;
+  };
+
+  updateUserDetails = (newUserDetails: UserDetailsI): void => {
+    this.userDetails = newUserDetails;
+  };
+
   fetchUsers = (searchParams: SearchParamsI): void => {
-    // UsersAPI.fetchUsers(searchParams).then(
-    //   action('fetchSuccess', (newUsers) => {
-    //     this.users = newUsers.data;
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
-    console.log(searchParams);
-    this.users = [
-      {
-        id: 1,
-        name: 'Иванов Иван',
-        login: 'ivanov',
-        photo_link: '',
-        subjectId: '1',
-        roleId: '1',
-        statusId: '1'
-      },
-      {
-        id: 2,
-        name: 'Петров Петр',
-        login: 'petrov',
-        photo_link: '',
-        subjectId: '2',
-        roleId: '2',
-        statusId: '2'
-      }
-    ];
+    UsersAPI.fetchUsers(searchParams).then(
+      action('fetchSuccess', ({ data }) => {
+        this.updateUsers(data);
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
   };
 
-  addUser = (newUser: NewUserI): void => {
-    console.log(newUser);
-
-    // UsersAPI.addUser(newUser).then(
-    //   action('fetchSuccess', (user) => {
-    //     const { pass, vk, ...userSimple } = user.data;
-    //     this.users = [...this.users, userSimple];
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
+  fetchUserDetails = (id: number): void => {
+    UsersAPI.fetchUserDetails(id).then(
+      action('fetchSuccess', ({ data }) => {
+        this.updateUserDetails(data);
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
   };
 
-  updateUser = (someUser: UpdateUserI): void => {
-    console.log(someUser);
-
-    // UsersAPI.updateUser(someUser).then(
-    //   action('fetchSuccess', (user) => {
-    //     this.users = this.users.map((item) => {
-    //       if (item.id === user.data.id) {
-    //         return user.data;
-    //       }
-    //       return item;
-    //     });
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
+  createUser = (newUser: NewUserI): Promise<void> => {
+    return new Promise<void>((res, rej) => {
+      UsersAPI.createUser(newUser).then(
+        action('fetchSuccess', ({ data }) => {
+          this.updateUsers([...this.users, data]);
+          res();
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          rej();
+        })
+      );
+    });
   };
 
-  removeUser = (userId: number): void => {
-    console.log(userId);
+  updateUser = (updatedUser: UpdateUserI): Promise<void> => {
+    return new Promise<void>((res, rej) => {
+      UsersAPI.updateUser(updatedUser).then(
+        action('fetchSuccess', ({ data }) => {
+          const newUsers = this.users.map((item) => {
+            if (item.id === data.id) {
+              return data;
+            }
+            return item;
+          });
+          this.updateUsers(newUsers);
+          res();
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          rej();
+        })
+      );
+    });
+  };
 
-    // UsersAPI.removeUser(userId).then(
-    //   action('fetchSuccess', () => {
-    //     this.users = this.users.filter((user) => user.id !== userId);
-    //   }),
-    //   action('fetchError', (error) => {
-    //     showAlert({ error });
-    //   })
-    // );
+  resetUserPassword = ({
+    id,
+    password
+  }: {
+    id: number;
+    password: string;
+  }): void => {
+    UsersAPI.resetUserPassword(id, password).then(
+      action('fetchSuccess', ({ data }) => {
+        if (data) {
+          showAlert({ text: 'Пароль был успешно изменен' });
+        } else {
+          showAlert({ text: 'Не удалось изменить пароль' });
+        }
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
   };
 }
 

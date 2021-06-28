@@ -3,10 +3,10 @@ import { observer } from 'mobx-react-lite';
 
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { Button } from '@/components/common/Button/Button';
+import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Tabs } from '@/components/common/Tabs/Tabs';
 
 import { TariffLevelType } from '@/types/common';
-import { SubjectI } from '@/types/subjects';
 import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 import { CourseEditContext } from '@/store/course-edit';
 
@@ -17,104 +17,104 @@ import { BasicInfo } from './BasicInfo/BasicInfo';
 import { Tariff } from './Tariff/Tariff';
 
 type Props = {
-  subjectID: number;
-  isCreate?: boolean;
+  courseID: number;
 };
 
-export const CourseEdit: React.FC<Props> = observer(
-  ({ subjectID, isCreate }) => {
-    // Collapse
-    const [collapse, setCollapse] = useState<'basic' | 'tariff' | 'subject'>(
-      'basic'
-    );
+type CollapseType = 'basic' | 'tariff' | 'subject' | '';
 
-    // Store
-    const store = useContext(CourseEditContext);
+export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
+  // Collapse
+  const [collapse, setCollapse] = useState<CollapseType>('basic');
+  const toggleCollapse = (type: CollapseType) => {
+    setCollapse(collapse === type ? '' : type);
+  };
 
-    // Subjects
-    const subjects = useSubjects();
-    const { subject, setSubject } = store;
+  // Store
+  const store = useContext(CourseEditContext);
+  const { name, fetchCourse } = store;
 
-    useEffect(() => {
-      if (isCreate && subjects) {
-        const initialSubject = subjects.find(
-          (s) => s.id === subjectID
-        ) as SubjectI;
+  useEffect(() => {
+    if (courseID) {
+      fetchCourse(courseID);
+    }
+  }, [courseID, fetchCourse]);
 
-        setSubject(initialSubject);
-      }
-    }, [subjects, isCreate, subjectID, setSubject]);
+  // Subjects
+  const subjects = useSubjects();
+  const { subject } = store;
 
-    // Tariff
-    const tabs = [
-      { id: 'many', text: 'Несколько уровней' },
-      { id: 'one', text: 'Один уровень' }
-    ];
-    const [selectedTab, selectTab] = useState<TariffLevelType>();
-    const { levels: courseLevels } = store;
+  // Tariff
+  const tabs = [
+    { id: 'many', text: 'Несколько уровней' },
+    { id: 'one', text: 'Один уровень' }
+  ];
+  const [selectedTab, selectTab] = useState<TariffLevelType>();
+  const { levels: courseLevels } = store;
 
-    useEffect(() => {
-      if (isCreate) {
-        selectTab('many');
-      }
+  useEffect(() => {
+    if (courseLevels) {
+      selectTab(courseLevels.length > 1 ? 'many' : 'one');
+    } else {
+      selectTab('many');
+    }
+  }, [courseLevels]);
 
-      if (courseLevels) {
-        selectTab(courseLevels.length > 1 ? 'many' : 'one');
-      }
-    }, [isCreate, courseLevels]);
+  const isTariffOpen = collapse === 'tariff';
 
-    const isTariffOpen = collapse === 'tariff';
-
-    return (
-      <div className={cls.root}>
-        <header className={cls.header}>
-          <h1 className={cls.title}>Создание курса</h1>
+  return (
+    <div className={cls.root}>
+      <header className={cls.header}>
+        <h1 className={cls.title}>{name || 'Новый курс'}</h1>
+        <div className={cls.buttons}>
+          <ButtonLink href="/app/courses" variant="grey">
+            Отмена
+          </ButtonLink>
           <Button disabled>Сохранить</Button>
-        </header>
+        </div>
+      </header>
 
-        <SectionCollapse
-          isOpen={collapse === 'subject'}
-          onClick={() => setCollapse('subject')}
-          title="Предмет"
-          headerChildren={
-            subject ? (
-              <div className={cls.subject}>
-                <SubjectIcon />
-                {subject.name}
-              </div>
-            ) : null
-          }
-        >
-          {subjects && subject && <Subjects subjects={subjects} />}
-        </SectionCollapse>
+      <SectionCollapse
+        isOpen={collapse === 'subject'}
+        onClick={() => toggleCollapse('subject')}
+        title="Предмет"
+        headerChildren={
+          subject ? (
+            <div className={cls.subject}>
+              <SubjectIcon />
+              {subject.name}
+            </div>
+          ) : null
+        }
+      >
+        {subjects && subject && <Subjects subjects={subjects} />}
+      </SectionCollapse>
 
-        <SectionCollapse
-          isOpen={collapse === 'basic'}
-          onClick={() => setCollapse('basic')}
-          title="Основная информация"
-        >
-          <BasicInfo />
-        </SectionCollapse>
+      <SectionCollapse
+        isOpen={collapse === 'basic'}
+        onClick={() => toggleCollapse('basic')}
+        title="Основная информация"
+      >
+        <BasicInfo />
+      </SectionCollapse>
 
-        <SectionCollapse
-          isOpen={isTariffOpen}
-          onClick={() => setCollapse('tariff')}
-          title="Тарифы"
-          headerChildren={
-            isTariffOpen && selectedTab ? (
-              <div className={cls.tabs}>
-                <Tabs
-                  tabs={tabs}
-                  activeTab={selectedTab}
-                  onClick={(v) => selectTab(v as TariffLevelType)}
-                />
-              </div>
-            ) : null
-          }
-        >
-          {isTariffOpen && selectedTab && <Tariff type={selectedTab} />}
-        </SectionCollapse>
-      </div>
-    );
-  }
-);
+      <SectionCollapse
+        isOpen={isTariffOpen}
+        onClick={() => toggleCollapse('tariff')}
+        title="Тарифы"
+        headerChildren={
+          isTariffOpen && selectedTab ? (
+            <div className={cls.tabs}>
+              <Tabs
+                tabs={tabs}
+                activeTab={selectedTab}
+                onClick={(v) => selectTab(v as TariffLevelType)}
+              />
+            </div>
+          ) : null
+        }
+      >
+        {isTariffOpen && selectedTab && <Tariff type={selectedTab} />}
+      </SectionCollapse>
+    </div>
+  );
+});

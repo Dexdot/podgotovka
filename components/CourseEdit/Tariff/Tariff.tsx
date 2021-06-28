@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
+import { observer } from 'mobx-react-lite';
 
 import { TariffLevelType } from '@/types/common';
 import { useLevels } from '@/api/hooks/useLevels';
+import { CourseEditContext } from '@/store/course-edit';
 
 import cls from './Tariff.module.scss';
 import { Levels } from './Levels';
@@ -11,19 +13,24 @@ type Props = {
   type: TariffLevelType;
 };
 
-export const Tariff: React.FC<Props> = ({ type }) => {
-  const isMany = type === 'many';
+export const Tariff: React.FC<Props> = observer(({ type }) => {
+  const { levelsWithPrice } = useContext(CourseEditContext);
   const levels = useLevels();
-  const levelsByType = isMany ? levels : levels?.slice(0, 1);
+
+  const isMany = useMemo(() => type === 'many', [type]);
+  const levelsByType = useMemo(
+    () => (isMany ? levels : levels?.slice(0, 1)),
+    [isMany, levels]
+  );
 
   return (
     <div className={cls.root}>
       {levelsByType && (
         <>
           <Levels type={type} levels={levelsByType} />
-          <Options />
+          {levelsWithPrice && levelsWithPrice.length > 0 && <Options />}
         </>
       )}
     </div>
   );
-};
+});

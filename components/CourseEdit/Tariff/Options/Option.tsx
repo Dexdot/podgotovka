@@ -20,9 +20,14 @@ type Props = {
 
 export const Option: React.FC<Props> = observer(
   ({ option, dragHandleProps }) => {
-    const { values, setOptionValue } = useContext(CourseEditContext);
+    const { values, setOptionValue, removeOption, levelsWithPrice } =
+      useContext(CourseEditContext);
     const optionID = option.id;
-    const optionValues = values.filter((v) => v.option_id === optionID);
+    const valuesByLevels =
+      levelsWithPrice && levelsWithPrice.length === 1
+        ? values.filter((v) => v.level_id === levelsWithPrice[0].id)
+        : values;
+    const optionValues = valuesByLevels.filter((v) => v.option_id === optionID);
 
     return (
       <div className={cls.option}>
@@ -30,7 +35,11 @@ export const Option: React.FC<Props> = observer(
           <DragIcon />
         </div>
 
-        <button className={cls.remove} type="button">
+        <button
+          className={cls.remove}
+          type="button"
+          onClick={() => removeOption(optionID)}
+        >
           <RemoveIcon />
         </button>
 
@@ -65,7 +74,7 @@ export const Option: React.FC<Props> = observer(
 
                 {option.type === 'boolean' && (
                   <Checkbox
-                    id={`${option.id}${levelID}`}
+                    id={`tariff-option-${option.id}${levelID}`}
                     checked={v.value as boolean}
                     onChange={(e) => setOptionValue(e.currentTarget.checked, v)}
                   />

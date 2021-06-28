@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 
 import {
   UserI,
-  UserDetailI,
+  UserDetailsI,
   SearchParamsI,
   NewUserI,
   UpdateUserI
@@ -10,47 +10,45 @@ import {
 import { PodgotovkaAPI } from '@/api/instance';
 
 const { axios } = PodgotovkaAPI;
-const SERVICE_PATH = '/core/v1';
+const SERVICE_PATH = '/core/v1/accounts';
 
 export function fetchUsers(
   searchParams: SearchParamsI
 ): Promise<AxiosResponse<UserI[]>> {
-  return axios.get<UserI[]>(`${SERVICE_PATH}/users`, {
+  return axios.get<UserI[]>(`${SERVICE_PATH}`, {
     params: { ...searchParams }
   });
 }
 
 export function fetchUserDetails(
-  userId: number
-): Promise<AxiosResponse<UserDetailI>> {
-  return axios.get<UserDetailI>(`${SERVICE_PATH}/users/${userId}`);
+  id: number
+): Promise<AxiosResponse<UserDetailsI>> {
+  return axios.get<UserDetailsI>(`${SERVICE_PATH}/${id}`);
 }
 
-export function addUser(data: NewUserI): Promise<AxiosResponse<UserDetailI>> {
-  return axios.post<UserDetailI>(
-    `${SERVICE_PATH}/users/add`,
-    JSON.stringify(data)
-  );
+export function createUser(data: NewUserI): Promise<AxiosResponse<UserI>> {
+  return axios.post<UserI>(`${SERVICE_PATH}`, data);
 }
 
-export function updateUser(
-  data: UpdateUserI
-): Promise<AxiosResponse<UserDetailI>> {
+export function updateUser(data: UpdateUserI): Promise<AxiosResponse<UserI>> {
   const { id, ...form } = data;
-  return axios.patch<UserDetailI>(
-    `${SERVICE_PATH}/users/${id}`,
-    JSON.stringify(form)
-  );
+  return axios.patch<UserI>(`${SERVICE_PATH}/${id}`, form);
 }
 
-export function removeUser(userId: number): Promise<AxiosResponse<boolean>> {
-  return axios.delete<boolean>(`${SERVICE_PATH}/users/${userId}`);
+export function resetUserPassword(
+  id: number,
+  password: string
+): Promise<AxiosResponse<{ result: boolean }>> {
+  return axios.patch<{ result: boolean }>(
+    `${SERVICE_PATH}/${id}/reset-password`,
+    password
+  );
 }
 
 export const UsersAPI = {
   fetchUsers,
   fetchUserDetails,
-  addUser,
+  createUser,
   updateUser,
-  removeUser
+  resetUserPassword
 };

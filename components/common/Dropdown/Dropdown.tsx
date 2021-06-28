@@ -16,6 +16,7 @@ type Props = {
   items: DropdownItem[];
   value: DropdownItem | null;
   onChange: (item: DropdownItem) => void;
+  disabled?: boolean;
 };
 
 export const Dropdown: React.FC<Props> = ({
@@ -23,7 +24,8 @@ export const Dropdown: React.FC<Props> = ({
   placeholder,
   value,
   items,
-  onChange
+  onChange,
+  disabled
 }) => {
   const rootRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
@@ -48,6 +50,7 @@ export const Dropdown: React.FC<Props> = ({
         })}
         type="button"
         onClick={() => setOpen(!isOpen)}
+        disabled={disabled}
       >
         {beforeText}
         {showPlaceholder ? placeholder : value?.text}

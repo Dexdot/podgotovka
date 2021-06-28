@@ -1,8 +1,12 @@
 import { createContext } from 'react';
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { CourseEditDetailI } from '@/types/courses';
+import {
+  CourseEditDetailI,
+  CourseTariffI,
+  UpdateCourseDataI
+} from '@/types/courses';
 import { SubjectI } from '@/types/subjects';
 import {
   LevelI,
@@ -10,8 +14,11 @@ import {
   OptionValueType,
   TariffValueType
 } from '@/types/common';
+import { CoursesAPI } from '@/api/courses';
+import { showAlert } from '@/utils/network';
 
 const now = new Date();
+now.setHours(0, 0, 0, 0);
 
 interface LevelWithPriceI extends LevelI {
   price: number;
@@ -42,11 +49,31 @@ export class CourseEditStore {
     makeAutoObservable(this);
   }
 
-  handleData = (data: CourseEditDetailI): void => {
+  fetchCourse = (courseID: number): void => {
+    CoursesAPI.getCourseDetail(courseID).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseData(data);
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
+
+    CoursesAPI.getCourseTariff(courseID).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseTariff(data);
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+      })
+    );
+  };
+
+  handleCourseData = (data: CourseEditDetailI): void => {
     if (data) {
       this.courseData = data;
       this.setSubject(data.subject);
-      this.setName(data.name);
+      this.setName(data.name || '');
       this.setDescription(data.description ? JSON.parse(data.description) : []);
       this.setDateStart(
         data.time_start ? new Date(data.time_start * 1000) : now
@@ -54,12 +81,28 @@ export class CourseEditStore {
       this.setDateFinish(
         data.time_finish ? new Date(data.time_finish * 1000) : now
       );
-      this.setLevels(data.tariff.levels);
-      this.setOptions(data.tariff.options);
     }
   };
 
-  // prepareData = (data: CourseEditDetailI): CourseEditI => {};
+  handleCourseTariff = (tariff: CourseTariffI | null): void => {
+    if (tariff) {
+      if (tariff?.levels) this.setLevels(tariff.levels);
+      if (tariff?.options) this.setOptions(tariff.options);
+    }
+  };
+
+  prepareData = (): void => {
+    const courseData: UpdateCourseDataI = {
+      name: this.name || '',
+      description: this.description ? JSON.stringify(this.description) : '',
+      time_start: this.dateStart.getTime() / 1000,
+      time_finish: this.dateFinish.getTime() / 1000
+    };
+
+    if (this.subject) {
+      courseData.subject_id = this.subject.id;
+    }
+  };
 
   setSubject = (v: SubjectI): void => {
     this.subject = v;
@@ -104,8 +147,39 @@ export class CourseEditStore {
     this.options = [...v];
   };
 
+  addOption = (option: OptionI): void => {
+    this.options = [...this.options, option];
+
+    if (this.levelsWithPrice) {
+      const levelsIDs = this.levelsWithPrice.map((l) => l.id);
+      let value: OptionValueType = '';
+
+      if (option.type === 'numeric') {
+        value = 0;
+      }
+
+      if (option.type === 'boolean') {
+        value = false;
+      }
+
+      const newValues: TariffValueType[] = levelsIDs.map((level_id) => {
+        return { level_id, option_id: option.id, value };
+      });
+      this.addValues(newValues);
+    }
+  };
+
+  removeOption = (optionID: number): void => {
+    this.options = [...this.options.filter((o) => o.id !== optionID)];
+    this.values = [...this.values.filter((v) => v.option_id !== optionID)];
+  };
+
   setValues = (v: TariffValueType[]): void => {
     this.values = [...v];
+  };
+
+  addValues = (v: TariffValueType[]): void => {
+    this.values = [...this.values, ...v];
   };
 
   setOptionValue = (
