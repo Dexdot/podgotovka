@@ -66,7 +66,12 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
       <header className={cls.header}>
         <h1 className={cls.title}>{name || 'Новый курс'}</h1>
         <div className={cls.buttons}>
-          <ButtonLink href="/app/courses" variant="grey">
+          <ButtonLink
+            href={
+              subject ? `/app/subjects/${subject.id}/courses` : '/app/subjects'
+            }
+            variant="grey"
+          >
             Отмена
           </ButtonLink>
           <Button disabled>Сохранить</Button>

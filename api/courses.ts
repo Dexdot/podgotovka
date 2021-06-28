@@ -13,6 +13,12 @@ import {
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/courses';
 
+function createCourse(
+  subject_id: number
+): Promise<AxiosResponse<{ id: number }>> {
+  return axios.post<{ id: number }>(`${SERVICE_PATH}`, { subject_id });
+}
+
 export type CoursesFilters = {
   limit?: number;
   skip?: number;
@@ -57,6 +63,7 @@ function updateCourseTariff(
 }
 
 export const CoursesAPI = {
+  createCourse,
   getCourses,
   getCourseDetail,
   getCourseTariff,
