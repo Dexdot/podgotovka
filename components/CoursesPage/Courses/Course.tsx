@@ -9,6 +9,8 @@ import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
 
 import { CourseI, CourseStatus } from '@/types/courses';
 import { getDateText } from '@/utils/date';
+import { CoursesAPI } from '@/api/courses';
+import { showAlert } from '@/utils/network';
 
 import cls from './Course.module.scss';
 import { CalendarIcon, CopyIcon, EditIcon } from './icons';
@@ -43,9 +45,19 @@ export const Course: React.FC<Props> = ({ course }) => {
     return getStatusColor(statusID);
   }, [statusUI]);
 
-  const onStatusChange = (v: DropdownItem) => {
+  const [isLoading, setLoading] = useState(false);
+  const onStatusChange = async (v: DropdownItem) => {
     const newStatus = v.id as CourseStatus;
-    setStatus(newStatus);
+
+    setLoading(true);
+    try {
+      await CoursesAPI.updateCourseStatus(course.id, newStatus);
+      setStatus(newStatus);
+    } catch (error) {
+      showAlert({ error });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,6 +104,7 @@ export const Course: React.FC<Props> = ({ course }) => {
         <li>
           {statusUI && (
             <Dropdown
+              disabled={isLoading}
               beforeText={
                 <span
                   style={{ background: statusColor }}

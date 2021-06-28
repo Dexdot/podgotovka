@@ -65,8 +65,8 @@ function updateCourseTariff(
 function updateCourseStatus(
   course_id: number,
   status: CourseStatus
-): Promise<AxiosResponse<CourseEditDetailI>> {
-  return axios.patch<CourseEditDetailI>(`${SERVICE_PATH}/${course_id}/status`, {
+): Promise<AxiosResponse<unknown>> {
+  return axios.patch<unknown>(`${SERVICE_PATH}/${course_id}/status`, {
     status
   });
 }
