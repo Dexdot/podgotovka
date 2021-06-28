@@ -16,7 +16,7 @@ import { SubjectIcon } from './Icons';
 import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
 import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
-type CollapseType = 'info' | 'vector' | null;
+type CollapseType = 'direction' | 'info' | '';
 
 export const SubjectCreate: React.FC = () => {
   const router = useRouter();
@@ -24,24 +24,14 @@ export const SubjectCreate: React.FC = () => {
   const [color, setColor] = useState<string>(COLORS.primary);
   const [name, setName] = useState<string>('');
 
-  const [isOpen, toggleOpen] = useState<CollapseType>(null);
+  const [collapse, setCollapse] = useState<CollapseType>('');
 
   const [directions] = useDirections();
   const [directionID, setDirectionID] = useState<DirectionType>('USE');
   const selectedDirection = directions.find((d) => d.id === directionID);
 
-  const openCollapse = (str: string): void => {
-    if (str === isOpen) {
-      toggleOpen(null);
-    } else {
-      if (str === 'vector') {
-        toggleOpen('vector');
-      }
-
-      if (str === 'info') {
-        toggleOpen('info');
-      }
-    }
+  const toggleCollapse = (type: CollapseType): void => {
+    setCollapse(collapse === type ? '' : type);
   };
 
   const isFormValid = useMemo(() => {
@@ -79,9 +69,9 @@ export const SubjectCreate: React.FC = () => {
       </div>
 
       <SectionCollapse
-        isOpen={isOpen === 'vector'}
+        isOpen={collapse === 'direction'}
         title="Направление"
-        onClick={() => openCollapse('vector')}
+        onClick={() => toggleCollapse('direction')}
         headerChildren={
           <div className={cls.selected_value}>
             <SubjectIcon />
@@ -98,8 +88,8 @@ export const SubjectCreate: React.FC = () => {
 
       <div className={cls.subject_create_section}>
         <SectionCollapse
-          isOpen={isOpen === 'info'}
-          onClick={() => openCollapse('info')}
+          isOpen={collapse === 'info'}
+          onClick={() => toggleCollapse('info')}
           title="Основная информация"
         >
           <SubjectEdit
