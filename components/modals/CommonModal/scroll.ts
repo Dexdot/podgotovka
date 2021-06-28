@@ -1,7 +1,7 @@
 let top = 0;
 let lock = false;
 
-const disable = () => {
+const disable = (): void => {
   if (lock) return;
   lock = true;
 
@@ -12,7 +12,7 @@ const disable = () => {
   body.classList.add('no-scroll');
 };
 
-const enable = () => {
+const enable = (): void => {
   if (!lock) return;
   lock = false;
 

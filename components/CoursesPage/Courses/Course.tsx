@@ -20,7 +20,6 @@ type Props = {
   course: CourseI;
 };
 
-// TODO: Add API
 export const Course: React.FC<Props> = ({ course }) => {
   const editHref = `/app/courses/${course.id}`;
 
@@ -90,6 +89,7 @@ export const Course: React.FC<Props> = ({ course }) => {
 
       <ul className={cls.tools}>
         <li>
+          {/* TODO: Duplicate course */}
           <button className={cls.tool_btn} type="button">
             <CopyIcon />
           </button>
