@@ -1,3 +1,4 @@
+import { DirectionType } from '@/types/common';
 import { CourseStatus } from '@/types/courses';
 
 const isDevBuild = process.env.BUILD_ENV === 'development';
@@ -24,3 +25,8 @@ export const OPTION_TYPES = [
   { name: 'Число', type: 'numeric' },
   { name: 'Да или нет', type: 'boolean' }
 ];
+
+export const DIRECTIONS_MAP: Record<DirectionType, string> = {
+  USE: 'ЕГЭ',
+  BSE: 'ОГЭ'
+};

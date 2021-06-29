@@ -8,11 +8,12 @@ import { CopyIcon, EditIcon, MoreIcon } from './icons';
 
 type Props = {
   onClick: (type: ActionType) => void;
+  disabled?: boolean;
 };
 
 export type ActionType = 'edit' | 'copy';
 
-export const ActionsDropdown: React.FC<Props> = ({ onClick }) => {
+export const ActionsDropdown: React.FC<Props> = ({ onClick, disabled }) => {
   const [isOpen, setOpen] = useState(false);
 
   useWindowClick(({ target }) => {
@@ -23,11 +24,12 @@ export const ActionsDropdown: React.FC<Props> = ({ onClick }) => {
   });
 
   return (
-    <div className={cn(cls.root, { [cls.root_open]: isOpen })}>
+    <div className={cn(cls.root, { [cls.root_open]: isOpen && !disabled })}>
       <button
         className={cls.more_btn}
         type="button"
         onClick={() => setOpen(!isOpen)}
+        disabled={disabled}
       >
         <MoreIcon />
       </button>
@@ -35,6 +37,7 @@ export const ActionsDropdown: React.FC<Props> = ({ onClick }) => {
       <ul className={cls.list}>
         <li>
           <button
+            disabled={disabled}
             type="button"
             onClick={() => {
               onClick('edit');
@@ -47,6 +50,7 @@ export const ActionsDropdown: React.FC<Props> = ({ onClick }) => {
         </li>
         <li>
           <button
+            disabled={disabled}
             type="button"
             onClick={() => {
               onClick('copy');
