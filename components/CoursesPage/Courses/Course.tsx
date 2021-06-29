@@ -1,27 +1,47 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-import React, { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import cn from 'classnames';
+import dynamic from 'next/dynamic';
+import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { Baige } from '@/components/common/Baige/Baige';
-import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
+import {
+  ActionsDropdown,
+  ActionType
+} from '@/components/common/ActionsDropdown/ActionsDropdown';
 
-import { CourseI, CourseStatus } from '@/types/courses';
+import { CourseI } from '@/types/courses';
 import { getDateText } from '@/utils/date';
-import { CoursesAPI } from '@/api/courses';
-import { showAlert } from '@/utils/network';
 
 import cls from './Course.module.scss';
-import { CalendarIcon, CopyIcon, EditIcon } from './icons';
-import { getStatusColor, statuses, statusesMap } from './helpers';
+import { CalendarIcon } from './icons';
+import { Status } from './Status';
+
+const TextEditor = dynamic(
+  () => import('@/components/common/TextEditor/TextEditor'),
+  { ssr: false }
+);
 
 type Props = {
   course: CourseI;
+  isOpen: boolean;
+  onOpenClick: () => void;
 };
 
-export const Course: React.FC<Props> = ({ course }) => {
+export const Course: React.FC<Props> = ({ course, isOpen, onOpenClick }) => {
+  const router = useRouter();
   const editHref = `/app/courses/${course.id}`;
+
+  const [description, setDescription] = useState<OutputBlockData[]>([]);
+
+  useEffect(() => {
+    if (course.description) {
+      setDescription(JSON.parse(course.description));
+    }
+  }, [course.description]);
 
   // Date
   const dateStart = course.time_start
@@ -31,81 +51,43 @@ export const Course: React.FC<Props> = ({ course }) => {
     ? new Date(course.time_finish * 1000)
     : null;
 
-  // Status
-  const [status, setStatus] = useState<CourseStatus>(course.status);
-  const [statusUI, setStatusUI] = useState<DropdownItem>();
+  const period =
+    dateStart && dateFinish ? (
+      <div className={cls.period}>
+        <CalendarIcon />
+        {getDateText(dateStart)} - {getDateText(dateFinish)}
+      </div>
+    ) : null;
 
-  useEffect(() => {
-    if (status) setStatusUI(statusesMap[status]);
-  }, [status]);
-
-  const statusColor = useMemo(() => {
-    const statusID = statusUI?.id as CourseStatus | undefined;
-    return getStatusColor(statusID);
-  }, [statusUI]);
-
-  const [isLoading, setLoading] = useState(false);
-  const onStatusChange = async (v: DropdownItem) => {
-    const newStatus = v.id as CourseStatus;
-
-    setLoading(true);
-    try {
-      await CoursesAPI.updateCourseStatus(course.id, newStatus);
-      setStatus(newStatus);
-    } catch (error) {
-      showAlert({ error });
-    } finally {
-      setLoading(false);
+  const onActionClick = (a: ActionType) => {
+    if (a === 'edit') {
+      router.push(editHref);
     }
   };
 
   return (
-    <div className={cls.course}>
-      <div className={cls.info}>
-        {dateStart && dateFinish && (
-          <div className={cls.date}>
-            <Baige>
-              <CalendarIcon />
-              {getDateText(dateStart)} - {getDateText(dateFinish)},{' '}
-              {dateFinish.getFullYear()}
-            </Baige>
-          </div>
-        )}
-
-        <h3 className={cls.name}>{course.name}</h3>
-      </div>
-
-      <ul className={cls.tools}>
-        <li>
-          {/* TODO: Duplicate course */}
-          <button className={cls.tool_btn} type="button">
-            <CopyIcon />
-          </button>
-        </li>
-        <li>
-          <Link href={editHref}>
-            <a href={editHref} className={cls.tool_btn}>
-              <EditIcon />
-            </a>
-          </Link>
-        </li>
-        <li>
-          {statusUI && (
-            <Dropdown
-              disabled={isLoading}
-              beforeText={
-                <span
-                  style={{ background: statusColor }}
-                  className={cls.status_dot}
-                />
-              }
-              items={statuses}
-              value={statusUI}
-              onChange={onStatusChange}
-            />
-          )}
-        </li>
-      </ul>
-    </div>
+    <SectionCollapse
+      title={course.name || ''}
+      isOpen={isOpen}
+      onClick={onOpenClick}
+      headerChildren={
+        <div className={cls.header}>
+          {period}
+          <ul className={cn(cls.tools, { [cls.tools_visible]: isOpen })}>
+            <li>
+              <Status course={course} />
+            </li>
+            <li>
+              <ActionsDropdown onClick={onActionClick} />
+            </li>
+          </ul>
+        </div>
+      }
+    >
+      {description.length > 0 && (
+        <TextEditor data={{ blocks: description }} resetStyles />
+      )}
+      <p>Все занятия в этом курсе</p>
+    </SectionCollapse>
   );
 };
