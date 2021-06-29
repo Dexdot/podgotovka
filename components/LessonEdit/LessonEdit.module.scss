@@ -13,3 +13,14 @@
   font-weight: bold;
   font-size: 28px;
 }
+
+.dropdowns {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-left: -12px;
+
+  > li {
+    margin-left: 12px;
+  }
+}
