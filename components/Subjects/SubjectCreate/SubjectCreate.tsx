@@ -4,17 +4,17 @@ import { useRouter } from 'next/router';
 
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
+import { SubjectEdit } from '@/components/Subjects/SubjectEdit/SubjectEdit';
 
 import { useDirections } from '@/hooks/useDirections';
 import { DirectionType } from '@/types/common';
 import { COLORS } from '@/utils/consts';
 import { createSubject } from '@/api/subjects';
-
 import { showAlert } from '@/utils/network';
+
 import cls from './SubjectCreate.module.scss';
 import { SubjectIcon } from './Icons';
 import { DirectionCheckbox } from './DirectionCheckbox/DirectionCheckbox';
-import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
 type CollapseType = 'direction' | 'info' | '';
 

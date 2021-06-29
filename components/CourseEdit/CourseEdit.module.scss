@@ -24,7 +24,7 @@
 
 .subjects {
   > p {
-    color: #7a869a;
+    color: var(--color-gray);
     margin-bottom: 16px;
   }
 
@@ -59,4 +59,14 @@
   position: relative;
   z-index: 1;
   width: 450px;
+}
+
+// Homework
+.homework_label {
+  margin-bottom: 12px;
+}
+
+.homework_desc {
+  margin-top: 24px;
+  color: var(--color-gray);
 }

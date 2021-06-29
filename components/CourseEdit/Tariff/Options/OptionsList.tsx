@@ -2,7 +2,12 @@
 
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult
+} from 'react-beautiful-dnd';
 
 import { reorderDND } from '@/utils/common';
 import { CourseEditContext } from '@/store/course-edit';
@@ -15,7 +20,7 @@ export const OptionsList: React.FC = observer(() => {
 
   const { options, setOptions } = store;
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }

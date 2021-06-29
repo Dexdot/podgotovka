@@ -15,9 +15,6 @@ export function getFormData(obj: Record<string, any>): FormData {
 }
 
 export function getErrorText(error: any): string {
-  // @ts-ignore
-  window.ERREROR = error;
-
   if (typeof error === 'string' && error) {
     return error;
   }

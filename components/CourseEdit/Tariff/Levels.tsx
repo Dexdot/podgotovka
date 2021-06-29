@@ -26,13 +26,18 @@ export const Levels: React.FC<Props> = observer(({ type, levels }) => {
     if (!levelsWithPrice) {
       setLevelsWithPrice(levels.map((l) => ({ ...l, price: 0 })));
     } else {
-      const newLevels = levels.map((l) => {
-        const foundedLevel = levelsWithPrice.find((lv) => lv.id === l.id);
-        const price = foundedLevel ? foundedLevel.price : 0;
-        return { ...l, price };
-      });
+      const isOneLvl =
+        levelsWithPrice.length === 1 && levelsWithPrice[0].id === -1;
 
-      setLevelsWithPrice(newLevels);
+      if (!isOneLvl) {
+        const newLevels = levels.map((l) => {
+          const foundedLevel = levelsWithPrice.find((lv) => lv.id === l.id);
+          const price = foundedLevel ? foundedLevel.price : 0;
+          return { ...l, price };
+        });
+
+        setLevelsWithPrice(newLevels);
+      }
     }
   }, [levels]);
 

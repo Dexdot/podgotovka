@@ -4,18 +4,33 @@ import { PodgotovkaAPI } from '@/api/instance';
 import {
   CourseEditDetailI,
   CourseI,
+  CourseStatus,
   CourseTariffI,
-  UpdateCourseDataI
+  UpdateCourseDataI,
+  UpdateCourseTariffI
 } from '@/types/courses';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/courses';
 
+function createCourse(
+  subject_id: number
+): Promise<AxiosResponse<{ id: number }>> {
+  return axios.post<{ id: number }>(`${SERVICE_PATH}`, { subject_id });
+}
+
+export type CoursesFilters = {
+  limit?: number;
+  skip?: number;
+  subject_id?: number;
+  status?: CourseStatus;
+};
+
+// Not basic courses
 function getCourses(
-  limit?: number,
-  skip?: number
+  filters: CoursesFilters
 ): Promise<AxiosResponse<CourseI[]>> {
-  return axios.get<CourseI[]>(`${SERVICE_PATH}`, { params: { limit, skip } });
+  return axios.get<CourseI[]>(`${SERVICE_PATH}`, { params: { ...filters } });
 }
 
 function getCourseDetail(
@@ -37,10 +52,9 @@ function getCourseTariff(
   return axios.get<CourseTariffI | null>(`${SERVICE_PATH}/${course_id}/tariff`);
 }
 
-// TODO: request data
 function updateCourseTariff(
   course_id: number,
-  tariff: any
+  tariff: UpdateCourseTariffI
 ): Promise<AxiosResponse<CourseTariffI>> {
   return axios.patch<CourseTariffI>(
     `${SERVICE_PATH}/${course_id}/tariff`,
@@ -48,10 +62,21 @@ function updateCourseTariff(
   );
 }
 
+function updateCourseStatus(
+  course_id: number,
+  status: CourseStatus
+): Promise<AxiosResponse<unknown>> {
+  return axios.patch<unknown>(`${SERVICE_PATH}/${course_id}/status`, {
+    status
+  });
+}
+
 export const CoursesAPI = {
+  createCourse,
   getCourses,
   getCourseDetail,
   getCourseTariff,
   updateCourse,
-  updateCourseTariff
+  updateCourseTariff,
+  updateCourseStatus
 };

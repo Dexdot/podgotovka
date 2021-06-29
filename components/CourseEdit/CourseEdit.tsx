@@ -15,12 +15,13 @@ import { SubjectIcon } from './icons';
 import { Subjects } from './Subjects';
 import { BasicInfo } from './BasicInfo/BasicInfo';
 import { Tariff } from './Tariff/Tariff';
+import { Homework } from './Homework';
 
 type Props = {
   courseID: number;
 };
 
-type CollapseType = 'basic' | 'tariff' | 'subject' | '';
+type CollapseType = 'basic' | 'tariff' | 'subject' | 'homework' | '';
 
 export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
   // Collapse
@@ -31,7 +32,7 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
 
   // Store
   const store = useContext(CourseEditContext);
-  const { name, fetchCourse } = store;
+  const { name, courseData, fetchCourse, saveCourse, isLoading } = store;
 
   useEffect(() => {
     if (courseID) {
@@ -66,10 +67,21 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
       <header className={cls.header}>
         <h1 className={cls.title}>{name || 'Новый курс'}</h1>
         <div className={cls.buttons}>
-          <ButtonLink href="/app/courses" variant="grey">
+          <ButtonLink
+            href={
+              subject ? `/app/subjects/${subject.id}/courses` : '/app/subjects'
+            }
+            variant="grey"
+          >
             Отмена
           </ButtonLink>
-          <Button disabled>Сохранить</Button>
+          <Button
+            disabled={isLoading}
+            loading={isLoading}
+            onClick={() => saveCourse(courseID)}
+          >
+            Сохранить
+          </Button>
         </div>
       </header>
 
@@ -94,7 +106,7 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         onClick={() => toggleCollapse('basic')}
         title="Основная информация"
       >
-        <BasicInfo />
+        {courseData && <BasicInfo />}
       </SectionCollapse>
 
       <SectionCollapse
@@ -114,6 +126,14 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         }
       >
         {isTariffOpen && selectedTab && <Tariff type={selectedTab} />}
+      </SectionCollapse>
+
+      <SectionCollapse
+        isOpen={collapse === 'homework'}
+        onClick={() => toggleCollapse('homework')}
+        title="Домашние задания"
+      >
+        <Homework />
       </SectionCollapse>
     </div>
   );

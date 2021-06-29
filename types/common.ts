@@ -11,6 +11,11 @@ export interface LevelI {
   name: string;
 }
 
+export interface LevelPriceI {
+  level_id: number;
+  price: number;
+}
+
 export type TariffValueType = {
   level_id: number;
   option_id: number;

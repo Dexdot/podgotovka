@@ -2,6 +2,7 @@
 
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 import { Input } from '@/components/common/Input/Input';
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
@@ -15,7 +16,7 @@ import { DragIcon, RemoveIcon } from './icons';
 
 type Props = {
   option: OptionI;
-  dragHandleProps: any;
+  dragHandleProps: DraggableProvided['dragHandleProps'];
 };
 
 export const Option: React.FC<Props> = observer(

@@ -33,12 +33,12 @@ export function Button({
   const isGrey = variant === 'grey';
 
   const loaderColor = useMemo(() => {
-    if (isSecondary || isGrey || disabled) {
+    if (isSecondary || isGrey) {
       return COLORS.primary;
     }
 
     return '#fff';
-  }, [disabled, isSecondary, isGrey]);
+  }, [isSecondary, isGrey]);
 
   return (
     <button

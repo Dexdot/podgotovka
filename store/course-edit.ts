@@ -5,7 +5,8 @@ import type { OutputBlockData } from '@editorjs/editorjs';
 import {
   CourseEditDetailI,
   CourseTariffI,
-  UpdateCourseDataI
+  UpdateCourseDataI,
+  UpdateCourseTariffI
 } from '@/types/courses';
 import { SubjectI } from '@/types/subjects';
 import {
@@ -17,6 +18,7 @@ import {
 import { CoursesAPI } from '@/api/courses';
 import { showAlert } from '@/utils/network';
 
+const ONE_LEVEL_ID = -1;
 const now = new Date();
 now.setHours(0, 0, 0, 0);
 
@@ -25,6 +27,8 @@ interface LevelWithPriceI extends LevelI {
 }
 
 export class CourseEditStore {
+  public isLoading = false;
+
   public courseData: CourseEditDetailI | undefined;
 
   public subject: SubjectI | undefined;
@@ -45,9 +49,44 @@ export class CourseEditStore {
 
   public values: TariffValueType[] = [];
 
+  public countTestQuestions = 0;
+
   constructor() {
     makeAutoObservable(this);
   }
+
+  saveCourseTariff = (courseID: number): void => {
+    const { tariff } = this.prepareData();
+
+    CoursesAPI.updateCourseTariff(courseID, tariff).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseTariff(data);
+        this.isLoading = false;
+      }),
+      action('fetchError', (error) => {
+        this.isLoading = false;
+        const notFound = error?.response?.status === 404;
+        if (!notFound) showAlert({ error });
+      })
+    );
+  };
+
+  saveCourse = (courseID: number): void => {
+    const { course } = this.prepareData();
+
+    this.isLoading = true;
+
+    CoursesAPI.updateCourse(courseID, course).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseData(data);
+        this.saveCourseTariff(courseID);
+      }),
+      action('fetchError', (error) => {
+        this.isLoading = false;
+        showAlert({ error });
+      })
+    );
+  };
 
   fetchCourse = (courseID: number): void => {
     CoursesAPI.getCourseDetail(courseID).then(
@@ -64,7 +103,8 @@ export class CourseEditStore {
         this.handleCourseTariff(data);
       }),
       action('fetchError', (error) => {
-        showAlert({ error });
+        const notFound = error?.response?.status === 404;
+        if (!notFound) showAlert({ error });
       })
     );
   };
@@ -81,27 +121,69 @@ export class CourseEditStore {
       this.setDateFinish(
         data.time_finish ? new Date(data.time_finish * 1000) : now
       );
+      this.setCountTestQuestions(data.count_test_questions || 0);
     }
   };
 
   handleCourseTariff = (tariff: CourseTariffI | null): void => {
     if (tariff) {
-      if (tariff?.levels) this.setLevels(tariff.levels);
       if (tariff?.options) this.setOptions(tariff.options);
+      if (tariff?.values) this.setValues(tariff.values);
+
+      if (tariff?.levels) {
+        this.setLevels(tariff.levels);
+
+        if (tariff?.level_prices) {
+          const prices = tariff?.level_prices;
+
+          const levelsWithPrice: LevelWithPriceI[] = tariff.levels.map((l) => {
+            const lvl = prices.find((lv) => lv.level_id === l.id);
+            const price = lvl ? lvl.price : 0;
+            return { ...l, price };
+          });
+          this.setLevelsWithPrice(levelsWithPrice);
+        }
+      }
     }
   };
 
-  prepareData = (): void => {
-    const courseData: UpdateCourseDataI = {
+  prepareData = (): {
+    course: UpdateCourseDataI;
+    tariff: UpdateCourseTariffI;
+  } => {
+    // Course
+    const course: UpdateCourseDataI = {
       name: this.name || '',
       description: this.description ? JSON.stringify(this.description) : '',
       time_start: this.dateStart.getTime() / 1000,
-      time_finish: this.dateFinish.getTime() / 1000
+      time_finish: this.dateFinish.getTime() / 1000,
+      count_test_questions: this.countTestQuestions
     };
 
     if (this.subject) {
-      courseData.subject_id = this.subject.id;
+      course.subject_id = this.subject.id;
     }
+
+    // Tariff
+    const levelsWithPrice = this.levelsWithPrice || [];
+    const isOneLevel = levelsWithPrice.length === 1;
+    const levelsIDs = levelsWithPrice.map((l) => l.id);
+    const level_prices = levelsWithPrice.map(({ id, price }) => ({
+      level_id: isOneLevel ? ONE_LEVEL_ID : id,
+      price
+    }));
+    const values = this.values
+      .filter((v) => levelsIDs.includes(v.level_id))
+      .map((v) => ({ ...v, level_id: isOneLevel ? ONE_LEVEL_ID : v.level_id }));
+    const options_order = this.options.map((o) => o.id);
+
+    const tariff: UpdateCourseTariffI = {
+      level_prices,
+      values,
+      options_order
+    };
+
+    return { course, tariff };
   };
 
   setSubject = (v: SubjectI): void => {
@@ -122,6 +204,10 @@ export class CourseEditStore {
 
   setDateFinish = (v: Date): void => {
     this.dateFinish = v;
+  };
+
+  setCountTestQuestions = (v: number): void => {
+    this.countTestQuestions = v;
   };
 
   setLevels = (v: LevelI[]): void => {
