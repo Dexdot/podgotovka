@@ -15,12 +15,13 @@ import {
 
 import { CourseI } from '@/types/courses';
 import { getDateText } from '@/utils/date';
+import { CoursesAPI } from '@/api/courses';
+import { showAlert } from '@/utils/network';
 
 import cls from './Course.module.scss';
 import { CalendarIcon } from './icons';
 import { Status } from './Status';
-import { CoursesAPI } from '@/api/courses';
-import { showAlert } from '@/utils/network';
+import { Lessons } from './Lessons/Lessons';
 
 const TextEditor = dynamic(
   () => import('@/components/common/TextEditor/TextEditor'),
@@ -110,7 +111,8 @@ export const Course: React.FC<Props> = ({ course, isOpen, onOpenClick }) => {
           <TextEditor data={{ blocks: description }} readOnly resetStyles />
         </div>
       )}
-      <p>Все занятия в этом курсе</p>
+
+      {isOpen && <Lessons courseID={course.id} />}
     </SectionCollapse>
   );
 };

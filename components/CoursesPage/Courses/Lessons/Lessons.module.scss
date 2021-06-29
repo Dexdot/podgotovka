@@ -1,0 +1,53 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--color-gray);
+}
+
+.view_select {
+  display: flex;
+  padding: 4px;
+
+  background: #f2f3f5;
+  border-radius: 8px;
+
+  li:last-child {
+    margin-left: 8px;
+  }
+}
+
+.view_btn {
+  color: var(--color-gray);
+
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(#fff, 0);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0), 0px 3px 1px rgba(0, 0, 0, 0);
+  border-radius: 6px;
+  transition: 0.2s ease;
+}
+
+.view_btn_active {
+  color: var(--color-black);
+  background: rgba(#fff, 1);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12), 0px 3px 1px rgba(0, 0, 0, 0.04);
+}
+
+.lessons {
+  margin-bottom: 24px;
+
+  > li:not(:last-child) {
+    margin-bottom: 12px;
+  }
+}
