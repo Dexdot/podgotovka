@@ -10,10 +10,10 @@ export type LessonType =
 export interface LessonI {
   id: number;
   name: string;
-  description: string;
   type: LessonType;
-  youtube_link: string;
   time_start: number;
+  description?: string;
+  youtube_link?: string;
 }
 
 export interface CreateLessonI {

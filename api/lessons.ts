@@ -44,9 +44,16 @@ function updateLesson(
   return axios.put<LessonEditDetailI>(`${SERVICE_PATH}/${lesson_id}`, lesson);
 }
 
+function copyLesson(
+  lesson_id: number
+): Promise<AxiosResponse<LessonEditDetailI>> {
+  return axios.post<LessonEditDetailI>(`${SERVICE_PATH}/${lesson_id}/copy`);
+}
+
 export const LessonsAPI = {
   getCourseLessons,
   getLessonEditDetail,
   createLesson,
-  updateLesson
+  updateLesson,
+  copyLesson
 };

@@ -3,6 +3,7 @@ import cn from 'classnames';
 
 import { useCourseLessons } from '@/api/hooks/lessons/useLessons';
 import { AddButton } from '@/components/common/AddButton/AddButton';
+import { LessonItem } from '@/components/common/LessonItem/LessonItem';
 
 import cls from './Lessons.module.scss';
 import { ListIcon, CalendarIcon } from './icons';
@@ -15,9 +16,8 @@ type ViewType = 'list' | 'calendar';
 
 const filters = {};
 export const Lessons: React.FC<Props> = ({ courseID }) => {
-  const lessons = useCourseLessons(courseID, filters);
-
   const [view, setView] = useState<ViewType>('list');
+  const lessons = useCourseLessons(courseID, filters);
 
   return (
     <section>
@@ -51,10 +51,12 @@ export const Lessons: React.FC<Props> = ({ courseID }) => {
 
       {lessons && (
         <div>
-          {/* TODO: Lessons list */}
           <ul className={cls.lessons}>
-            <li>lesson1</li>
-            <li>lesson2</li>
+            {lessons.map((l) => (
+              <li key={l.id}>
+                <LessonItem lesson={l} />
+              </li>
+            ))}
           </ul>
 
           {/* TODO: Show lesson types */}
