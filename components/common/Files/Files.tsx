@@ -22,7 +22,7 @@ export const Files: React.FC<Props> = ({ files, onChange }) => {
 
   const inputRef = useRef(null);
   const [isLoading, setLoading] = useState(false);
-  const handleFilesChange = async (e) => {
+  const handleFilesChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
 

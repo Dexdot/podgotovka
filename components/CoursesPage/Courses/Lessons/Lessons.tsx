@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 
 import { useCourseLessons } from '@/api/hooks/lessons/useLessons';
-import { AddButton } from '@/components/common/AddButton/AddButton';
 import { LessonItem } from '@/components/common/LessonItem/LessonItem';
 
 import cls from './Lessons.module.scss';

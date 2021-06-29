@@ -4,15 +4,16 @@ import { observer } from 'mobx-react-lite';
 
 import { Button } from '@/components/common/Button/Button';
 import { BackLink } from '@/components/common/BackLink/BackLink';
+
 import { LessonEditContext } from '@/store/lesson-edit';
+import { CreateLessonI, LessonType } from '@/types/lessons';
+import { LessonsAPI } from '@/api/lessons';
+import { showAlert } from '@/utils/network';
 
 import cls from './LessonEdit.module.scss';
 import { Dropdowns } from './Dropdowns';
 import { SectionCollapse } from '../common/SectionCollapse/SectionCollapse';
 import { BasicInfo } from './BasicInfo/BasicInfo';
-import { CreateLessonI, LessonType } from '@/types/lessons';
-import { LessonsAPI } from '@/api/lessons';
-import { showAlert } from '@/utils/network';
 
 type Props = {
   isCreate?: boolean;

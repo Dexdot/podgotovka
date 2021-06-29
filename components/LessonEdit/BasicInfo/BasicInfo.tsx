@@ -63,7 +63,7 @@ export const BasicInfo: React.FC = observer(() => {
       <div className={cls.hr} />
       <h2 className={cls.label}>Рабочая тетрадь</h2>
       {/* TODO: Files */}
-      <Files files={[]} onChange={(fs) => null} />
+      <Files files={[]} onChange={() => null} />
     </div>
   );
 });
