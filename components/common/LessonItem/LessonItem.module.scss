@@ -1,0 +1,38 @@
+.root {
+  background: #ffffff;
+  border: 2px solid #f2f3f5;
+  border-radius: 8px;
+
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.time {
+  font-size: 14px;
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  > svg {
+    margin-right: 4px;
+    color: #6b778c;
+  }
+}
+
+.name {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.counter {
+  margin: 0 16px 0 8px;
+  color: var(--color-gray);
+}

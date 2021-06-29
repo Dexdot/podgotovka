@@ -1,0 +1,52 @@
+.list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin-bottom: 12px;
+  margin-left: -8px;
+  margin-top: -8px;
+
+  > li {
+    margin-left: 8px;
+    margin-top: 8px;
+  }
+}
+
+.file {
+  background: #ffffff;
+  border: 1px solid #f2f3f5;
+  border-radius: 8px;
+
+  padding: 8px 8px 8px 12px;
+  display: flex;
+  align-items: center;
+
+  > svg {
+    color: var(--color-primary);
+    margin-right: 8px;
+  }
+}
+
+.name {
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.size {
+  line-height: 1;
+  font-size: 12px;
+  color: var(--color-gray);
+}
+
+.remove {
+  margin-left: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray);
+}
+
+.input {
+  display: none;
+}
