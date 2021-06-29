@@ -9,6 +9,7 @@ export interface CourseI {
   description?: string;
   time_start?: number;
   time_finish?: number;
+  count_test_questions?: number;
   status: CourseStatus;
 }
 

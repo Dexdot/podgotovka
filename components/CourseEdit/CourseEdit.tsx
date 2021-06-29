@@ -32,7 +32,7 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
 
   // Store
   const store = useContext(CourseEditContext);
-  const { name, fetchCourse } = store;
+  const { name, courseData, fetchCourse, saveCourse, isLoading } = store;
 
   useEffect(() => {
     if (courseID) {
@@ -75,7 +75,13 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
           >
             Отмена
           </ButtonLink>
-          <Button disabled>Сохранить</Button>
+          <Button
+            disabled={isLoading}
+            loading={isLoading}
+            onClick={() => saveCourse(courseID)}
+          >
+            Сохранить
+          </Button>
         </div>
       </header>
 
@@ -100,7 +106,7 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         onClick={() => toggleCollapse('basic')}
         title="Основная информация"
       >
-        <BasicInfo />
+        {courseData && <BasicInfo />}
       </SectionCollapse>
 
       <SectionCollapse

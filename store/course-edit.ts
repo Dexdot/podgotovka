@@ -27,6 +27,8 @@ interface LevelWithPriceI extends LevelI {
 }
 
 export class CourseEditStore {
+  public isLoading = false;
+
   public courseData: CourseEditDetailI | undefined;
 
   public subject: SubjectI | undefined;
@@ -52,6 +54,39 @@ export class CourseEditStore {
   constructor() {
     makeAutoObservable(this);
   }
+
+  saveCourseTariff = (courseID: number): void => {
+    const { tariff } = this.prepareData();
+
+    CoursesAPI.updateCourseTariff(courseID, tariff).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseTariff(data);
+        this.isLoading = false;
+      }),
+      action('fetchError', (error) => {
+        this.isLoading = false;
+        const notFound = error?.response?.status === 404;
+        if (!notFound) showAlert({ error });
+      })
+    );
+  };
+
+  saveCourse = (courseID: number): void => {
+    const { course } = this.prepareData();
+
+    this.isLoading = true;
+
+    CoursesAPI.updateCourse(courseID, course).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleCourseData(data);
+        this.saveCourseTariff(courseID);
+      }),
+      action('fetchError', (error) => {
+        this.isLoading = false;
+        showAlert({ error });
+      })
+    );
+  };
 
   fetchCourse = (courseID: number): void => {
     CoursesAPI.getCourseDetail(courseID).then(
@@ -86,12 +121,14 @@ export class CourseEditStore {
       this.setDateFinish(
         data.time_finish ? new Date(data.time_finish * 1000) : now
       );
+      this.setCountTestQuestions(data.count_test_questions || 0);
     }
   };
 
   handleCourseTariff = (tariff: CourseTariffI | null): void => {
     if (tariff) {
       if (tariff?.options) this.setOptions(tariff.options);
+      if (tariff?.values) this.setValues(tariff.values);
 
       if (tariff?.levels) {
         this.setLevels(tariff.levels);
