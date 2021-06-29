@@ -26,7 +26,16 @@ export interface CreateLessonI {
   files?: FileI[];
 }
 
-export interface LessonDetailI extends LessonI {
+export interface UpdateLessonI {
+  name: string;
+  type: LessonType;
+  time_start: number;
+  description?: string;
+  youtube_link?: string;
+  files?: FileI[];
+}
+
+export interface LessonEditDetailI extends LessonI {
   course_id: number;
   created_at: number;
   files: FileI[];

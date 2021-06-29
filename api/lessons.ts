@@ -1,7 +1,12 @@
 import { AxiosResponse } from 'axios';
 
 import { PodgotovkaAPI } from '@/api/instance';
-import { CreateLessonI, LessonDetailI, LessonI } from '@/types/lessons';
+import {
+  CreateLessonI,
+  LessonEditDetailI,
+  LessonI,
+  UpdateLessonI
+} from '@/types/lessons';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/lessons';
@@ -20,28 +25,28 @@ function getCourseLessons(
   });
 }
 
-function getLessonDetail(
+function getLessonEditDetail(
   lesson_id: number
-): Promise<AxiosResponse<LessonDetailI>> {
-  return axios.get<LessonDetailI>(`${SERVICE_PATH}/${lesson_id}`);
+): Promise<AxiosResponse<LessonEditDetailI>> {
+  return axios.get<LessonEditDetailI>(`${SERVICE_PATH}/${lesson_id}`);
 }
 
 function createLesson(
   lesson: CreateLessonI
-): Promise<AxiosResponse<LessonDetailI>> {
-  return axios.post<LessonDetailI>(`${SERVICE_PATH}`, lesson);
+): Promise<AxiosResponse<LessonEditDetailI>> {
+  return axios.post<LessonEditDetailI>(`${SERVICE_PATH}`, lesson);
 }
 
 function updateLesson(
   lesson_id: number,
-  lesson: CreateLessonI
-): Promise<AxiosResponse<LessonDetailI>> {
-  return axios.put<LessonDetailI>(`${SERVICE_PATH}/${lesson_id}`, lesson);
+  lesson: UpdateLessonI
+): Promise<AxiosResponse<LessonEditDetailI>> {
+  return axios.put<LessonEditDetailI>(`${SERVICE_PATH}/${lesson_id}`, lesson);
 }
 
 export const LessonsAPI = {
   getCourseLessons,
-  getLessonDetail,
+  getLessonEditDetail,
   createLesson,
   updateLesson
 };
