@@ -39,3 +39,9 @@ export type DirectionItem = {
   text: string;
   value: string;
 };
+
+export interface FileI {
+  file_link: string;
+  name: string;
+  size: number;
+}

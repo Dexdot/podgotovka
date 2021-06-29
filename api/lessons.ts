@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import { PodgotovkaAPI } from '@/api/instance';
-import { LessonI } from '@/types/lessons';
+import { CreateLessonI, LessonDetailI, LessonI } from '@/types/lessons';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/lessons';
@@ -20,6 +20,28 @@ function getCourseLessons(
   });
 }
 
+function getLessonDetail(
+  lesson_id: number
+): Promise<AxiosResponse<LessonDetailI>> {
+  return axios.get<LessonDetailI>(`${SERVICE_PATH}/${lesson_id}`);
+}
+
+function createLesson(
+  lesson: CreateLessonI
+): Promise<AxiosResponse<LessonDetailI>> {
+  return axios.post<LessonDetailI>(`${SERVICE_PATH}`, lesson);
+}
+
+function updateLesson(
+  lesson_id: number,
+  lesson: CreateLessonI
+): Promise<AxiosResponse<LessonDetailI>> {
+  return axios.put<LessonDetailI>(`${SERVICE_PATH}/${lesson_id}`, lesson);
+}
+
 export const LessonsAPI = {
-  getCourseLessons
+  getCourseLessons,
+  getLessonDetail,
+  createLesson,
+  updateLesson
 };
