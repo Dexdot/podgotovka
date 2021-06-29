@@ -5,18 +5,14 @@ import React from 'react';
 import Link from 'next/link';
 
 import { ChevronIcon } from '@/components/common/SectionCollapse/icons';
+import { DIRECTIONS_MAP } from '@/utils/consts';
+import { SubjectI } from '@/types/subjects';
+
 import cls from './SubjectListItem.module.scss';
 import { EditIcon, SubjectIcon } from './Icons';
 
-type SubjectData = {
-  id: number;
-  name: string;
-  direction: string;
-  color: string;
-};
-
 type Props = {
-  subject: SubjectData;
+  subject: SubjectI;
 };
 
 export const SubjectListItem: React.FC<Props> = ({ subject }) => {
@@ -38,7 +34,9 @@ export const SubjectListItem: React.FC<Props> = ({ subject }) => {
 
           <div className={cls.text_header}>
             <p className={cls.text_header_title}>{name}</p>
-            <p className={cls.text_header_subtitle}>{direction}</p>
+            <p className={cls.text_header_subtitle}>
+              {DIRECTIONS_MAP[direction]}
+            </p>
           </div>
 
           <Link href={editHref}>

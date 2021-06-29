@@ -55,3 +55,13 @@
   opacity: 1;
   pointer-events: auto;
 }
+
+.description {
+  margin-bottom: 24px;
+
+  :global {
+    .ce-paragraph {
+      color: var(--color-gray);
+    }
+  }
+}

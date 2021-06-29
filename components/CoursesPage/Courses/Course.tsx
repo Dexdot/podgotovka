@@ -15,10 +15,13 @@ import {
 
 import { CourseI } from '@/types/courses';
 import { getDateText } from '@/utils/date';
+import { CoursesAPI } from '@/api/courses';
+import { showAlert } from '@/utils/network';
 
 import cls from './Course.module.scss';
 import { CalendarIcon } from './icons';
 import { Status } from './Status';
+import { Lessons } from './Lessons/Lessons';
 
 const TextEditor = dynamic(
   () => import('@/components/common/TextEditor/TextEditor'),
@@ -59,9 +62,28 @@ export const Course: React.FC<Props> = ({ course, isOpen, onOpenClick }) => {
       </div>
     ) : null;
 
+  const [isCopying, setCopying] = useState(false);
+
+  const duplicateCourse = async () => {
+    setCopying(true);
+
+    try {
+      const { data } = await CoursesAPI.copyCourse(course.id);
+      router.push(`/app/courses/${data.id}`);
+    } catch (error) {
+      showAlert({ error });
+    } finally {
+      setCopying(false);
+    }
+  };
+
   const onActionClick = (a: ActionType) => {
     if (a === 'edit') {
       router.push(editHref);
+    }
+
+    if (a === 'copy') {
+      duplicateCourse();
     }
   };
 
@@ -78,16 +100,19 @@ export const Course: React.FC<Props> = ({ course, isOpen, onOpenClick }) => {
               <Status course={course} />
             </li>
             <li>
-              <ActionsDropdown onClick={onActionClick} />
+              <ActionsDropdown disabled={isCopying} onClick={onActionClick} />
             </li>
           </ul>
         </div>
       }
     >
       {description.length > 0 && (
-        <TextEditor data={{ blocks: description }} readOnly resetStyles />
+        <div className={cls.description}>
+          <TextEditor data={{ blocks: description }} readOnly resetStyles />
+        </div>
       )}
-      <p>Все занятия в этом курсе</p>
+
+      {isOpen && <Lessons courseID={course.id} />}
     </SectionCollapse>
   );
 };

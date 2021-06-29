@@ -71,6 +71,12 @@ function updateCourseStatus(
   });
 }
 
+function copyCourse(
+  course_id: number
+): Promise<AxiosResponse<CourseEditDetailI>> {
+  return axios.post<CourseEditDetailI>(`${SERVICE_PATH}/${course_id}/copy`);
+}
+
 export const CoursesAPI = {
   createCourse,
   getCourses,
@@ -78,5 +84,6 @@ export const CoursesAPI = {
   getCourseTariff,
   updateCourse,
   updateCourseTariff,
-  updateCourseStatus
+  updateCourseStatus,
+  copyCourse
 };
