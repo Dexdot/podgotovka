@@ -85,7 +85,7 @@ export const Course: React.FC<Props> = ({ course, isOpen, onOpenClick }) => {
       }
     >
       {description.length > 0 && (
-        <TextEditor data={{ blocks: description }} resetStyles />
+        <TextEditor data={{ blocks: description }} readOnly resetStyles />
       )}
       <p>Все занятия в этом курсе</p>
     </SectionCollapse>
