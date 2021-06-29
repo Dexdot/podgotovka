@@ -15,12 +15,13 @@ import { SubjectIcon } from './icons';
 import { Subjects } from './Subjects';
 import { BasicInfo } from './BasicInfo/BasicInfo';
 import { Tariff } from './Tariff/Tariff';
+import { Homework } from './Homework';
 
 type Props = {
   courseID: number;
 };
 
-type CollapseType = 'basic' | 'tariff' | 'subject' | '';
+type CollapseType = 'basic' | 'tariff' | 'subject' | 'homework' | '';
 
 export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
   // Collapse
@@ -119,6 +120,14 @@ export const CourseEdit: React.FC<Props> = observer(({ courseID }) => {
         }
       >
         {isTariffOpen && selectedTab && <Tariff type={selectedTab} />}
+      </SectionCollapse>
+
+      <SectionCollapse
+        isOpen={collapse === 'homework'}
+        onClick={() => toggleCollapse('homework')}
+        title="Домашние задания"
+      >
+        <Homework />
       </SectionCollapse>
     </div>
   );

@@ -47,6 +47,8 @@ export class CourseEditStore {
 
   public values: TariffValueType[] = [];
 
+  public countTestQuestions = 0;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -66,7 +68,8 @@ export class CourseEditStore {
         this.handleCourseTariff(data);
       }),
       action('fetchError', (error) => {
-        showAlert({ error });
+        const notFound = error?.response?.status === 404;
+        if (!notFound) showAlert({ error });
       })
     );
   };
@@ -116,7 +119,8 @@ export class CourseEditStore {
       name: this.name || '',
       description: this.description ? JSON.stringify(this.description) : '',
       time_start: this.dateStart.getTime() / 1000,
-      time_finish: this.dateFinish.getTime() / 1000
+      time_finish: this.dateFinish.getTime() / 1000,
+      count_test_questions: this.countTestQuestions
     };
 
     if (this.subject) {
@@ -163,6 +167,10 @@ export class CourseEditStore {
 
   setDateFinish = (v: Date): void => {
     this.dateFinish = v;
+  };
+
+  setCountTestQuestions = (v: number): void => {
+    this.countTestQuestions = v;
   };
 
   setLevels = (v: LevelI[]): void => {

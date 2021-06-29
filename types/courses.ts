@@ -20,6 +20,7 @@ export interface CourseEditDetailI {
   time_finish?: number;
   status: CourseStatus;
   subject: SubjectI;
+  count_test_questions?: number;
 }
 
 export interface CourseTariffI {
@@ -41,4 +42,5 @@ export interface UpdateCourseDataI {
   description?: string;
   time_start?: number;
   time_finish?: number;
+  count_test_questions?: number;
 }
