@@ -46,7 +46,8 @@ export const i18n: I18nConfig = {
       Bold: 'Полужирный',
       Italic: 'Курсив',
       InlineCode: 'Моноширинный',
-      Image: 'Картинка'
+      Image: 'Картинка',
+      Attaches: 'Приложения'
     },
 
     /**
