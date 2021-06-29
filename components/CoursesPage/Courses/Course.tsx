@@ -61,18 +61,6 @@ export const Course: React.FC<Props> = ({ course }) => {
 
   return (
     <div className={cls.course}>
-      <Link href={editHref}>
-        <a
-          href={editHref}
-          className={cls.image}
-          style={
-            course.photo_link
-              ? { backgroundImage: `url(${course.photo_link})` }
-              : {}
-          }
-        />
-      </Link>
-
       <div className={cls.info}>
         {dateStart && dateFinish && (
           <div className={cls.date}>
