@@ -61,11 +61,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@editorjs/attaches@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/attaches/-/attaches-1.1.0.tgz#6b8dbc33ca720bae7587c1c422cd0f8f87d46d85"
-  integrity sha512-mqi9YVxPiemy1ZQ1pOVFEtRibE3OGj6pVVkrkvJIzzJaDFr/JqyMSpNrSA3KdBbIi0d7/3tdl41yV7LvHjAlxQ==
-
 "@editorjs/checklist@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@editorjs/checklist/-/checklist-1.3.0.tgz#98c08f0c6a8b62a2b1a0f181604c1a8c8edc15b1"
@@ -146,11 +141,6 @@
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@editorjs/simple-image/-/simple-image-1.4.1.tgz#16a847e0f21041dfac0af8235d19b8a8a756c493"
   integrity sha512-8lqcMYKrxhnDNasqq4Id9/SwXymSofVb4SJBC7gQoJmNG9bfRgVEXLsEUnuLzn8ixkAYlK2oNTc7ioZdD8bEOw==
-
-"@editorjs/table@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-1.3.0.tgz#d203352135c86909df8bdb5a6c323a5c5041600d"
-  integrity sha512-3/gr7IkjsYuECndCpcBSKzZQHos7C9QU1ach8avyVbXB3VLAa1RyGjgocu0Ct4d02HdxirrYZ7+vP1Na+s04GQ==
 
 "@editorjs/warning@^1.2.0":
   version "1.2.0"
@@ -1364,10 +1354,15 @@ duplexer2@^0.1.2, duplexer2@~0.1.0, duplexer2@~0.1.2:
   dependencies:
     readable-stream "^2.0.2"
 
-editorjs-table@^1.4.10:
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/editorjs-table/-/editorjs-table-1.4.10.tgz#2714d91054732fc827087c705ceb2641a16d3ed2"
-  integrity sha512-jRpgqnimReXXtMLhjXWQ2M+qkOLNqCvKfoiExpZtzPThTFNtSPrE6WZ/HhTsOA2BMkZSejoLcf4KUYvRa5dZYw==
+editorjs-attaches-readonly@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/editorjs-attaches-readonly/-/editorjs-attaches-readonly-1.0.2.tgz#87a9a7d54ce79c89fd42ded581044a5453a30b26"
+  integrity sha512-ayX2wjENmSRjMvUg2zDTapyx0oymjPfLX025FTbOG/WJyC1py7gALzQAwZXyGCl8fsOVzmaeVXIuRAUC7YZVng==
+
+editorjs-table-readonly@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/editorjs-table-readonly/-/editorjs-table-readonly-1.0.4.tgz#84cd73f1c04eccae3dde0f7821fc79c67607d1d5"
+  integrity sha512-70gec5ZiQno+9kIY2hEHuIntKTSKjfg/n4qabCo2OV2X8aR8iGzNyPIqaKzcnvYfzvDXuHjRyvF4nGvNT4761w==
 
 electron-to-chromium@^1.3.723:
   version "1.3.749"
