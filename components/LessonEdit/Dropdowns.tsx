@@ -55,9 +55,14 @@ export const Dropdowns: React.FC = observer(() => {
   const [typeUI, setTypeUI] = useState<DropdownItem>();
 
   useEffect(() => {
-    const finded = types.find((t) => t.id === type) || types[0];
-    setTypeUI(finded);
-  }, [type]);
+    const finded = types.find((t) => t.id === type);
+    if (finded) {
+      setTypeUI(finded);
+    } else {
+      const firstType = types[0];
+      setType(firstType.id as LessonType);
+    }
+  }, [type, setType]);
 
   const onTypeChange = async (v: DropdownItem) => {
     const t = v.id as LessonType;

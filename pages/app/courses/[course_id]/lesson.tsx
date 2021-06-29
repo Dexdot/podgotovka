@@ -16,7 +16,7 @@ const CreateLessonPage: React.FC = () => {
 
   return (
     <LessonEditContext.Provider value={store}>
-      {courseID && <LessonEdit />}
+      {courseID && <LessonEdit isCreate />}
     </LessonEditContext.Provider>
   );
 };
