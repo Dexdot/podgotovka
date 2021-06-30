@@ -4,7 +4,7 @@ import type { OutputBlockData } from '@editorjs/editorjs';
 
 import { showAlert } from '@/utils/network';
 import { LessonsAPI } from '@/api/lessons';
-import { LessonEditDetailI, LessonType } from '@/types/lessons';
+import { LessonEditDetailI, LessonType, UpdateLessonI } from '@/types/lessons';
 import { FileI } from '@/types/common';
 
 const now = new Date();
@@ -32,6 +32,37 @@ export class LessonEditStore {
   constructor() {
     makeAutoObservable(this);
   }
+
+  prepareData = (): UpdateLessonI => {
+    const type = this.type as LessonType;
+
+    const data: UpdateLessonI = {
+      name: this.name,
+      type,
+      time_start: this.dateStart.getTime() / 1000,
+      description: JSON.stringify(this.description),
+      youtube_link: this.youtubeLink,
+      files: this.files
+    };
+
+    return data;
+  };
+
+  saveLesson = (lessonID: number): void => {
+    const lessonData = this.prepareData();
+    this.isLoading = true;
+
+    LessonsAPI.updateLesson(lessonID, lessonData).then(
+      action('fetchSuccess', ({ data }) => {
+        this.handleLessonData(data);
+        this.isLoading = false;
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+        this.isLoading = false;
+      })
+    );
+  };
 
   fetchLesson = (lessonID: number): void => {
     LessonsAPI.getLessonEditDetail(lessonID).then(
