@@ -15,6 +15,7 @@ import cls from './LessonEdit.module.scss';
 import { Dropdowns } from './Dropdowns';
 import { SectionCollapse } from '../common/SectionCollapse/SectionCollapse';
 import { BasicInfo } from './BasicInfo/BasicInfo';
+import { Timecode } from './Timecode';
 
 type Props = {
   lessonID?: number;
@@ -56,7 +57,8 @@ export const LessonEdit: React.FC<Props> = observer(
         time_start: store.dateStart.getTime() / 1000,
         description: store.description ? JSON.stringify(store.description) : '',
         youtube_link: store.youtubeLink,
-        files: store.files
+        files: store.files,
+        time_codes: store.timecode
       };
 
       try {
@@ -132,7 +134,7 @@ export const LessonEdit: React.FC<Props> = observer(
                 onClick={() => toggleCollapse('timecodes')}
                 title="Таймкоды"
               >
-                Таймкоды
+                <Timecode />
               </SectionCollapse>
             )}
           </>

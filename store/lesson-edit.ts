@@ -29,6 +29,8 @@ export class LessonEditStore {
 
   public files: FileI[] = [];
 
+  public timecode = '';
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -42,7 +44,8 @@ export class LessonEditStore {
       time_start: this.dateStart.getTime() / 1000,
       description: JSON.stringify(this.description),
       youtube_link: this.youtubeLink,
-      files: this.files
+      files: this.files,
+      time_codes: this.timecode
     };
 
     return data;
@@ -87,6 +90,7 @@ export class LessonEditStore {
       this.setYoutubeLink(data.youtube_link || '');
       this.setCourseID(data.course_id);
       this.setFiles(data.files || []);
+      this.setTimecode(data.time_codes || '');
     }
   };
 
@@ -124,6 +128,10 @@ export class LessonEditStore {
 
   removeFile = (v: FileI): void => {
     this.files = [...this.files.filter((f) => f.file_link !== v.file_link)];
+  };
+
+  setTimecode = (v: string): void => {
+    this.timecode = v;
   };
 }
 
