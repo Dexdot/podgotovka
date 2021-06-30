@@ -10,13 +10,6 @@ function getHWDetail(lesson_id: number): Promise<AxiosResponse<HWEditDetailI>> {
   return axios.get<HWEditDetailI>(`${SERVICE_PATH}/${lesson_id}`);
 }
 
-function createHW(
-  lesson_id: number,
-  hw: UpdateHWI
-): Promise<AxiosResponse<HWEditDetailI>> {
-  return axios.post<HWEditDetailI>(`${SERVICE_PATH}/${lesson_id}`, hw);
-}
-
 function updateHW(
   lesson_id: number,
   hw: UpdateHWI
@@ -26,6 +19,5 @@ function updateHW(
 
 export const HomeworksAPI = {
   getHWDetail,
-  createHW,
   updateHW
 };

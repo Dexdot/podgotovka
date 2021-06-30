@@ -4,30 +4,27 @@ import { observer } from 'mobx-react-lite';
 
 import { Button } from '@/components/common/Button/Button';
 import { BackLink } from '@/components/common/BackLink/BackLink';
+import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
 import { LessonEditContext } from '@/store/lesson-edit';
 import { CreateLessonI, LessonType } from '@/types/lessons';
 import { LessonsAPI } from '@/api/lessons';
 import { showAlert } from '@/utils/network';
+import { HWEditContext, HWEditStore } from '@/store/homework-edit';
 
 import { LESSON_TYPES } from '@/utils/consts';
 import cls from './LessonEdit.module.scss';
 import { Dropdowns } from './Dropdowns';
-import { SectionCollapse } from '../common/SectionCollapse/SectionCollapse';
 import { BasicInfo } from './BasicInfo/BasicInfo';
 import { Timecode } from './Timecode';
+import { HomeworkOne } from './HomeworkOne/HomeworkOne';
 
 type Props = {
   lessonID?: number;
   isCreate?: boolean;
 };
 
-type CollapseType =
-  | 'basic'
-  | 'homework_first'
-  | 'homework_second'
-  | 'timecodes'
-  | '';
+type CollapseType = 'basic' | 'hw_first' | 'hw_second' | 'timecodes' | '';
 
 const lessonTypesWithoutHW: LessonType[] = [
   LESSON_TYPES.psychologist,
@@ -76,6 +73,16 @@ export const LessonEdit: React.FC<Props> = observer(
       }
     }, [lessonID, isCreate, fetchLesson]);
 
+    // HW
+    const [hwStore, setHWStore] = useState<HWEditStore>();
+    useEffect(() => {
+      if (lessonID) {
+        const s = new HWEditStore(lessonID);
+        setHWStore(s);
+        s.fetchHW();
+      }
+    }, [lessonID]);
+
     return (
       <div className={cls.root}>
         <BackLink href="/app/subjects" text="Вернуться к предметам" />
@@ -109,23 +116,23 @@ export const LessonEdit: React.FC<Props> = observer(
 
         {!isCreate && (
           <>
-            {type && !lessonTypesWithoutHW.includes(type) && (
-              <>
+            {type && !lessonTypesWithoutHW.includes(type) && hwStore && (
+              <HWEditContext.Provider value={hwStore}>
                 <SectionCollapse
-                  isOpen={collapse === 'homework_first'}
-                  onClick={() => toggleCollapse('homework_first')}
+                  isOpen={collapse === 'hw_first'}
+                  onClick={() => toggleCollapse('hw_first')}
                   title="Домашнее задание (Часть 1)"
                 >
-                  HW 1
+                  <HomeworkOne />
                 </SectionCollapse>
                 <SectionCollapse
-                  isOpen={collapse === 'homework_second'}
-                  onClick={() => toggleCollapse('homework_second')}
+                  isOpen={collapse === 'hw_second'}
+                  onClick={() => toggleCollapse('hw_second')}
                   title="Домашнее задание (Часть 2)"
                 >
                   HW 2
                 </SectionCollapse>
-              </>
+              </HWEditContext.Provider>
             )}
 
             {type !== LESSON_TYPES.examwork && (

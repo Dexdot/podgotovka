@@ -45,7 +45,6 @@ export const EDITOR_JS_TOOLS = {
     class: Attaches,
     config: {
       buttonText: 'Выберите файл для загрузки'
-      // todo custom uploader
     }
   }
 };

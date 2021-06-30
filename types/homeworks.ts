@@ -5,7 +5,7 @@ export interface HWTestQuestionBaseI {
   id: number;
   name: string;
   description: string;
-  text: string;
+  text?: string;
   weight: number;
   only_full_match: boolean;
   right_answer_text: string;
@@ -19,7 +19,7 @@ export interface HWSimpleQuestionI {
   id: number;
   name: string;
   description: string;
-  text: string;
+  text?: string;
   type: HWAnswerType;
 }
 
@@ -46,7 +46,11 @@ export interface HWEditDetailI {
 
 // Update
 export interface HWUpdateTestQuestionI extends HWTestQuestionBaseI {
-  relation_questions: HWTestQuestionBaseI[];
+  relation_questions?: HWTestQuestionBaseI[];
+}
+
+export interface HWTestQuestionEditI extends HWTestQuestionI {
+  relation_questions?: HWTestQuestionBaseI[];
 }
 
 export interface UpdateHWI {
