@@ -33,6 +33,7 @@ export const Table: React.FC = observer(() => {
         <p>Роль</p>
         <p>Статус</p>
       </div>
+
       {users.map((user) => {
         const selectedSubject = subjects?.find(
           (item) => item.id === user.subject.id
@@ -59,12 +60,15 @@ export const Table: React.FC = observer(() => {
                 <p className={cls.user_login}>{user.login}</p>
               </div>
             </div>
+
             <div className={cn(cls.flex_center, cls.subject_and_role)}>
               {selectedSubject?.name}
             </div>
+
             <div className={cn(cls.flex_center, cls.subject_and_role)}>
               {selectedRole?.text}
             </div>
+
             <div className={cls.user_status}>
               <Dropdown
                 items={statuses}

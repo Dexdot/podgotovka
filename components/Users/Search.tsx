@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 
-import { UserDetailsI } from '@/types/users';
+import { SearchParamsI, UserDetailsI } from '@/types/users';
 
 import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 
@@ -12,7 +12,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { Input } from '@/components/common/Input/Input';
 import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
 
-import { statuses, roles } from './helpers';
+import { statuses, roles, anySubject } from './helpers';
 import cls from './Users.module.scss';
 
 export const Search: React.FC = () => {
@@ -22,10 +22,11 @@ export const Search: React.FC = () => {
 
   const subjectOptions = useMemo<DropdownItem[]>(() => {
     if (subjects) {
-      return subjects.map((item) => ({
-        id: item.id.toString(),
+      const arr = subjects.map((item) => ({
+        id: String(item.id),
         text: item.name
       }));
+      return [anySubject, ...arr];
     }
     return [];
   }, [subjects]);
@@ -36,14 +37,19 @@ export const Search: React.FC = () => {
   const [subject, setSubject] = useState<DropdownItem | null>(null);
   const [role, setRole] = useState<DropdownItem | null>(null);
 
-  useEffect(() => {
-    fetchUsers({
+  const searchParams = useMemo<SearchParamsI>(
+    () => ({
       name_like: debouncedSearch,
-      is_active: status ? JSON.parse(status.id) : undefined,
-      subject_id: subject ? Number(subject.id) : undefined,
-      role: role?.id
-    });
-  }, [debouncedSearch, status, subject, role]);
+      is_active: status && status.id ? JSON.parse(status.id) : undefined,
+      subject_id: subject && subject.id ? Number(subject.id) : undefined,
+      role: role && role.id ? role.id : undefined
+    }),
+    [debouncedSearch, status, subject, role]
+  );
+
+  useEffect(() => {
+    fetchUsers(searchParams);
+  }, [searchParams, fetchUsers]);
 
   useEffect(() => {
     updateUserDetails({} as UserDetailsI);
