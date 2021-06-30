@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import dynamic from 'next/dynamic';
 import { observer } from 'mobx-react-lite';
 
@@ -22,6 +22,14 @@ export const BasicInfo: React.FC = observer(() => {
   const { description, setDescription } = store;
   const { youtubeLink, setYoutubeLink } = store;
   const { dateStart, setDateStart } = store;
+  const { files, setFiles } = store;
+
+  const onFilesChange = useCallback(
+    (fs) => {
+      setFiles(fs);
+    },
+    [setFiles]
+  );
 
   return (
     <div>
@@ -62,8 +70,7 @@ export const BasicInfo: React.FC = observer(() => {
       </div>
       <div className={cls.hr} />
       <h2 className={cls.label}>Рабочая тетрадь</h2>
-      {/* TODO: Files */}
-      <Files files={[]} onChange={() => null} />
+      <Files files={files} onChange={onFilesChange} />
     </div>
   );
 });

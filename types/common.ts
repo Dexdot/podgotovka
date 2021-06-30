@@ -45,3 +45,8 @@ export interface FileI {
   name: string;
   size: number;
 }
+
+export interface UploadedFileI {
+  shortLink: string;
+  fullLink: string;
+}
