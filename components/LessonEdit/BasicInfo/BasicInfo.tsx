@@ -7,6 +7,7 @@ import { InputFlat } from '@/components/common/Input/InputFlat';
 import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
 import { Files } from '@/components/common/Files/Files';
 
+import { LESSON_TYPES } from '@/utils/consts';
 import cls from './BasicInfo.module.scss';
 
 const TextEditor = dynamic(
@@ -18,7 +19,7 @@ const TextEditor = dynamic(
 export const BasicInfo: React.FC = observer(() => {
   const store = useContext(LessonEditContext);
 
-  const { name, setName } = store;
+  const { type, name, setName } = store;
   const { description, setDescription } = store;
   const { youtubeLink, setYoutubeLink } = store;
   const { dateStart, setDateStart } = store;
@@ -48,15 +49,21 @@ export const BasicInfo: React.FC = observer(() => {
           resetStyles
         />
       </div>
-      <div className={cls.hr} />
-      <h2 className={cls.label}>Ссылка на YouTube</h2>
-      <div className={cls.youtube_link}>
-        <InputFlat
-          value={youtubeLink}
-          onChange={(e) => setYoutubeLink(e.currentTarget.value)}
-          placeholder="Вставьте ссылку на видео или будущий стрим сюда"
-        />
-      </div>
+
+      {type !== LESSON_TYPES.examwork && (
+        <>
+          <div className={cls.hr} />
+          <h2 className={cls.label}>Ссылка на YouTube</h2>
+          <div className={cls.youtube_link}>
+            <InputFlat
+              value={youtubeLink}
+              onChange={(e) => setYoutubeLink(e.currentTarget.value)}
+              placeholder="Вставьте ссылку на видео или будущий стрим сюда"
+            />
+          </div>
+        </>
+      )}
+
       <div className={cls.hr} />
       <h2 className={cls.label}>Дата и время начала занятия</h2>
       <div>

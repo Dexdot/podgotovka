@@ -10,6 +10,7 @@ import { CreateLessonI, LessonType } from '@/types/lessons';
 import { LessonsAPI } from '@/api/lessons';
 import { showAlert } from '@/utils/network';
 
+import { LESSON_TYPES } from '@/utils/consts';
 import cls from './LessonEdit.module.scss';
 import { Dropdowns } from './Dropdowns';
 import { SectionCollapse } from '../common/SectionCollapse/SectionCollapse';
@@ -27,26 +28,30 @@ type CollapseType =
   | 'timecodes'
   | '';
 
+const lessonTypesWithoutHW: LessonType[] = [
+  LESSON_TYPES.psychologist,
+  LESSON_TYPES.motivation
+];
+
 export const LessonEdit: React.FC<Props> = observer(
   ({ lessonID, isCreate }) => {
     const router = useRouter();
 
     const store = useContext(LessonEditContext);
-    const { lessonData, isLoading, fetchLesson, saveLesson, name } = store;
+    const { lessonData, isLoading, fetchLesson, saveLesson, name, type } =
+      store;
 
     // Collapse
     const [collapse, setCollapse] = useState<CollapseType>('basic');
-    const toggleCollapse = (type: CollapseType) => {
-      setCollapse(collapse === type ? '' : type);
+    const toggleCollapse = (t: CollapseType) => {
+      setCollapse(collapse === t ? '' : t);
     };
 
     // Create lesson
     const createLesson = async () => {
-      const type = store.type as LessonType;
-
       const data: CreateLessonI = {
         name,
-        type,
+        type: store.type as LessonType,
         course_id: store.courseID,
         time_start: store.dateStart.getTime() / 1000,
         description: store.description ? JSON.stringify(store.description) : '',
@@ -100,7 +105,38 @@ export const LessonEdit: React.FC<Props> = observer(
           {(isCreate || !!lessonData) && <BasicInfo />}
         </SectionCollapse>
 
-        {!isCreate && <></>}
+        {!isCreate && (
+          <>
+            {type && !lessonTypesWithoutHW.includes(type) && (
+              <>
+                <SectionCollapse
+                  isOpen={collapse === 'homework_first'}
+                  onClick={() => toggleCollapse('homework_first')}
+                  title="Домашнее задание (Часть 1)"
+                >
+                  HW 1
+                </SectionCollapse>
+                <SectionCollapse
+                  isOpen={collapse === 'homework_second'}
+                  onClick={() => toggleCollapse('homework_second')}
+                  title="Домашнее задание (Часть 2)"
+                >
+                  HW 2
+                </SectionCollapse>
+              </>
+            )}
+
+            {type !== LESSON_TYPES.examwork && (
+              <SectionCollapse
+                isOpen={collapse === 'timecodes'}
+                onClick={() => toggleCollapse('timecodes')}
+                title="Таймкоды"
+              >
+                Таймкоды
+              </SectionCollapse>
+            )}
+          </>
+        )}
       </div>
     );
   }
