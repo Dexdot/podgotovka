@@ -24,7 +24,7 @@ function updateHW(
   return axios.put<HWEditDetailI>(`${SERVICE_PATH}/${lesson_id}`, hw);
 }
 
-export const LessonsAPI = {
+export const HomeworksAPI = {
   getHWDetail,
   createHW,
   updateHW
