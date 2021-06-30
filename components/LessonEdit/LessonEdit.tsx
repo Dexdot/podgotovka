@@ -49,11 +49,9 @@ export const LessonEdit: React.FC<Props> = observer(
 
     // Create lesson
     const createLesson = async () => {
-      const type = store.type as LessonType;
-
       const data: CreateLessonI = {
         name,
-        type,
+        type: store.type as LessonType,
         course_id: store.courseID,
         time_start: store.dateStart.getTime() / 1000,
         description: store.description ? JSON.stringify(store.description) : '',
