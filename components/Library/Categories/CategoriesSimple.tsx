@@ -4,7 +4,7 @@ import { SubjectI } from '@/types/subjects';
 
 import Link from 'next/link';
 
-import { TODO_CATEGORIES, TODO_MATERIALS } from '../helpers';
+import { TODO_CATEGORIES } from '../helpers';
 
 import cls from './Categories.module.scss';
 
@@ -21,16 +21,11 @@ export const Categories: React.FC<PropsI> = ({ subject }) => {
         {TODO_CATEGORIES.map((category) => (
           <div className={cls.category_simple} key={category.id}>
             <h3>{category.name}</h3>
-            {TODO_MATERIALS.map((item) => {
-              if (item.category_id === category.id) {
-                return (
-                  <Link key={item.id} href={`/library/${item.id}`}>
-                    {item.name}
-                  </Link>
-                );
-              }
-              return null;
-            })}
+            {category.materials.map((item) => (
+              <Link key={item.id} href={`/library/${item.id}`}>
+                {item.name}
+              </Link>
+            ))}
           </div>
         ))}
       </div>

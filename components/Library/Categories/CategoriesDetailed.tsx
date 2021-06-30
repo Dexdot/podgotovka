@@ -4,7 +4,7 @@ import Link from 'next/link';
 import cn from 'classnames';
 
 import { ChevronRight, ListBullet } from '../Icons';
-import { TODO_CATEGORIES, TODO_MATERIALS } from '../helpers';
+import { TODO_CATEGORIES } from '../helpers';
 
 import cls from './Categories.module.scss';
 
@@ -18,6 +18,7 @@ export const CategoriesDetailed: React.FC<PropsI> = ({
   materialId
 }) => {
   const [opened, setOpened] = useState<number[]>([]);
+  const [isAutoOpened, toggleAutoOpened] = useState<boolean>(false);
 
   const toggleCategory = useCallback(
     (categoryId) => {
@@ -30,13 +31,25 @@ export const CategoriesDetailed: React.FC<PropsI> = ({
     [opened]
   );
 
+  const autoOpenMaterail = useCallback(() => {
+    const category = TODO_CATEGORIES.find(({ materials }) =>
+      materials.find((item) => item.id === materialId)
+    );
+    if (category) {
+      setOpened([category.id]);
+      toggleAutoOpened(true);
+    }
+  }, [materialId]);
+
   useEffect(() => {
-    console.log(123);
-  }, []);
+    if (materialId && !isAutoOpened) {
+      autoOpenMaterail();
+    }
+  }, [materialId, isAutoOpened, autoOpenMaterail]);
 
   return (
     <div className={cls.detailed_wrapper}>
-      {TODO_CATEGORIES.map(({ id, name }) => {
+      {TODO_CATEGORIES.map(({ id, name, materials }) => {
         const isOpened = opened.includes(id);
 
         return (
@@ -45,8 +58,8 @@ export const CategoriesDetailed: React.FC<PropsI> = ({
               <ChevronRight />
               {name}
             </button>
-            {TODO_MATERIALS.map((item) => (
-              <Collapse isOpened={isOpened}>
+            <Collapse isOpened={isOpened}>
+              {materials.map((item) => (
                 <li
                   className={cn({
                     [cls.material_active]: materialId === item.id
@@ -55,8 +68,8 @@ export const CategoriesDetailed: React.FC<PropsI> = ({
                   <ListBullet />
                   <Link href={`/library/${item.id}`}>{item.name}</Link>
                 </li>
-              </Collapse>
-            ))}
+              ))}
+            </Collapse>
           </ul>
         );
       })}

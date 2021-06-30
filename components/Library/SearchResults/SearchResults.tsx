@@ -1,20 +1,17 @@
 import React, { Fragment } from 'react';
 import Link from 'next/link';
 
-import { SubjectI } from '@/types/subjects';
-
 import { pluralize } from '@/utils/pluralize';
-import { TODO_MATERIALS } from '../helpers';
+import { TODO_CATEGORIES } from '../helpers';
 import { SearchResultsLink } from './SearchResultsLink';
 
 import cls from './SearchResults.module.scss';
 
 interface PropsI {
   search: string;
-  subjects: SubjectI[] | undefined;
 }
 
-export const SearchResults: React.FC<PropsI> = ({ search, subjects }) => {
+export const SearchResults: React.FC<PropsI> = ({ search }) => {
   return (
     <div className={cls.material_card_wrapper}>
       <p className={cls.material_card_search}>
@@ -23,27 +20,25 @@ export const SearchResults: React.FC<PropsI> = ({ search, subjects }) => {
         <span>
           {pluralize({
             words: ['результат', 'результата', 'результатов'],
-            count: TODO_MATERIALS.length
+            count: TODO_CATEGORIES[0].materials.length
           })}
         </span>
       </p>
 
       <div className={cls.material_card}>
-        {TODO_MATERIALS.map((item, index) => {
-          const subject =
-            subjects?.find((subj) => subj.id === item.subject_id) || null;
+        {TODO_CATEGORIES[0].materials.map((item, index) => {
           return (
             <Fragment key={item.id}>
               <li>
                 <Link href={`/library/${item.id}`}>
                   <SearchResultsLink
                     material={item}
-                    subject={subject}
+                    subject="какой-то предмет"
                     href={`/library/${item.id}`}
                   />
                 </Link>
               </li>
-              {index !== TODO_MATERIALS.length - 1 && (
+              {index !== TODO_CATEGORIES[0].materials.length - 1 && (
                 <div className={cls.material_card_link_border} />
               )}
             </Fragment>

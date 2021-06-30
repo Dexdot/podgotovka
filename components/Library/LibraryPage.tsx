@@ -8,13 +8,12 @@ import { SearchResults } from './SearchResults/SearchResults';
 export const LibraryPage: React.FC<LibraryLayoutPropsI> = ({
   search,
   isSubmitted,
-  subject,
-  subjects
+  subject
 }) => {
   return (
     <>
       {!isSubmitted && <Categories subject={subject} />}
-      {isSubmitted && <SearchResults search={search} subjects={subjects} />}
+      {isSubmitted && <SearchResults search={search} />}
     </>
   );
 };

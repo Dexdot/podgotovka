@@ -44,11 +44,18 @@ export const LibraryLayout: React.FC<Props> = ({ children }) => {
     toggleSubmitted(false);
   }, []);
 
-  const handleSubjectChange = useCallback((item: SubjectI) => {
-    setSubject(item);
-    setValue('');
-    toggleSubmitted(false);
-  }, []);
+  const handleSubjectChange = useCallback(
+    (item: SubjectI) => {
+      setSubject(item);
+      setValue('');
+      toggleSubmitted(false);
+
+      if (id) {
+        router.push('/library');
+      }
+    },
+    [id, router]
+  );
 
   useEffect(() => {
     if (subjects?.length) {

@@ -6,7 +6,7 @@ import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Input } from '@/components/common/Input/Input';
 
 import { SearchAutocompleteBtn } from './SearchAutocompleteBtn';
-import { TODO_MATERIALS } from '../../../Library/helpers';
+import { TODO_CATEGORIES } from '../../../Library/helpers';
 import { ClearIcon } from '../../../Library/Icons';
 
 import cls from '../LibraryLayout.module.scss';
@@ -91,18 +91,20 @@ export const Search: React.FC<PropsI> = ({
             [cls.autocomplete_open]: !!value && inputInFocus
           })}
         >
-          {TODO_MATERIALS.map(({ id, name }) => (
-            <li key={id}>
-              <Link href={`/library/${id}`}>
-                <SearchAutocompleteBtn
-                  href={`/library/${id}`}
-                  value={name}
-                  search={value}
-                />
-              </Link>
-            </li>
-          ))}
-          {!TODO_MATERIALS.length && (
+          {TODO_CATEGORIES.map(({ materials }) =>
+            materials.map(({ id, name }) => (
+              <li key={id}>
+                <Link href={`/library/${id}`}>
+                  <SearchAutocompleteBtn
+                    href={`/library/${id}`}
+                    value={name}
+                    search={value}
+                  />
+                </Link>
+              </li>
+            ))
+          )}
+          {!TODO_CATEGORIES.length && (
             <li>
               <p className={cls.search_empty}>
                 По данному запросу ничего не найдено
