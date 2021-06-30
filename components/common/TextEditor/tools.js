@@ -15,6 +15,8 @@ import InlineCode from '@editorjs/inline-code';
 import SimpleImage from '@editorjs/simple-image';
 import Attaches from 'editorjs-attaches-readonly';
 
+import { uploadImage, uploadFile } from './helpers';
+
 export const EDITOR_JS_TOOLS = {
   embed: Embed,
   table: {
@@ -29,13 +31,46 @@ export const EDITOR_JS_TOOLS = {
     }
   },
   list: List,
-  warning: Warning,
-  code: Code,
+  warning: {
+    class: Warning,
+    inlineToolbar: true,
+    config: {
+      titlePlaceholder: 'Заголовок',
+      messagePlaceholder: 'Сообщение'
+    }
+  },
+  code: {
+    class: Code,
+    config: {
+      placeholder: 'Введите код'
+    }
+  },
   linkTool: LinkTool,
-  image: Image,
-  raw: Raw,
+  image: {
+    class: Image,
+    config: {
+      uploader: {
+        uploadByFile(file) {
+          return uploadImage(file);
+        }
+      }
+    }
+  },
+  raw: {
+    class: Raw,
+    config: {
+      placeholder: 'Введите HTML код'
+    }
+  },
   header: Header,
-  quote: Quote,
+  quote: {
+    class: Quote,
+    inlineToolbar: true,
+    config: {
+      quotePlaceholder: 'Введите цитату',
+      captionPlaceholder: 'Автор цитаты'
+    }
+  },
   marker: Marker,
   checklist: CheckList,
   delimiter: Delimiter,
@@ -44,8 +79,12 @@ export const EDITOR_JS_TOOLS = {
   attaches: {
     class: Attaches,
     config: {
-      buttonText: 'Выберите файл для загрузки'
-      // todo custom uploader
+      buttonText: 'Выберите файл для загрузки',
+      uploader: {
+        uploadByFile(file) {
+          return uploadFile(file);
+        }
+      }
     }
   }
 };
