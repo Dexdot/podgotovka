@@ -25,13 +25,6 @@ function uploadFile(file: File): Promise<AxiosResponse<FileI>> {
   });
 }
 
-// function uploadFile(file: File): Promise<AxiosResponse<UploadedFileI>> {
-//   return axios.post<UploadedFileI>(
-//     `${SERVICE_PATH}/documents/upload`,
-//     getFormData({ file })
-//   );
-// }
-
 function uploadImage(file: File): Promise<AxiosResponse<UploadedFileI>> {
   return axios.post<UploadedFileI>(
     `${SERVICE_PATH}/images/upload`,
