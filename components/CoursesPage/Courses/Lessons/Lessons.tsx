@@ -60,7 +60,7 @@ export const Lessons: React.FC<Props> = ({ courseID }) => {
             ))}
           </ul>
 
-          <Types />
+          <Types courseID={courseID} />
         </div>
       )}
     </section>

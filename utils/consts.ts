@@ -1,5 +1,6 @@
 import { DirectionType } from '@/types/common';
 import { CourseStatus } from '@/types/courses';
+import { LessonType } from '@/types/lessons';
 
 const isDevBuild = process.env.BUILD_ENV === 'development';
 
@@ -29,4 +30,12 @@ export const OPTION_TYPES = [
 export const DIRECTIONS_MAP: Record<DirectionType, string> = {
   USE: 'ЕГЭ',
   BSE: 'ОГЭ'
+};
+
+export const LESSON_TYPES: Record<string, LessonType> = {
+  webinar: 'webinar',
+  examwork: 'examwork',
+  extra_lesson: 'extra_lesson',
+  psychologist: 'psychologist',
+  motivation: 'motivation'
 };

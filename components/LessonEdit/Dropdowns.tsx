@@ -80,6 +80,7 @@ export const Dropdowns: React.FC = observer(() => {
           />
         </li>
       )}
+
       {typeUI && (
         <li>
           <Dropdown items={types} value={typeUI} onChange={onTypeChange} />
