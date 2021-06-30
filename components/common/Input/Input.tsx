@@ -13,6 +13,9 @@ export const Input = forwardRef<any, Props>((props, ref) => {
     value,
     onChange,
     onBlur,
+    onFocus,
+    onKeyPress,
+    onKeyDown,
     disabled,
     placeholder,
     type,
@@ -35,6 +38,9 @@ export const Input = forwardRef<any, Props>((props, ref) => {
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
         name={name}
