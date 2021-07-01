@@ -17,6 +17,7 @@ type Props = {
   value: DropdownItem | null;
   onChange: (item: DropdownItem) => void;
   disabled?: boolean;
+  maxHeight?: number;
 };
 
 export const Dropdown: React.FC<Props> = ({
@@ -25,7 +26,8 @@ export const Dropdown: React.FC<Props> = ({
   value,
   items,
   onChange,
-  disabled
+  disabled,
+  maxHeight
 }) => {
   const rootRef = useRef(null);
   const [isOpen, setOpen] = useState(false);
@@ -57,7 +59,10 @@ export const Dropdown: React.FC<Props> = ({
         <DropdownIcon />
       </button>
 
-      <ul className={cls.list}>
+      <ul
+        className={cls.list}
+        style={maxHeight ? { maxHeight, overflow: 'auto' } : {}}
+      >
         {list.map((item) => (
           <li key={item.id}>
             <button

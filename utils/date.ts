@@ -56,3 +56,17 @@ export function groupByDay(
 export function getDiffInSeconds(a: Date, b: Date): number {
   return differenceInSeconds(a, b);
 }
+
+export function secondsToHm(duration: number): string {
+  const d = Number(duration);
+
+  const h = Math.floor(d / 3600);
+  const m = Math.floor((d % 3600) / 60);
+
+  const isLessMinute = !m && !h;
+  const mFormat = m ? `${m} мин.` : '';
+  const mText = isLessMinute ? 'меньше минуты' : mFormat;
+
+  const hFormat = h > 0 ? `${h} ч. ` : '';
+  return hFormat + mText;
+}

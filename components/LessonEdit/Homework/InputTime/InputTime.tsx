@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Input } from '@/components/common/Input/Input';
-
-import { onlyNumbers } from '@/utils/format';
-import { TimeIcon } from './icons';
-import cls from './InputTime.module.scss';
+import { Dropdown } from '@/components/common/Dropdown/Dropdown';
+import { times } from './helpers';
 
 type Props = {
   value: number;
@@ -12,35 +9,15 @@ type Props = {
 };
 
 export const InputTime: React.FC<Props> = ({ value, onChange }) => {
-  const ref = useRef(null);
-  const [isOpen, setOpen] = useState(false);
+  const initialValue = times.find((t) => Number(t.id) === value);
+  const [time, setTime] = useState(initialValue || times[0]);
 
   useEffect(() => {
-    if (isOpen && ref && ref.current) {
-      // @ts-ignore
-      ref.current.focus();
-    }
-  }, [isOpen]);
+    const min = Number(time.id);
+    onChange(min);
+  }, [time, onChange]);
 
   return (
-    <div className={cls.root}>
-      {isOpen ? (
-        <div className={cls.input}>
-          <Input
-            ref={ref}
-            value={String(value)}
-            onChange={(e) =>
-              onChange(Number(onlyNumbers(e.currentTarget.value)))
-            }
-            onBlur={() => setOpen(false)}
-          />
-        </div>
-      ) : (
-        <button className={cls.btn} type="button" onClick={() => setOpen(true)}>
-          <TimeIcon />
-          {value} мин.
-        </button>
-      )}
-    </div>
+    <Dropdown maxHeight={210} items={times} value={time} onChange={setTime} />
   );
 };

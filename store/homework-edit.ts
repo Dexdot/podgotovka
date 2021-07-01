@@ -43,17 +43,22 @@ export class HWEditStore {
       }),
       action('fetchError', (error) => {
         const notFound = error?.response?.status === 404;
-        if (!notFound) showAlert({ error });
 
-        this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
+        if (notFound) {
+          this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
+        } else {
+          showAlert({ error });
+        }
       })
     );
   };
 
   handleData = (data: HWEditDetailI): void => {
-    this.hwData = data;
-    this.lessonID = data.lesson_id;
-    // TODO: Handle parts
+    if (data) {
+      this.hwData = data;
+      this.lessonID = data.lesson_id;
+      // TODO: Handle parts
+    }
   };
 
   setDeadline = (v: Date): void => {

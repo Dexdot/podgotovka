@@ -10,6 +10,7 @@ import { Questions } from './Questions/Questions';
 export const HomeworkOne: React.FC = observer(() => {
   const store = useContext(HWEditContext);
 
+  // Questions list
   const {
     questionsOne,
     setQuestionsOne,
