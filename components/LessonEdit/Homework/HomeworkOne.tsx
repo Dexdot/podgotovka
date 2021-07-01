@@ -5,6 +5,5 @@ import { HWEditContext } from '@/store/homework-edit';
 
 export const HomeworkOne: React.FC = observer(() => {
   const store = useContext(HWEditContext);
-
   return <div>HomeworkOne</div>;
 });

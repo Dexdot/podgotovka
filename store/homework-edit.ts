@@ -19,10 +19,12 @@ export class HWEditStore {
   public deadline = now;
 
   // Part one
-  public timeOne = 0;
+  public timeOne = 3600;
+
+  public questionsOne: HWTestQuestionEditI[] = [];
 
   // Part two
-  public questionsOne: HWTestQuestionEditI[] = [];
+  public timeTwo = 3600;
 
   constructor(lessonID: number) {
     makeAutoObservable(this);
@@ -53,11 +55,16 @@ export class HWEditStore {
 
   // Part one
   setTimeOne = (v: number): void => {
-    this.timeOne = v;
+    this.timeOne = v * 60;
   };
 
   setQuestionsOne = (v: HWTestQuestionEditI[]): void => {
     this.questionsOne = [...v];
+  };
+
+  // Part two
+  setTimeTwo = (v: number): void => {
+    this.timeTwo = v * 60;
   };
 }
 

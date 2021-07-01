@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import cls from './DateTimePicker.module.scss';
-import { RemoveIcon, TimeIcon } from './icons';
+import { RemoveIcon, CalendarIcon, TimeIcon } from './icons';
 
 registerLocale('ru', ru);
 setDefaultLocale('ru');
@@ -32,15 +32,15 @@ export const DateTimePicker: React.FC<Props> = ({
   dateFormat
 }) => {
   const defaultDateFormat = showTimeInput ? 'd MMMM, p' : 'd MMMM';
+
   return (
     <div
-      className={cn(cls.root, {
-        [cls.root_time]: showTimeInput,
+      className={cn(cls.root, cls.root_icon, {
         [cls.root_with_remove]: remove,
         [cls.root_only_time]: onlyTime
       })}
     >
-      {showTimeInput && <TimeIcon />}
+      {showTimeInput ? <TimeIcon /> : <CalendarIcon />}
 
       <DatePicker
         selected={date}

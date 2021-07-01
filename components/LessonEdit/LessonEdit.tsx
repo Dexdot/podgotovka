@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { Button } from '@/components/common/Button/Button';
 import { BackLink } from '@/components/common/BackLink/BackLink';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
+import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
 
 import { LessonEditContext } from '@/store/lesson-edit';
 import { CreateLessonI, LessonType } from '@/types/lessons';
@@ -17,7 +18,8 @@ import cls from './LessonEdit.module.scss';
 import { Dropdowns } from './Dropdowns';
 import { BasicInfo } from './BasicInfo/BasicInfo';
 import { Timecode } from './Timecode';
-import { HomeworkOne } from './HomeworkOne/HomeworkOne';
+import { HomeworkOne } from './Homework/HomeworkOne';
+import { InputTime } from './Homework/InputTime/InputTime';
 
 type Props = {
   lessonID?: number;
@@ -122,13 +124,59 @@ export const LessonEdit: React.FC<Props> = observer(
                   isOpen={collapse === 'hw_first'}
                   onClick={() => toggleCollapse('hw_first')}
                   title="Домашнее задание (Часть 1)"
+                  headerChildren={
+                    // TODO: Warning icon
+                    <header className={cls.hw_header} style={{ zIndex: 3 }}>
+                      <InputTime
+                        value={hwStore.timeOne / 60}
+                        onChange={(t) => hwStore.setTimeOne(t)}
+                      />
+                      <div className={cls.deadline}>
+                        Крайний срок выполнения
+                        <div className={cls.deadline_time}>
+                          <DateTimePicker
+                            dateFormat="d MMMM, yyyy"
+                            date={hwStore.deadline}
+                            onChange={(d) => {
+                              if (d) {
+                                hwStore.setDeadline(d);
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </header>
+                  }
                 >
                   <HomeworkOne />
                 </SectionCollapse>
+
                 <SectionCollapse
                   isOpen={collapse === 'hw_second'}
                   onClick={() => toggleCollapse('hw_second')}
                   title="Домашнее задание (Часть 2)"
+                  headerChildren={
+                    <header className={cls.hw_header}>
+                      <InputTime
+                        value={hwStore.timeTwo / 60}
+                        onChange={(t) => hwStore.setTimeTwo(t)}
+                      />
+                      <div className={cls.deadline}>
+                        Крайний срок выполнения
+                        <div className={cls.deadline_time}>
+                          <DateTimePicker
+                            dateFormat="d MMMM, yyyy"
+                            date={hwStore.deadline}
+                            onChange={(d) => {
+                              if (d) {
+                                hwStore.setDeadline(d);
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </header>
+                  }
                 >
                   HW 2
                 </SectionCollapse>
