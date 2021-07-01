@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 import { LessonI } from '@/types/lessons';
 import { getDateText, toHHMM } from '@/utils/date';
@@ -12,7 +13,6 @@ import { showAlert } from '@/utils/network';
 
 import cls from './LessonItem.module.scss';
 import { TimeIcon } from './icons';
-import book from './book.svg';
 
 type Props = {
   lesson: LessonI;
@@ -61,7 +61,7 @@ export const LessonItem: React.FC<Props> = ({ lesson }) => {
         <p className={cls.name}>{lesson.name}</p>
       </div>
       <div className={cls.right}>
-        <img src={book} alt="ДЗ" />
+        <Image src="/emoji/book.png" alt="ДЗ" width="24" height="24" />
         {/* TODO: counter */}
         <div className={cls.counter}>X / Y</div>
         <ActionsDropdown onClick={onActionClick} disabled={isCopying} />

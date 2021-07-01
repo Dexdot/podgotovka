@@ -2,9 +2,10 @@ import { createContext } from 'react';
 import { action, makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { HWEditDetailI, HWTestQuestionEditI } from '@/types/homeworks';
+import { HWEditDetailI, HWUpdateTestQuestionI } from '@/types/homeworks';
 import { showAlert } from '@/utils/network';
 import { HomeworksAPI } from '@/api/homeworks';
+import { getEmptyTestQuestions } from '@/components/LessonEdit/Homework/helpers';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
@@ -19,9 +20,13 @@ export class HWEditStore {
   public deadline = now;
 
   // Part one
+  public countTestQuestions = 0;
+
   public timeOne = 3600;
 
-  public questionsOne: HWTestQuestionEditI[] = [];
+  public questionsOne: HWUpdateTestQuestionI[] = [];
+
+  public selectedQuestionOne = 0;
 
   // Part two
   public timeTwo = 3600;
@@ -39,6 +44,8 @@ export class HWEditStore {
       action('fetchError', (error) => {
         const notFound = error?.response?.status === 404;
         if (!notFound) showAlert({ error });
+
+        this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
       })
     );
   };
@@ -54,12 +61,27 @@ export class HWEditStore {
   };
 
   // Part one
+  setCountTestQuestions = (v: number): void => {
+    this.countTestQuestions = v;
+  };
+
   setTimeOne = (v: number): void => {
     this.timeOne = v * 60;
   };
 
-  setQuestionsOne = (v: HWTestQuestionEditI[]): void => {
+  setQuestionsOne = (v: HWUpdateTestQuestionI[]): void => {
     this.questionsOne = [...v];
+  };
+
+  selectQuestionOne = (v: number): void => {
+    this.selectedQuestionOne = v;
+  };
+
+  setQuestionNameOne = (id: number, name: string): void => {
+    const question = this.questionsOne.find((q) => q.id === id);
+    if (question) {
+      question.name = name;
+    }
   };
 
   // Part two

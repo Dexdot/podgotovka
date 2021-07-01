@@ -49,10 +49,6 @@ export interface HWUpdateTestQuestionI extends HWTestQuestionBaseI {
   relation_questions?: HWTestQuestionBaseI[];
 }
 
-export interface HWTestQuestionEditI extends HWTestQuestionI {
-  relation_questions?: HWTestQuestionBaseI[];
-}
-
 export interface UpdateHWI {
   deadline: number;
   part_one: {

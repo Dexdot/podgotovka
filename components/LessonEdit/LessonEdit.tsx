@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
 
 import { Button } from '@/components/common/Button/Button';
 import { BackLink } from '@/components/common/BackLink/BackLink';
@@ -81,6 +82,8 @@ export const LessonEdit: React.FC<Props> = observer(
       if (lessonID) {
         const s = new HWEditStore(lessonID);
         setHWStore(s);
+        // TODO: set value from course
+        s.setCountTestQuestions(10);
         s.fetchHW();
       }
     }, [lessonID]);
@@ -125,7 +128,6 @@ export const LessonEdit: React.FC<Props> = observer(
                   onClick={() => toggleCollapse('hw_first')}
                   title="Домашнее задание (Часть 1)"
                   headerChildren={
-                    // TODO: Warning icon
                     <header className={cls.hw_header} style={{ zIndex: 3 }}>
                       <InputTime
                         value={hwStore.timeOne / 60}
@@ -142,6 +144,13 @@ export const LessonEdit: React.FC<Props> = observer(
                                 hwStore.setDeadline(d);
                               }
                             }}
+                          />
+                        </div>
+                        <div className={cls.warning}>
+                          <Image
+                            src="/emoji/exclamation-mark.png"
+                            width="22"
+                            height="22"
                           />
                         </div>
                       </div>
@@ -172,6 +181,13 @@ export const LessonEdit: React.FC<Props> = observer(
                                 hwStore.setDeadline(d);
                               }
                             }}
+                          />
+                        </div>
+                        <div className={cls.warning}>
+                          <Image
+                            src="/emoji/exclamation-mark.png"
+                            width="22"
+                            height="22"
                           />
                         </div>
                       </div>

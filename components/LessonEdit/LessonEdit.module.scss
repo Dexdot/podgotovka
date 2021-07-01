@@ -41,6 +41,10 @@
 .deadline {
   display: flex;
   align-items: center;
+
+  .warning {
+    margin-left: 24px;
+  }
 }
 
 .deadline_time {
