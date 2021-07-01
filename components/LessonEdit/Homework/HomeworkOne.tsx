@@ -70,7 +70,7 @@ export const HomeworkOne: React.FC = observer(() => {
         {selectedQuestion && (
           <>
             <Description
-              key={selectedQuestion.id}
+              key={`Description-${selectedQuestion.id}`}
               blocks={selectedQuestion.descriptionBlocks}
               onChange={(bs) =>
                 setDescriptionBlocksOne(selectedQuestion.id, bs)
@@ -95,7 +95,7 @@ export const HomeworkOne: React.FC = observer(() => {
             />
             <div className={cls.hr} />
             <Text
-              key={selectedQuestion.id}
+              key={`Text-${selectedQuestion.id}`}
               blocks={selectedQuestion.textBlocks}
               onChange={(bs) => setTextBlocksOne(selectedQuestion.id, bs)}
             />
