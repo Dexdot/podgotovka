@@ -7,6 +7,41 @@
     .codex-editor__redactor {
       padding-bottom: 16px !important;
     }
+
+    .cdx-notifies {
+      display: none !important;
+    }
+
+    .cdx-attaches {
+      display: flex !important;
+      align-items: center !important;
+
+      padding: 16px !important;
+
+      border: 1px solid var(--color-lightgray) !important;
+      border-radius: 8px !important;
+
+      .cdx-attaches__file-icon {
+        margin-right: 12px !important;
+      }
+
+      .cdx-attaches__size {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--color-gray);
+
+        &::after {
+          content: attr(data-size);
+          margin-left: 4px;
+        }
+      }
+
+      .cdx-attaches__download-button {
+        margin-left: auto !important;
+      }
+    }
   }
 }
 
