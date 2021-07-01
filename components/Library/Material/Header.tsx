@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
-import { useRouter } from 'next/router';
 
 import { getDDMMYY } from '@/utils/date';
 import { showAlert } from '@/utils/network';
 
 import { Avatar } from '@/components/common/Avatar/Avatar';
 import { Button } from '@/components/common/Button/Button';
+import { ButtonLink } from '@/components/common/Button/ButtonLink';
 
 import { CopyIcon, EditIcon } from '../Icons';
 import { TODO_MATERIAL_AUTHOR } from '../helpers';
@@ -17,15 +17,9 @@ interface PropsI {
 }
 
 export const Header: React.FC<PropsI> = ({ materialId }) => {
-  const router = useRouter();
-
   const handleCopy = useCallback(() => {
     showAlert({ text: 'todo копия' });
   }, []);
-
-  const handleEdit = useCallback(() => {
-    router.push(`/library/${materialId}/edit`);
-  }, [router, materialId]);
 
   return (
     <div className={cls.header}>
@@ -49,10 +43,10 @@ export const Header: React.FC<PropsI> = ({ materialId }) => {
           <CopyIcon />
           Создать копию
         </Button>
-        <Button variant="grey" onClick={handleEdit}>
+        <ButtonLink variant="grey" href={`/library/${materialId}/edit`}>
           <EditIcon />
           Изменить
-        </Button>
+        </ButtonLink>
       </div>
     </div>
   );

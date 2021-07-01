@@ -129,3 +129,48 @@ export const TODO_MATERIAL_AUTHOR: MaterialAuthorI = {
   name: 'Иванов Иван',
   created_at: 1625054751
 };
+
+export const TODO_MATERIAL_DESC = [
+  {
+    id: 'XBVSZsl67h',
+    type: 'header',
+    data: {
+      text: 'Key features',
+      level: 3
+    }
+  },
+  {
+    id: 'XSeggNtkUT',
+    type: 'list',
+    data: {
+      style: 'unordered',
+      items: [
+        'It is a block-styled editor',
+        'It returns clean data output in JSON',
+        'Designed to be extendable and pluggable with a simple API'
+      ]
+    }
+  },
+  {
+    id: 'gClvzZheK6',
+    type: 'header',
+    data: {
+      text: 'What does it mean «block-styled editor»',
+      level: 3
+    }
+  },
+  {
+    id: 'guHBgqzVWC',
+    type: 'paragraph',
+    data: {
+      text: 'Workspace in classic editors is made of a single contenteditable element, used to create different HTML markups. Editor.js <mark class="cdx-marker">workspace consists of separate Blocks: paragraphs, headings, images, lists, quotes, etc</mark>. Each of them is an independent contenteditable element (or more complex structure) provided by Plugin and united by Editor\'s Core.'
+    }
+  },
+  {
+    id: 'YbWlgDL2VI',
+    type: 'paragraph',
+    data: {
+      text: 'There are dozens of <a href="https://github.com/editor-js">ready-to-use Blocks</a> and the <a href="https://editorjs.io/creating-a-block-tool">simple API</a> for creation any Block you need. For example, you can implement Blocks for Tweets, Instagram posts, surveys and polls, CTA-buttons and even games.'
+    }
+  }
+];

@@ -8,7 +8,7 @@ import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 import { useDebounce } from '@/hooks/useDebounce';
 
 import { Button } from '@/components/common/Button/Button';
-import { Search } from '@/components/layouts/LibraryLayout/Search/Search';
+import { Search } from '@/components/layouts/LibraryLayout/Search';
 
 import cls from './LibraryLayout.module.scss';
 

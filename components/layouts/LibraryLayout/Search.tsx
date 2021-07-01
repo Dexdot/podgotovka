@@ -4,12 +4,12 @@ import cn from 'classnames';
 
 import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Input } from '@/components/common/Input/Input';
+import { HighlightText } from '@/components/common/HighlightText/HighlighText';
 
-import { SearchAutocompleteBtn } from './SearchAutocompleteBtn';
-import { TODO_CATEGORIES } from '../../../Library/helpers';
-import { ClearIcon } from '../../../Library/Icons';
+import { TODO_CATEGORIES } from '../../Library/helpers';
+import { ClearIcon } from '../../Library/Icons';
 
-import cls from '../LibraryLayout.module.scss';
+import cls from './LibraryLayout.module.scss';
 
 interface PropsI {
   value: string;
@@ -95,11 +95,9 @@ export const Search: React.FC<PropsI> = ({
             materials.map(({ id, name }) => (
               <li key={id}>
                 <Link href={`/library/${id}`}>
-                  <SearchAutocompleteBtn
-                    href={`/library/${id}`}
-                    value={name}
-                    search={value}
-                  />
+                  <a href={`/library/${id}`}>
+                    <HighlightText search={value} value={name} />
+                  </a>
                 </Link>
               </li>
             ))

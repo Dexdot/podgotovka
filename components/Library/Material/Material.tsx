@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
-import { TODO_CATEGORIES } from '../helpers';
+import React, { useMemo } from 'react';
+
+import { MaterialI, TODO_CATEGORIES } from '../helpers';
 
 import { Editor } from './Editor';
 import { Footer } from './Footer';
@@ -9,24 +10,42 @@ import cls from './Material.module.scss';
 
 interface PropsI {
   materialId: number;
+  editMode?: boolean;
 }
 
-export const Material: React.FC<PropsI> = ({ materialId }) => {
-  const nextMaterial = useMemo<string | null>(() => {
-    return TODO_CATEGORIES[0].materials[0].name;
-  }, []);
+export const Material: React.FC<PropsI> = ({
+  materialId,
+  editMode = false
+}) => {
+  const allMaterials = useMemo<MaterialI[]>(
+    () =>
+      TODO_CATEGORIES.map(({ materials }) => materials).reduce(
+        (acc, val) => [...acc, ...val],
+        []
+      ),
+    []
+  );
 
-  const handleNextClick = useCallback(() => {
-    console.log('todo');
-  }, []);
+  const currentMaterial = useMemo<MaterialI | null>(
+    () => allMaterials.find((item) => item.id === materialId) || null,
+    [allMaterials, materialId]
+  );
+
+  const nextMaterial = useMemo<MaterialI | null>(() => {
+    const indexOfCurrentMaterial = allMaterials.findIndex(
+      (item) => item.id === materialId
+    );
+    if (indexOfCurrentMaterial === allMaterials.length - 1) {
+      return null;
+    }
+    return allMaterials[indexOfCurrentMaterial + 1];
+  }, [allMaterials, materialId]);
 
   return (
     <div className={cls.root}>
       <Header materialId={materialId} />
-      <Editor />
-      {nextMaterial && (
-        <Footer nextMaterial={nextMaterial} onNextClick={handleNextClick} />
-      )}
+      <Editor material={currentMaterial} editMode={editMode} />
+      {nextMaterial && <Footer nextMaterial={nextMaterial} />}
     </div>
   );
 };

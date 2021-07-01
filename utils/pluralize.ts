@@ -13,6 +13,7 @@ export const getEndingByPlural = (count: number): number => {
 };
 
 interface ParamsI {
+  // пример: [результат, результата, результатов]
   words: [string, string, string];
   count: number;
   reverse?: boolean;

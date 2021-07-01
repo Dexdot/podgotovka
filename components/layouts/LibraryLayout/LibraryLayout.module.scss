@@ -94,9 +94,10 @@
   background-color: #fff;
   opacity: 0;
 
-  transition: 0.25s ease;
+  transition: opacity 0.25s ease;
 
-  p {
+  a {
+    display: block;
     width: 100%;
 
     padding: 8px 12px;

@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import { pluralize } from '@/utils/pluralize';
 import { TODO_CATEGORIES } from '../helpers';
-import { SearchResultsLink } from './SearchResultsLink';
 
 import cls from './SearchResults.module.scss';
 
@@ -31,11 +30,15 @@ export const SearchResults: React.FC<PropsI> = ({ search }) => {
             <Fragment key={item.id}>
               <li>
                 <Link href={`/library/${item.id}`}>
-                  <SearchResultsLink
-                    material={item}
-                    subject="какой-то предмет"
-                    href={`/library/${item.id}`}
-                  />
+                  <a href={`/library/${item.id}`}>
+                    <p className={cls.material_card_link_name}>{item.name}</p>
+                    <p className={cls.material_card_link_desc}>
+                      {item.description}
+                    </p>
+                    <p className={cls.material_card_link_subject}>
+                      todo subject
+                    </p>
+                  </a>
                 </Link>
               </li>
               {index !== TODO_CATEGORIES[0].materials.length - 1 && (
