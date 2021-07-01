@@ -9,13 +9,15 @@ import { Header } from './Header';
 import cls from './Material.module.scss';
 
 interface PropsI {
-  materialId: number;
+  materialId: number | null;
+  subjectId: number;
   editMode?: boolean;
 }
 
 export const Material: React.FC<PropsI> = ({
   materialId,
-  editMode = false
+  editMode = false,
+  subjectId
 }) => {
   const allMaterials = useMemo<MaterialI[]>(
     () =>
@@ -43,9 +45,15 @@ export const Material: React.FC<PropsI> = ({
 
   return (
     <div className={cls.root}>
-      <Header materialId={materialId} />
+      <Header
+        materialId={materialId}
+        editMode={editMode}
+        subjectId={subjectId}
+      />
       <Editor material={currentMaterial} editMode={editMode} />
-      {nextMaterial && <Footer nextMaterial={nextMaterial} />}
+      {nextMaterial && !editMode && (
+        <Footer nextMaterial={nextMaterial} subjectId={subjectId} />
+      )}
     </div>
   );
 };

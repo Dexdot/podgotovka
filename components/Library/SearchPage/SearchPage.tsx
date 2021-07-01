@@ -1,16 +1,21 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { pluralize } from '@/utils/pluralize';
-import { TODO_CATEGORIES } from '../helpers';
+import { TODO_SEARCH_RESULTS } from '../helpers';
 
-import cls from './SearchResults.module.scss';
+import cls from './SearchPage.module.scss';
 
-interface PropsI {
-  search: string;
-}
+export const SearchPage: React.FC = () => {
+  const router = useRouter();
+  const { search } = router.query;
 
-export const SearchResults: React.FC<PropsI> = ({ search }) => {
+  useEffect(() => {
+    // todo search
+    console.log(search);
+  }, [search]);
+
   return (
     <div className={cls.material_card_wrapper}>
       <p className={cls.material_card_search}>
@@ -19,18 +24,22 @@ export const SearchResults: React.FC<PropsI> = ({ search }) => {
         <span>
           {pluralize({
             words: ['результат', 'результата', 'результатов'],
-            count: TODO_CATEGORIES[0].materials.length
+            count: TODO_SEARCH_RESULTS.length
           })}
         </span>
       </p>
 
       <div className={cls.material_card}>
-        {TODO_CATEGORIES[0].materials.map((item, index) => {
+        {TODO_SEARCH_RESULTS.map((item, index) => {
           return (
             <Fragment key={item.id}>
               <li>
-                <Link href={`/library/${item.id}`}>
-                  <a href={`/library/${item.id}`}>
+                <Link
+                  href={`/library/subject/${item.subject_id}/material/${item.id}`}
+                >
+                  <a
+                    href={`/library/subject/${item.subject_id}/material/${item.id}`}
+                  >
                     <p className={cls.material_card_link_name}>{item.name}</p>
                     <p className={cls.material_card_link_desc}>
                       {item.description}
@@ -41,7 +50,7 @@ export const SearchResults: React.FC<PropsI> = ({ search }) => {
                   </a>
                 </Link>
               </li>
-              {index !== TODO_CATEGORIES[0].materials.length - 1 && (
+              {index !== TODO_SEARCH_RESULTS.length - 1 && (
                 <div className={cls.material_card_link_border} />
               )}
             </Fragment>

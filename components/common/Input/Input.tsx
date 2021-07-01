@@ -21,7 +21,8 @@ export const Input = forwardRef<any, Props>((props, ref) => {
     type,
     name,
     errorText,
-    search
+    search,
+    autoFocus
   } = props;
 
   return (
@@ -44,6 +45,8 @@ export const Input = forwardRef<any, Props>((props, ref) => {
         placeholder={placeholder}
         disabled={disabled}
         name={name}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={autoFocus}
       />
       <span
         className={cn(cls.error_wrap, { [cls.error_wrap_active]: !!errorText })}

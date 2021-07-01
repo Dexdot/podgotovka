@@ -13,10 +13,12 @@ import { TODO_MATERIAL_AUTHOR } from '../helpers';
 import cls from './Material.module.scss';
 
 interface PropsI {
-  materialId: number;
+  materialId: number | null;
+  subjectId: number;
+  editMode: boolean;
 }
 
-export const Header: React.FC<PropsI> = ({ materialId }) => {
+export const Header: React.FC<PropsI> = ({ materialId, subjectId }) => {
   const handleCopy = useCallback(() => {
     showAlert({ text: 'todo копия' });
   }, []);
@@ -43,7 +45,10 @@ export const Header: React.FC<PropsI> = ({ materialId }) => {
           <CopyIcon />
           Создать копию
         </Button>
-        <ButtonLink variant="grey" href={`/library/${materialId}/edit`}>
+        <ButtonLink
+          variant="grey"
+          href={`/library/subject/${subjectId}/material/${materialId}/edit`}
+        >
           <EditIcon />
           Изменить
         </ButtonLink>

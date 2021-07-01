@@ -6,7 +6,7 @@ import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Input } from '@/components/common/Input/Input';
 import { HighlightText } from '@/components/common/HighlightText/HighlighText';
 
-import { TODO_CATEGORIES } from '../../Library/helpers';
+import { TODO_SEARCH_RESULTS } from '../../Library/helpers';
 import { ClearIcon } from '../../Library/Icons';
 
 import cls from './LibraryLayout.module.scss';
@@ -91,18 +91,16 @@ export const Search: React.FC<PropsI> = ({
             [cls.autocomplete_open]: !!value && inputInFocus
           })}
         >
-          {TODO_CATEGORIES.map(({ materials }) =>
-            materials.map(({ id, name }) => (
-              <li key={id}>
-                <Link href={`/library/${id}`}>
-                  <a href={`/library/${id}`}>
-                    <HighlightText search={value} value={name} />
-                  </a>
-                </Link>
-              </li>
-            ))
-          )}
-          {!TODO_CATEGORIES.length && (
+          {TODO_SEARCH_RESULTS.map(({ id, subject_id, name }) => (
+            <li key={id}>
+              <Link href={`/library/subject/${subject_id}/material/${id}`}>
+                <a href={`/library/subject/${subject_id}/material/${id}`}>
+                  <HighlightText search={value} value={name} />
+                </a>
+              </Link>
+            </li>
+          ))}
+          {!TODO_SEARCH_RESULTS.length && (
             <li>
               <p className={cls.search_empty}>
                 По данному запросу ничего не найдено

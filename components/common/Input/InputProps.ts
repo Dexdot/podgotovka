@@ -10,6 +10,7 @@ export interface InputProps {
   name?: string;
   type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
   errorText?: string;
+  autoFocus?: boolean;
 }
 
 export const defaultProps = {
@@ -21,5 +22,6 @@ export const defaultProps = {
   onKeyPress: undefined,
   onKeyDown: undefined,
   type: 'text',
-  errorText: ''
+  errorText: '',
+  autoFocus: false
 };

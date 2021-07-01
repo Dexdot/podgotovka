@@ -1,67 +1,52 @@
 import React, { cloneElement, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { SubjectI } from '@/types/subjects';
-
 import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 
 import { useDebounce } from '@/hooks/useDebounce';
 
-import { Button } from '@/components/common/Button/Button';
+import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Search } from '@/components/layouts/LibraryLayout/Search';
 
 import cls from './LibraryLayout.module.scss';
 
-type Props = {
+interface PropsI {
   children?: React.ReactElement;
-};
+}
 
-export const LibraryLayout: React.FC<Props> = ({ children }) => {
+export const LibraryLayout: React.FC<PropsI> = ({ children }) => {
   const router = useRouter();
-  const { id } = router.query;
+  const { pathname } = router;
+  const { subject_id } = router.query;
 
   const subjects = useSubjects();
 
   const [value, setValue] = useState<string>('');
   const search = useDebounce(value, 250);
-  const [subject, setSubject] = useState<SubjectI | null>(null);
-  const [isSubmitted, toggleSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     // todo search
-  }, [search, subject]);
+  }, [search]);
 
   const handleSubmit = useCallback(() => {
-    // todo search with descriptions
-    if (id) {
-      router.push(`/library`);
-    }
-    toggleSubmitted(true);
-  }, [id, router]);
+    router.push({ pathname: `/library/search`, query: { search: value } });
+  }, [router, value]);
 
   const handleClear = useCallback(() => {
     setValue('');
-    toggleSubmitted(false);
   }, []);
 
-  const handleSubjectChange = useCallback(
-    (item: SubjectI) => {
-      setSubject(item);
-      setValue('');
-      toggleSubmitted(false);
-
-      if (id) {
-        router.push('/library');
-      }
-    },
-    [id, router]
-  );
-
-  useEffect(() => {
-    if (subjects?.length) {
-      setSubject(subjects[0]);
+  const getButtonVariant = (
+    subjectId: number
+  ): 'grey' | 'primary' | 'secondary' => {
+    if (pathname.includes('search')) {
+      return 'grey';
     }
-  }, [subjects]);
+    if (Number(subject_id) === subjectId) {
+      return 'primary';
+    }
+    return 'secondary';
+  };
 
   return (
     <section className={cls.root}>
@@ -74,20 +59,17 @@ export const LibraryLayout: React.FC<Props> = ({ children }) => {
 
       <div className={cls.search_subjects}>
         {subjects?.map((item) => (
-          <Button
+          <ButtonLink
             key={item.id}
-            onClick={() => handleSubjectChange(item)}
-            variant={isSubmitted ? 'grey' : 'primary'}
+            href={`/library/subject/${item.id}`}
+            variant={getButtonVariant(item.id)}
           >
             {item.name}
-          </Button>
+          </ButtonLink>
         ))}
       </div>
       {children &&
         cloneElement(children, {
-          search: value,
-          subject,
-          isSubmitted,
           subjects
         })}
     </section>

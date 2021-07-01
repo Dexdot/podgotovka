@@ -1,89 +1,62 @@
-.simple_wrapper {
-  margin-top: 36px;
-
-  h2 {
-    margin-bottom: 24px;
-
-    font-style: normal;
-    font-weight: 800;
-    font-size: 24px;
-    line-height: 33px;
-  }
-
-  h3 {
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 25px;
-    text-transform: uppercase;
-  }
-
-  a {
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 22px;
-    color: var(--color-primary);
-  }
-}
-
-.categories_simple {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  grid-auto-rows: auto;
-  gap: 36px;
-}
-
-.category_simple {
-  * {
-    display: block;
-    margin-bottom: 12px;
-  }
-}
-
-.detailed_wrapper {
+.wrapper {
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 22px;
   color: var(--color-black);
 
-  ul {
-    button {
-      display: flex;
-      align-items: center;
+  button {
+    width: 100%;
+  }
 
-      padding: 8px;
+  input {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 2px solid var(--color-lightgray);
 
-      svg {
-        margin-right: 8px;
+    &:focus {
+      box-shadow: 0 0 0 2px var(--color-primary);
+    }
+  }
 
-        transition: transform 0.2s ease;
+  .categories {
+    ul {
+      button {
+        display: flex;
+        align-items: center;
+
+        padding: 8px;
+
+        svg {
+          margin-right: 8px;
+
+          transition: transform 0.2s ease;
+        }
       }
-    }
-
-    a {
-      color: currentColor;
-      transition: color 0.25s ease;
-    }
-
-    .material_active {
-      color: var(--color-primary);
 
       a {
         color: currentColor;
+        transition: color 0.25s ease;
       }
-    }
 
-    li {
-      display: flex;
-      align-items: center;
+      .material_active {
+        color: var(--color-primary);
 
-      padding: 8px;
-      margin-left: 24px;
+        a {
+          color: currentColor;
+        }
+      }
 
-      svg {
-        margin-right: 4px;
+      li {
+        display: flex;
+        align-items: center;
+
+        padding: 8px;
+        margin-left: 24px;
+
+        svg {
+          margin-right: 4px;
+        }
       }
     }
   }
@@ -92,5 +65,144 @@
 .category_active {
   svg {
     transform: rotate(90deg);
+  }
+}
+
+.categories_empty {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: var((--color-gray));
+}
+
+.wrapper_edit {
+  padding-right: 36px;
+
+  border-right: 1px solid var(--color-lightgray);
+
+  .categories {
+    li {
+      margin-left: 36px !important;
+
+      a {
+        width: 100%;
+        display: block;
+      }
+    }
+
+    .material_active {
+      transition: 0.25s ease;
+
+      background-color: var(--color-lightgray);
+      border-radius: 4px;
+
+      a {
+        color: var(--color-black) !important;
+      }
+    }
+  }
+}
+
+.header {
+  width: 100%;
+
+  div {
+    width: 100%;
+
+    margin-bottom: 16px;
+
+    button {
+      width: 100%;
+
+      svg {
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+.material_draft {
+  color: #7a869a !important;
+}
+
+.footer {
+  margin-top: 16px;
+  padding-top: 16px;
+
+  border-top: 1px solid var(--color-lightgray);
+}
+
+.new_btns {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  button {
+    height: 32px;
+    width: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0px 3px 5px rgba(9, 30, 66, 0.2),
+      0px 0px 1px rgba(9, 30, 66, 0.31);
+    border-radius: 3px;
+
+    &:first-child {
+      margin-right: 4px;
+    }
+  }
+}
+
+.create_category {
+  opacity: 0;
+  height: 0px;
+  pointer-events: none;
+
+  transition: 0.25s ease;
+}
+.create_category_open {
+  height: 80px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.create_material_btn {
+  height: 38px;
+
+  margin-left: 36px;
+
+  color: var(--color-primary);
+  opacity: 1;
+  border-radius: 4px;
+  pointer-events: auto;
+
+  transition: 0.25s ease;
+
+  svg {
+    margin-right: 10px;
+  }
+}
+
+.create_material_btn_closed {
+  opacity: 0;
+  height: 0px;
+  pointer-events: none;
+}
+
+.create_material_input {
+  margin-left: 36px;
+
+  button {
+    padding: 0 !important;
+
+    svg {
+      transform: none !important;
+      margin: 0 !important;
+    }
   }
 }
