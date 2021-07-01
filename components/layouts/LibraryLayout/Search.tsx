@@ -16,13 +16,15 @@ interface PropsI {
   onValueChange: (newValue: string) => void;
   onSubmit: () => void;
   onClear: () => void;
+  subjectId: number;
 }
 
 export const Search: React.FC<PropsI> = ({
   value,
   onValueChange,
   onSubmit,
-  onClear
+  onClear,
+  subjectId
 }) => {
   const [inputInFocus, toggleInputInFocus] = useState<boolean>(false);
 
@@ -59,7 +61,9 @@ export const Search: React.FC<PropsI> = ({
     <>
       <header>
         <h1>Читальня</h1>
-        <ButtonLink href="/library/create">Добавить материал</ButtonLink>
+        <ButtonLink href={`/library/subject/${subjectId}/create`}>
+          Добавить материал
+        </ButtonLink>
       </header>
 
       <div className={cls.searchbar}>

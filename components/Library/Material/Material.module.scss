@@ -64,6 +64,13 @@
 .editor_wrapper {
   padding-bottom: 36px;
 
+  h2 {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 33px;
+  }
+
   :global {
     .ce-block__content {
       max-width: 100%;

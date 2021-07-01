@@ -55,6 +55,7 @@ export const LibraryLayout: React.FC<PropsI> = ({ children }) => {
         onValueChange={setValue}
         onSubmit={handleSubmit}
         onClear={handleClear}
+        subjectId={Number(subject_id)}
       />
 
       <div className={cls.search_subjects}>
