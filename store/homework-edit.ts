@@ -82,10 +82,45 @@ export class HWEditStore {
     this.selectedQuestionOne = v;
   };
 
-  setQuestionNameOne = (id: number, name: string): void => {
+  setQuestionNameOne = (id: number, v: string): void => {
     const question = this.questionsOne.find((q) => q.id === id);
     if (question) {
-      question.name = name;
+      question.name = v;
+    }
+  };
+
+  setDescriptionBlocksOne = (id: number, v: OutputBlockData[]): void => {
+    const question = this.questionsOne.find((q) => q.id === id);
+    if (question) {
+      question.descriptionBlocks = [...v];
+    }
+  };
+
+  setTextBlocksOne = (id: number, v: OutputBlockData[]): void => {
+    const question = this.questionsOne.find((q) => q.id === id);
+    if (question) {
+      question.textBlocks = [...v];
+    }
+  };
+
+  setQuestionFullMatchOne = (id: number, v: boolean): void => {
+    const question = this.questionsOne.find((q) => q.id === id);
+    if (question) {
+      question.only_full_match = v;
+    }
+  };
+
+  setQuestionAnswerOne = (id: number, v: string): void => {
+    const question = this.questionsOne.find((q) => q.id === id);
+    if (question) {
+      question.right_answer_text = v;
+    }
+  };
+
+  setQuestionWeightOne = (id: number, v: number): void => {
+    const question = this.questionsOne.find((q) => q.id === id);
+    if (question) {
+      question.weight = v;
     }
   };
 

@@ -20,3 +20,30 @@ export function bytesToSize(bytes: number, decimals = 2): string {
 
   return `${parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
 }
+
+export function declension(
+  count: number,
+  one: string,
+  two: string,
+  five: string
+): string {
+  const last = count % 10;
+
+  if (count >= 12 && last <= 14) {
+    return five;
+  }
+
+  if (last >= 11 && last <= 14) {
+    return five;
+  }
+
+  if (last >= 2 && last <= 4) {
+    return two;
+  }
+
+  if (last === 1) {
+    return one;
+  }
+
+  return five;
+}

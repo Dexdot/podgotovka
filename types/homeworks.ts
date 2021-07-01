@@ -1,3 +1,5 @@
+import { OutputBlockData } from '@editorjs/editorjs';
+
 // Detail
 export type HWAnswerType = 'text' | 'file' | 'audio' | 'text_with_file';
 
@@ -6,6 +8,9 @@ export interface HWTestQuestionBaseI {
   name: string;
   description: string;
   text?: string;
+  // Only frontend
+  descriptionBlocks: OutputBlockData[];
+  textBlocks: OutputBlockData[];
   weight: number;
   only_full_match: boolean;
   right_answer_text: string;

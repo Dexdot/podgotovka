@@ -40,8 +40,8 @@ export const QuestionsList: React.FC<Props> = ({
   return (
     <div className={cls.list_wrap}>
       <ul className={cls.orders}>
-        {questions.map((_, i) => (
-          <li>
+        {questions.map((q, i) => (
+          <li key={q.id}>
             <span className={cls.order_number}>{i + 1}.</span>
           </li>
         ))}

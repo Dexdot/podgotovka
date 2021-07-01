@@ -4,6 +4,8 @@ const emptyQuestion: HWUpdateTestQuestionI = {
   id: 0,
   name: '',
   description: '',
+  descriptionBlocks: [],
+  textBlocks: [],
   text: '',
   weight: 1,
   only_full_match: false,
