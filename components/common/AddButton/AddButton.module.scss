@@ -10,4 +10,8 @@
   svg {
     margin-right: 8px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }

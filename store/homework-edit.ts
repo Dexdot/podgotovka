@@ -144,6 +144,22 @@ export class HWEditStore {
     }
   };
 
+  addRelationID = (parentID: number, relationID: number): void => {
+    const question = this.questionsOne.find((q) => q.id === parentID);
+
+    if (question) {
+      question.relation_ids = [relationID];
+    }
+  };
+
+  removeRelationID = (parentID: number): void => {
+    const question = this.questionsOne.find((q) => q.id === parentID);
+
+    if (question) {
+      question.relation_ids = [];
+    }
+  };
+
   // -- END Part 1 --
 
   // -- START Part 1 --
