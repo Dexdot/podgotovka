@@ -3,7 +3,9 @@ import { action, makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
 import {
+  HWAnswerType,
   HWEditDetailI,
+  HWSimpleQuestionI,
   HWUpdateTestQuestionI,
   UpdateHWI
 } from '@/types/homeworks';
@@ -12,6 +14,7 @@ import { HomeworksAPI } from '@/api/homeworks';
 import {
   getEmptyTestQuestions,
   isQuestionOneValid,
+  isQuestionTwoValid,
   mapTestQuestions
 } from '@/components/LessonEdit/Homework/helpers';
 
@@ -42,6 +45,10 @@ export class HWEditStore {
 
   // -- START Part 2 --
   public timeTwo = defaultTimer;
+
+  public questionsTwo: HWSimpleQuestionI[] = [];
+
+  public selectedQuestionIDTwo = 0;
   // -- END Part 2 --
 
   constructor(lessonID: number) {
@@ -126,6 +133,18 @@ export class HWEditStore {
           this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
         }
       }
+
+      // Part two
+      if (data.part_two) {
+        const HW = data.part_two;
+        this.timeTwo = HW.timer || defaultTimer;
+
+        if (HW.questions && HW.questions.length > 0) {
+          this.setQuestionsTwo([...HW.questions]);
+        } else {
+          this.setQuestionsTwo([]);
+        }
+      }
     }
   };
 
@@ -133,7 +152,7 @@ export class HWEditStore {
     return {
       deadline: this.deadline.getTime() / 1000,
       part_one: this.preparePartOne(),
-      part_two: undefined
+      part_two: this.preparePartTwo()
     };
   };
 
@@ -142,7 +161,7 @@ export class HWEditStore {
   };
 
   get isValid(): boolean {
-    return this.isPartOneValid;
+    return this.isPartOneValid && this.isPartTwoValid;
   }
 
   // -- START Part 1 --
@@ -300,8 +319,87 @@ export class HWEditStore {
   // -- END Part 1 --
 
   // -- START Part 1 --
+  preparePartTwo = (): UpdateHWI['part_two'] => {
+    const qsns = this.questionsTwo.filter(
+      (q) => !this.allRelationQuestionsIDs.includes(q.id)
+    );
+
+    return {
+      timer: this.timeTwo,
+      questions: qsns.map((q) => {
+        const { id, name, type, textBlocks, descriptionBlocks } = q;
+
+        return {
+          id,
+          name,
+          type,
+          text: JSON.stringify(textBlocks),
+          description: JSON.stringify(descriptionBlocks),
+          // Only frontend
+          textBlocks: [],
+          descriptionBlocks: []
+        };
+      })
+    };
+  };
+
+  get invalidQuestionsTwo(): number[] {
+    const invalidQuestions = this.questionsTwo.filter(
+      (q) => !isQuestionTwoValid(q)
+    );
+    return invalidQuestions.map((q) => q.id);
+  }
+
+  get isPartTwoValid(): boolean {
+    return this.invalidQuestionsTwo.length <= 0;
+  }
+
+  get selectedQuestionTwo(): HWSimpleQuestionI | undefined {
+    return this.questionsTwo.find((q) => q.id === this.selectedQuestionIDTwo);
+  }
+
   setTimeTwo = (v: number): void => {
     this.timeTwo = v * 60;
+  };
+
+  setQuestionsTwo = (v: HWSimpleQuestionI[]): void => {
+    this.questionsTwo = [...v];
+  };
+
+  addQuestionTwo = (v: HWSimpleQuestionI): void => {
+    this.questionsTwo = [...this.questionsTwo, v];
+  };
+
+  selectQuestionTwo = (v: number): void => {
+    this.selectedQuestionIDTwo = v;
+  };
+
+  setQuestionNameTwo = (id: number, v: string): void => {
+    const question = this.questionsTwo.find((q) => q.id === id);
+    if (question) {
+      question.name = v;
+    }
+  };
+
+  setDescriptionBlocksTwo = (id: number, v: OutputBlockData[]): void => {
+    const question = this.questionsTwo.find((q) => q.id === id);
+    if (question) {
+      question.descriptionBlocks = [...v];
+    }
+  };
+
+  setTextBlocksTwo = (id: number, v: OutputBlockData[]): void => {
+    const question = this.questionsTwo.find((q) => q.id === id);
+    if (question) {
+      question.textBlocks = [...v];
+    }
+  };
+
+  setQuestionTypeTwo = (id: number, v: HWAnswerType): void => {
+    const question = this.questionsTwo.find((q) => q.id === id);
+    if (question) {
+      question.type = v;
+    }
   };
   // -- END Part 2 --
 }

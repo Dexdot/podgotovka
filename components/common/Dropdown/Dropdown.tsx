@@ -5,7 +5,7 @@ import { useWindowClick } from '@/hooks/useWindowClick';
 import cls from './Dropdown.module.scss';
 import { DropdownIcon } from './DropdownIcon';
 
-export type DropdownItem = {
+export type DropdownType = {
   id: string;
   text: string;
 };
@@ -13,9 +13,9 @@ export type DropdownItem = {
 type Props = {
   beforeText?: React.ReactNode;
   placeholder?: string;
-  items: DropdownItem[];
-  value: DropdownItem | null;
-  onChange: (item: DropdownItem) => void;
+  items: DropdownType[];
+  value: DropdownType | null;
+  onChange: (item: DropdownType) => void;
   disabled?: boolean;
   maxHeight?: number;
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { DropdownItem, Dropdown } from '@/components/common/Dropdown/Dropdown';
+import { DropdownType, Dropdown } from '@/components/common/Dropdown/Dropdown';
 import { CoursesAPI } from '@/api/courses';
 import { CourseI, CourseStatus } from '@/types/courses';
 import { showAlert } from '@/utils/network';
@@ -14,7 +14,7 @@ type Props = {
 
 export const Status: React.FC<Props> = ({ course }) => {
   const [status, setStatus] = useState<CourseStatus>(course.status);
-  const [statusUI, setStatusUI] = useState<DropdownItem>();
+  const [statusUI, setStatusUI] = useState<DropdownType>();
 
   useEffect(() => {
     if (status) setStatusUI(statusesMap[status]);
@@ -26,7 +26,7 @@ export const Status: React.FC<Props> = ({ course }) => {
   }, [statusUI]);
 
   const [isLoading, setLoading] = useState(false);
-  const onStatusChange = async (v: DropdownItem) => {
+  const onStatusChange = async (v: DropdownType) => {
     const newStatus = v.id as CourseStatus;
 
     setLoading(true);

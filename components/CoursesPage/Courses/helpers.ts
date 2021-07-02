@@ -1,4 +1,4 @@
-import { DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { CourseI, CourseStatus } from '@/types/courses';
 import { COURSE_STATUSES } from '@/utils/consts';
 
@@ -37,14 +37,14 @@ export const courses: CourseI[] = [
   }
 ];
 
-export const statusesMap: Record<CourseStatus, DropdownItem> = {
+export const statusesMap: Record<CourseStatus, DropdownType> = {
   draft: { id: COURSE_STATUSES.draft, text: 'Черновик' },
   archive: { id: COURSE_STATUSES.archive, text: 'В архиве' },
   published: { id: COURSE_STATUSES.published, text: 'Опубликовано' },
   removed: { id: COURSE_STATUSES.removed, text: 'Удален' }
 };
 
-export const statuses: DropdownItem[] = [...Object.values(statusesMap)];
+export const statuses: DropdownType[] = [...Object.values(statusesMap)];
 
 export function getStatusColor(status: CourseStatus | undefined): string {
   if (status) {

@@ -21,6 +21,7 @@ import { BasicInfo } from './BasicInfo/BasicInfo';
 import { Timecode } from './Timecode';
 import { HomeworkOne } from './Homework/HomeworkOne';
 import { InputTime } from './Homework/InputTime/InputTime';
+import { HomeworkTwo } from './Homework/HomeworkTwo';
 
 type Props = {
   lessonID?: number;
@@ -94,11 +95,11 @@ export const LessonEdit: React.FC<Props> = observer(
     }, [setHomeworkStore, hwStore]);
 
     useEffect(() => {
-      const countTestQuestions = store.lessonData?.count_test_questions;
+      const countTestQuestions = lessonData?.count_test_questions;
       if (hwStore && countTestQuestions) {
         hwStore.setCountTestQuestions(countTestQuestions);
       }
-    }, [hwStore, store.lessonData?.count_test_questions]);
+    }, [hwStore, lessonData?.count_test_questions]);
 
     return (
       <div className={cls.root}>
@@ -197,18 +198,20 @@ export const LessonEdit: React.FC<Props> = observer(
                             }}
                           />
                         </div>
-                        <div className={cls.warning}>
-                          <Image
-                            src="/emoji/exclamation-mark.png"
-                            width="22"
-                            height="22"
-                          />
-                        </div>
+                        {!hwStore.isPartTwoValid && (
+                          <div className={cls.warning}>
+                            <Image
+                              src="/emoji/exclamation-mark.png"
+                              width="22"
+                              height="22"
+                            />
+                          </div>
+                        )}
                       </div>
                     </header>
                   }
                 >
-                  HW 2
+                  <HomeworkTwo />
                 </SectionCollapse>
               </HWEditContext.Provider>
             )}

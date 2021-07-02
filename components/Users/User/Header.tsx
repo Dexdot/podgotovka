@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import { UserDetailsI } from '@/types/users';
 
-import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Avatar } from '@/components/common/Avatar/Avatar';
 import { Crumbs } from '@/components/common/Crumbs/Crumbs';
@@ -17,7 +17,7 @@ interface PropsI {
 }
 
 export const Header: React.FC<PropsI> = ({ details, onStatusChange }) => {
-  const selectedStatus = useMemo<DropdownItem | null>(() => {
+  const selectedStatus = useMemo<DropdownType | null>(() => {
     if (details.id) {
       return (
         statuses.find((item) => item.id === details.is_active.toString()) ||

@@ -62,7 +62,6 @@ export const LessonItem: React.FC<Props> = ({ lesson }) => {
       </div>
       <div className={cls.right}>
         <Image src="/emoji/book.png" alt="ДЗ" width="24" height="24" />
-        {/* TODO: counter */}
         <div className={cls.counter}>X / Y</div>
         <ActionsDropdown onClick={onActionClick} disabled={isCopying} />
       </div>

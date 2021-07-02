@@ -25,6 +25,9 @@ export interface HWSimpleQuestionI {
   name: string;
   text: string;
   description?: string;
+  // Only frontend
+  textBlocks: OutputBlockData[];
+  descriptionBlocks: OutputBlockData[];
   type: HWAnswerType;
 }
 

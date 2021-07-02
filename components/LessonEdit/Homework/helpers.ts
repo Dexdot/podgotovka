@@ -1,10 +1,11 @@
 import {
+  HWSimpleQuestionI,
   HWTestQuestionBaseI,
   HWTestQuestionI,
   HWUpdateTestQuestionI
 } from '@/types/homeworks';
 
-const emptyQuestion: HWUpdateTestQuestionI = {
+const emptyTestQuestion: HWUpdateTestQuestionI = {
   id: 0,
   name: '',
   description: '',
@@ -22,7 +23,23 @@ export const getEmptyTestQuestions = (
   count: number
 ): HWUpdateTestQuestionI[] => {
   const tmp = new Array(count).fill(0);
-  return tmp.map((_, i) => ({ ...emptyQuestion, id: i }));
+  return tmp.map((_, i) => ({ ...emptyTestQuestion, id: i }));
+};
+
+let simpleQuestionID = 1;
+export const getEmptySimpleQuestion = (name: string): HWSimpleQuestionI => {
+  simpleQuestionID += 1;
+
+  return {
+    id: simpleQuestionID,
+    name,
+    text: '',
+    description: '',
+    // Only frontend
+    textBlocks: [],
+    descriptionBlocks: [],
+    type: 'text'
+  };
 };
 
 function findRelationQsns(
@@ -91,6 +108,18 @@ export function mapTestQuestions(
 
 export function isQuestionOneValid(q: HWUpdateTestQuestionI): boolean {
   if (!q.name || !q.weight || !q.right_answer_text) {
+    return false;
+  }
+
+  if (q.textBlocks.length <= 0) {
+    return false;
+  }
+
+  return true;
+}
+
+export function isQuestionTwoValid(q: HWSimpleQuestionI): boolean {
+  if (!q.name) {
     return false;
   }
 
