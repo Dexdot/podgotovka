@@ -147,9 +147,13 @@ export class HWEditStore {
 
   // -- START Part 1 --
   preparePartOne = (): UpdateHWI['part_one'] => {
+    const qsns = this.questionsOne.filter(
+      (q) => !this.allRelationQuestionsIDs.includes(q.id)
+    );
+
     return {
       timer: this.timeOne,
-      questions: this.questionsOne.map((q) => {
+      questions: qsns.map((q) => {
         const {
           id,
           name,
@@ -162,8 +166,8 @@ export class HWEditStore {
         } = q;
 
         const ids = relationIDs || [];
-        const relation_questions = this.questionsOne.filter((q) =>
-          ids.includes(q.id)
+        const relation_questions = this.questionsOne.filter((qs) =>
+          ids.includes(qs.id)
         );
 
         return {
