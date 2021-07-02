@@ -19,14 +19,20 @@ interface PropsI {
   nextMaterial: MaterialI | null;
   subjectId: number;
   editMode: boolean;
+  materialText: any;
 }
 
 export const Header: React.FC<PropsI> = observer(
-  ({ subjectId, editMode, nextMaterial }) => {
+  ({ subjectId, editMode, nextMaterial, materialText }) => {
     const router = useRouter();
 
-    const { material, copyMaterial, removeMaterial, updateMaterialStatus } =
-      useContext(LibraryContext);
+    const {
+      material,
+      copyMaterial,
+      removeMaterial,
+      updateMaterialStatus,
+      updateMaterial
+    } = useContext(LibraryContext);
 
     const [isOpen, toggle] = useState<boolean>(false);
 
@@ -68,6 +74,14 @@ export const Header: React.FC<PropsI> = observer(
       updateMaterialStatus(material.id);
     }, [updateMaterialStatus, material]);
 
+    const handleSave = useCallback(() => {
+      updateMaterial({
+        material_id: material.id,
+        text: JSON.stringify(materialText),
+        name: material.name
+      });
+    }, [updateMaterial, material, materialText]);
+
     return (
       <>
         <div className={cls.header}>
@@ -75,6 +89,7 @@ export const Header: React.FC<PropsI> = observer(
             <HeaderEdit
               onMoreClick={handleMoreClick}
               onStatusChange={handleStatusChange}
+              onSave={handleSave}
             />
           ) : (
             <HeaderReadOnly subjectId={subjectId} onCopy={handleCopy} />

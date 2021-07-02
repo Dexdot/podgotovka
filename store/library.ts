@@ -37,6 +37,10 @@ export class LibraryStore {
     this.material = newMaterial;
   };
 
+  updateMaterialName = (newName: string): void => {
+    this.material.name = newName;
+  };
+
   fetchCategories = (searchParams: {
     subject_id: number;
     q?: string;

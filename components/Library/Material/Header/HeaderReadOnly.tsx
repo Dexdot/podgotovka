@@ -27,14 +27,14 @@ export const HeaderReadOnly: React.FC<PropsI> = observer(
         <div className={cls.user_info}>
           <div className={cls.avatar}>
             <Avatar
-              href={material.author.photo_link}
+              href={material.author?.photo_link}
               user={material.author}
               size={36}
             />
           </div>
           <div>
-            <p className={cls.user_name}>{material.author.name}</p>
-            {material && (
+            <p className={cls.user_name}>{material.author?.name}</p>
+            {material.created_at && (
               <p className={cls.date}>
                 Создан {getDDMMYY(new Date(material.created_at * 1000))}
               </p>
@@ -45,7 +45,7 @@ export const HeaderReadOnly: React.FC<PropsI> = observer(
           <Button
             variant="grey"
             onClick={onCopy}
-            disabled={laodingMaterial === 'loading'}
+            loading={laodingMaterial === 'loading'}
           >
             <CopyIcon />
             Создать копию

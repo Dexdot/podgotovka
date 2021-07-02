@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
+import cn from 'classnames';
 
 import { MaterialI } from '@/types/library';
 
@@ -31,6 +32,8 @@ export const Material: React.FC = observer(() => {
 
   const { categories, fetchMaterial } = useContext(LibraryContext);
 
+  const [materialText, setMaterialText] = useState<any>();
+
   useEffect(() => {
     if (materialId) {
       fetchMaterial(materialId);
@@ -56,7 +59,7 @@ export const Material: React.FC = observer(() => {
   }, [allMaterials, materialId]);
 
   return (
-    <div className={cls.root}>
+    <div className={cn(cls.root, { [cls.root_edit]: editMode })}>
       {!materialId && (
         <div className={cls.material_new}>
           Выберите материал в меню слева, чтобы начать работу
@@ -68,8 +71,9 @@ export const Material: React.FC = observer(() => {
             nextMaterial={nextMaterial}
             editMode={editMode}
             subjectId={subjectId}
+            materialText={materialText}
           />
-          <Editor editMode={editMode} />
+          <Editor editMode={editMode} onChange={setMaterialText} />
           {nextMaterial && !editMode && (
             <Footer nextMaterial={nextMaterial} subjectId={subjectId} />
           )}

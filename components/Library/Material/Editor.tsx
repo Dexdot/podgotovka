@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { observer } from 'mobx-react-lite';
 
@@ -13,10 +13,16 @@ const TextEditor = dynamic(
 
 interface PropsI {
   editMode: boolean;
+  onChange: (data: any) => void;
 }
 
-export const Editor: React.FC<PropsI> = observer(({ editMode }) => {
+export const Editor: React.FC<PropsI> = observer(({ editMode, onChange }) => {
   const { material, laodingMaterial } = useContext(LibraryContext);
+  const [ready, toggleReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    toggleReady(false);
+  }, [material.id]);
 
   return (
     <div className={cls.editor_wrapper}>
@@ -24,12 +30,15 @@ export const Editor: React.FC<PropsI> = observer(({ editMode }) => {
       {laodingMaterial === 'done' && (
         <TextEditor
           data={{
-            blocks: []
+            blocks: material.text ? JSON.parse(material.text) : []
           }}
           readOnly={!editMode}
+          placeholder="Добавьте содержание материала сюда"
+          onChange={(data) => onChange(data.blocks)}
+          onReady={() => toggleReady(true)}
         />
       )}
-      {!editMode && laodingMaterial === 'done' && (
+      {!editMode && laodingMaterial === 'done' && ready && (
         <div className={cls.editor_statistics}>
           <div>
             <span>{String.fromCodePoint(0x1f44d)}</span>

@@ -59,7 +59,7 @@ export interface CreateMaterialI {
 
 export interface UpdateMaterialI {
   material_id: number;
-  category_id: number;
-  name: string;
-  text: string;
+  category_id?: number;
+  name?: string;
+  text?: string;
 }
