@@ -23,7 +23,6 @@ interface Props {
 //   { ssr: false }
 // );
 
-// TODO: image upload
 const TextEditor: React.FC<Props> = ({
   data,
   readOnly,

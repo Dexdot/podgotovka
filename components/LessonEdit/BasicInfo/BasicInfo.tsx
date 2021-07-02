@@ -15,7 +15,6 @@ const TextEditor = dynamic(
   { ssr: false }
 );
 
-// TODO: Fields by lesson type
 export const BasicInfo: React.FC = observer(() => {
   const store = useContext(LessonEditContext);
 

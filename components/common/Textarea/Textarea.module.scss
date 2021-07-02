@@ -1,0 +1,74 @@
+.root {
+  width: 100%;
+  position: relative;
+}
+
+.textarea_flat {
+  resize: none;
+  width: 100%;
+
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--color-black);
+
+  &::placeholder {
+    color: var(--color-gray);
+  }
+}
+
+.textarea {
+  resize: none;
+  padding: 12px 16px;
+  width: 100%;
+
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+  border-radius: 3px;
+  box-shadow: 0 0 0 2px rgba(#f2f3f5, 1);
+  background: #fafbfc;
+
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--color-black);
+
+  &::placeholder {
+    color: var(--color-gray);
+  }
+
+  &:disabled {
+    box-shadow: 0 0 0 2px rgba(#f2f3f5, 0);
+    background: #fafbfc;
+
+    &,
+    &::placeholder {
+      color: #a5adba;
+    }
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px #4c9aff;
+    background: #fff;
+  }
+}
+
+.textarea_error {
+  box-shadow: 0 0 0 2px var(--color-red);
+}
+
+.error_wrap {
+  display: block;
+  padding-top: 4px;
+  line-height: 1;
+
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.175s;
+}
+
+.error_wrap_active {
+  max-height: 20px;
+}
+
+.error {
+  font-size: 12px;
+  color: var(--color-red);
+}

@@ -1,32 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
 
 import { Button } from '@/components/common/Button/Button';
 import { BackLink } from '@/components/common/BackLink/BackLink';
+import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
+import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
 
 import { LessonEditContext } from '@/store/lesson-edit';
 import { CreateLessonI, LessonType } from '@/types/lessons';
 import { LessonsAPI } from '@/api/lessons';
 import { showAlert } from '@/utils/network';
+import { HWEditContext, HWEditStore } from '@/store/homework-edit';
 
 import { LESSON_TYPES } from '@/utils/consts';
 import cls from './LessonEdit.module.scss';
 import { Dropdowns } from './Dropdowns';
-import { SectionCollapse } from '../common/SectionCollapse/SectionCollapse';
 import { BasicInfo } from './BasicInfo/BasicInfo';
+import { Timecode } from './Timecode';
+import { HomeworkOne } from './Homework/HomeworkOne';
+import { InputTime } from './Homework/InputTime/InputTime';
+import { HomeworkTwo } from './Homework/HomeworkTwo';
 
 type Props = {
   lessonID?: number;
   isCreate?: boolean;
 };
 
-type CollapseType =
-  | 'basic'
-  | 'homework_first'
-  | 'homework_second'
-  | 'timecodes'
-  | '';
+type CollapseType = 'basic' | 'hw_first' | 'hw_second' | 'timecodes' | '';
 
 const lessonTypesWithoutHW: LessonType[] = [
   LESSON_TYPES.psychologist,
@@ -56,7 +58,8 @@ export const LessonEdit: React.FC<Props> = observer(
         time_start: store.dateStart.getTime() / 1000,
         description: store.description ? JSON.stringify(store.description) : '',
         youtube_link: store.youtubeLink,
-        files: store.files
+        files: store.files,
+        time_codes: store.timecode
       };
 
       try {
@@ -73,6 +76,30 @@ export const LessonEdit: React.FC<Props> = observer(
         fetchLesson(lessonID);
       }
     }, [lessonID, isCreate, fetchLesson]);
+
+    // HW
+    const { setHomeworkStore } = store;
+    const [hwStore, setHWStore] = useState<HWEditStore>();
+    useEffect(() => {
+      if (lessonID) {
+        const s = new HWEditStore(lessonID);
+        setHWStore(s);
+        s.fetchHW();
+      }
+    }, [lessonID]);
+
+    useEffect(() => {
+      if (hwStore) {
+        setHomeworkStore(hwStore);
+      }
+    }, [setHomeworkStore, hwStore]);
+
+    useEffect(() => {
+      const countTestQuestions = lessonData?.count_test_questions;
+      if (hwStore && countTestQuestions) {
+        hwStore.setCountTestQuestions(countTestQuestions);
+      }
+    }, [hwStore, lessonData?.count_test_questions]);
 
     return (
       <div className={cls.root}>
@@ -107,23 +134,86 @@ export const LessonEdit: React.FC<Props> = observer(
 
         {!isCreate && (
           <>
-            {type && !lessonTypesWithoutHW.includes(type) && (
-              <>
+            {type && !lessonTypesWithoutHW.includes(type) && hwStore && (
+              <HWEditContext.Provider value={hwStore}>
                 <SectionCollapse
-                  isOpen={collapse === 'homework_first'}
-                  onClick={() => toggleCollapse('homework_first')}
+                  isOpen={collapse === 'hw_first'}
+                  onClick={() => toggleCollapse('hw_first')}
                   title="Домашнее задание (Часть 1)"
+                  headerChildren={
+                    <header className={cls.hw_header} style={{ zIndex: 3 }}>
+                      <InputTime
+                        value={hwStore.timeOne / 60}
+                        onChange={(t) => hwStore.setTimeOne(t)}
+                      />
+                      <div className={cls.deadline}>
+                        Крайний срок выполнения
+                        <div className={cls.deadline_time}>
+                          <DateTimePicker
+                            dateFormat="d MMMM, yyyy"
+                            date={hwStore.deadline}
+                            onChange={(d) => {
+                              if (d) {
+                                hwStore.setDeadline(d);
+                              }
+                            }}
+                          />
+                        </div>
+                        {!hwStore.isPartOneValid && (
+                          <div className={cls.warning}>
+                            <Image
+                              src="/emoji/exclamation-mark.png"
+                              width="22"
+                              height="22"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </header>
+                  }
                 >
-                  HW 1
+                  <HomeworkOne />
                 </SectionCollapse>
+
                 <SectionCollapse
-                  isOpen={collapse === 'homework_second'}
-                  onClick={() => toggleCollapse('homework_second')}
+                  isOpen={collapse === 'hw_second'}
+                  onClick={() => toggleCollapse('hw_second')}
                   title="Домашнее задание (Часть 2)"
+                  headerChildren={
+                    <header className={cls.hw_header}>
+                      <InputTime
+                        value={hwStore.timeTwo / 60}
+                        onChange={(t) => hwStore.setTimeTwo(t)}
+                      />
+                      <div className={cls.deadline}>
+                        Крайний срок выполнения
+                        <div className={cls.deadline_time}>
+                          <DateTimePicker
+                            dateFormat="d MMMM, yyyy"
+                            date={hwStore.deadline}
+                            onChange={(d) => {
+                              if (d) {
+                                hwStore.setDeadline(d);
+                              }
+                            }}
+                          />
+                        </div>
+                        {!hwStore.isPartTwoValid && (
+                          <div className={cls.warning}>
+                            <Image
+                              src="/emoji/exclamation-mark.png"
+                              width="22"
+                              height="22"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </header>
+                  }
                 >
-                  HW 2
+                  <HomeworkTwo />
                 </SectionCollapse>
-              </>
+              </HWEditContext.Provider>
             )}
 
             {type !== LESSON_TYPES.examwork && (
@@ -132,7 +222,7 @@ export const LessonEdit: React.FC<Props> = observer(
                 onClick={() => toggleCollapse('timecodes')}
                 title="Таймкоды"
               >
-                Таймкоды
+                <Timecode />
               </SectionCollapse>
             )}
           </>

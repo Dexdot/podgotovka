@@ -12,7 +12,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { showAlert } from '@/utils/network';
 
 import { Input } from '@/components/common/Input/Input';
-import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { Button } from '@/components/common/Button/Button';
 
 import { Table } from './Table';
@@ -26,7 +26,7 @@ export const Options: React.FC = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const debouncedSearch = useDebounce(search, 300);
-  const [type, setType] = useState<DropdownItem | null>(null);
+  const [type, setType] = useState<DropdownType | null>(null);
 
   const params = useMemo<SearchParamsI>(
     () => ({ search: debouncedSearch, type: type?.id }),

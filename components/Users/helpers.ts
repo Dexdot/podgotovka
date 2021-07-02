@@ -1,14 +1,14 @@
-import { DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { DropdownType } from '@/components/common/Dropdown/Dropdown';
 
-export const anySubject: DropdownItem = { id: '', text: 'Все предметы' };
+export const anySubject: DropdownType = { id: '', text: 'Все предметы' };
 
-export const statuses: DropdownItem[] = [
+export const statuses: DropdownType[] = [
   { id: '', text: 'Все' },
   { id: 'true', text: 'Активен' },
   { id: 'false', text: 'Заблокирован' }
 ];
 
-export const roles: DropdownItem[] = [
+export const roles: DropdownType[] = [
   { id: '', text: 'Все роли' },
   { id: 'admin', text: 'Админ' },
   { id: 'teacher', text: 'Учитель' },

@@ -1,11 +1,12 @@
 import { createContext } from 'react';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
 import { showAlert } from '@/utils/network';
 import { LessonsAPI } from '@/api/lessons';
 import { LessonEditDetailI, LessonType, UpdateLessonI } from '@/types/lessons';
 import { FileI } from '@/types/common';
+import { HWEditStore } from '@/store/homework-edit';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
@@ -29,6 +30,10 @@ export class LessonEditStore {
 
   public files: FileI[] = [];
 
+  public timecode = '';
+
+  public homeworkStore: HWEditStore | undefined;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -42,26 +47,38 @@ export class LessonEditStore {
       time_start: this.dateStart.getTime() / 1000,
       description: JSON.stringify(this.description),
       youtube_link: this.youtubeLink,
-      files: this.files
+      files: this.files,
+      time_codes: this.timecode
     };
 
     return data;
   };
 
-  saveLesson = (lessonID: number): void => {
-    const lessonData = this.prepareData();
+  saveLesson = async (lessonID: number): Promise<void> => {
     this.isLoading = true;
 
-    LessonsAPI.updateLesson(lessonID, lessonData).then(
-      action('fetchSuccess', ({ data }) => {
-        this.handleLessonData(data);
+    if (this.homeworkStore && this.homeworkStore.isValid) {
+      try {
+        await this.homeworkStore.saveHW();
+      } catch (error) {
         this.isLoading = false;
-      }),
-      action('fetchError', (error) => {
-        showAlert({ error });
-        this.isLoading = false;
-      })
-    );
+      }
+    }
+
+    runInAction(() => {
+      const lessonData = this.prepareData();
+
+      LessonsAPI.updateLesson(lessonID, lessonData).then(
+        action('fetchSuccess', ({ data }) => {
+          this.handleLessonData(data);
+          this.isLoading = false;
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          this.isLoading = false;
+        })
+      );
+    });
   };
 
   fetchLesson = (lessonID: number): void => {
@@ -87,6 +104,7 @@ export class LessonEditStore {
       this.setYoutubeLink(data.youtube_link || '');
       this.setCourseID(data.course_id);
       this.setFiles(data.files || []);
+      this.setTimecode(data.time_codes || '');
     }
   };
 
@@ -124,6 +142,15 @@ export class LessonEditStore {
 
   removeFile = (v: FileI): void => {
     this.files = [...this.files.filter((f) => f.file_link !== v.file_link)];
+  };
+
+  setTimecode = (v: string): void => {
+    this.timecode = v;
+  };
+
+  // Homework store
+  setHomeworkStore = (v: HWEditStore): void => {
+    this.homeworkStore = v;
   };
 }
 

@@ -10,7 +10,7 @@ import { UsersContext } from '@/store/users';
 import { useDebounce } from '@/hooks/useDebounce';
 
 import { Input } from '@/components/common/Input/Input';
-import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 
 import { statuses, roles, anySubject } from './helpers';
 import cls from './Users.module.scss';
@@ -20,7 +20,7 @@ export const Search: React.FC = () => {
 
   const subjects = useSubjects();
 
-  const subjectOptions = useMemo<DropdownItem[]>(() => {
+  const subjectOptions = useMemo<DropdownType[]>(() => {
     if (subjects) {
       const arr = subjects.map((item) => ({
         id: String(item.id),
@@ -33,9 +33,9 @@ export const Search: React.FC = () => {
 
   const [search, setSearch] = useState<string>('');
   const debouncedSearch = useDebounce(search, 300);
-  const [status, setStatus] = useState<DropdownItem | null>(null);
-  const [subject, setSubject] = useState<DropdownItem | null>(null);
-  const [role, setRole] = useState<DropdownItem | null>(null);
+  const [status, setStatus] = useState<DropdownType | null>(null);
+  const [subject, setSubject] = useState<DropdownType | null>(null);
+  const [role, setRole] = useState<DropdownType | null>(null);
 
   const searchParams = useMemo<SearchParamsI>(
     () => ({

@@ -23,6 +23,7 @@ export interface CreateLessonI {
   time_start: number;
   description?: string;
   youtube_link?: string;
+  time_codes?: string;
   files?: FileI[];
 }
 
@@ -32,6 +33,7 @@ export interface UpdateLessonI {
   time_start: number;
   description?: string;
   youtube_link?: string;
+  time_codes?: string;
   files?: FileI[];
 }
 
@@ -39,4 +41,6 @@ export interface LessonEditDetailI extends LessonI {
   course_id: number;
   created_at: number;
   files: FileI[];
+  time_codes?: string;
+  count_test_questions?: number;
 }
