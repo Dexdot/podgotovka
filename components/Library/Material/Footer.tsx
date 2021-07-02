@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { MaterialI } from '../helpers';
+import { MaterialI } from '@/types/library';
 
 import { NextIcon } from '../Icons';
 

@@ -39,17 +39,8 @@ export const EditMaterialPage: React.FC = () => {
 
       <SectionCollapse title="Управление читальней" isOpen>
         <div className={cls.content}>
-          <Categories
-            materialId={isNew ? null : Number(material_id)}
-            subjects={subjects}
-            subjectId={Number(subject_id)}
-            editMode
-          />
-          <Material
-            materialId={isNew ? null : Number(material_id)}
-            subjectId={Number(subject_id)}
-            editMode
-          />
+          <Categories subjects={subjects} />
+          <Material />
         </div>
       </SectionCollapse>
     </div>

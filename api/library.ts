@@ -5,7 +5,7 @@ import {
   CreateCategoryI,
   CreateMaterialI,
   MaterialDetailI,
-  MaterialI,
+  SearchMaterialI,
   SearchMaterialsI,
   UpdateCategoryI,
   UpdateMaterialI
@@ -14,7 +14,8 @@ import {
 import { PodgotovkaAPI } from '@/api/instance';
 
 const { axios } = PodgotovkaAPI;
-const SERVICE_PATH = '/core/v1/accounts';
+const SERVICE_PATH_CATEGORIES = '/core/v1/lib-categories';
+const SERVICE_PATH_MATERIALS = '/core/v1/lib-materials';
 
 // CATEGORIES
 
@@ -26,7 +27,7 @@ export function fetch({
   q?: string;
 }): Promise<AxiosResponse<CategoryI[]>> {
   return axios.get<CategoryI[]>(
-    `${SERVICE_PATH}/lib-categories/subjects/${subject_id}`,
+    `${SERVICE_PATH_CATEGORIES}/subjects/${subject_id}`,
     {
       params: { q }
     }
@@ -36,7 +37,7 @@ export function fetch({
 export function createCategory(
   data: CreateCategoryI
 ): Promise<AxiosResponse<CategoryI>> {
-  return axios.post<CategoryI>(`${SERVICE_PATH}/lib-categories/subjects`, {
+  return axios.post<CategoryI>(`${SERVICE_PATH_CATEGORIES}`, {
     ...data
   });
 }
@@ -47,7 +48,7 @@ export function removeCategory({
   category_id: number;
 }): Promise<AxiosResponse<{ result: boolean }>> {
   return axios.delete<{ result: boolean }>(
-    `${SERVICE_PATH}/lib-categories/subjects/${category_id}`
+    `${SERVICE_PATH_CATEGORIES}/subjects/${category_id}`
   );
 }
 
@@ -56,7 +57,7 @@ export function updateCategory(
 ): Promise<AxiosResponse<CategoryI>> {
   const { category_id, name } = data;
   return axios.patch<CategoryI>(
-    `${SERVICE_PATH}/lib-categories/subjects/${category_id}`,
+    `${SERVICE_PATH_CATEGORIES}/subjects/${category_id}`,
     { name }
   );
 }
@@ -67,8 +68,8 @@ export function fetchMaterials(params: {
   limit?: number;
   skip?: number;
   q?: string;
-}): Promise<AxiosResponse<SearchMaterialsI[]>> {
-  return axios.get<SearchMaterialsI[]>(`${SERVICE_PATH}/lib-materials`, {
+}): Promise<AxiosResponse<SearchMaterialsI>> {
+  return axios.get<SearchMaterialsI>(`${SERVICE_PATH_MATERIALS}`, {
     params: { ...params }
   });
 }
@@ -76,17 +77,15 @@ export function fetchMaterials(params: {
 export function createMaterial(
   data: CreateMaterialI
 ): Promise<AxiosResponse<MaterialDetailI>> {
-  return axios.post<MaterialDetailI>(`${SERVICE_PATH}/lib-materials`, {
-    params: { ...data }
-  });
+  return axios.post<MaterialDetailI>(`${SERVICE_PATH_MATERIALS}`, { ...data });
 }
 
 export function getAutocomplete({
   q
 }: {
   q?: string;
-}): Promise<AxiosResponse<MaterialI[]>> {
-  return axios.get<MaterialI[]>(`${SERVICE_PATH}/lib-materials/search`, {
+}): Promise<AxiosResponse<SearchMaterialI[]>> {
+  return axios.get<SearchMaterialI[]>(`${SERVICE_PATH_MATERIALS}/search`, {
     params: { q }
   });
 }
@@ -96,9 +95,7 @@ export function fetchMaterialDetail({
 }: {
   material_id: number;
 }): Promise<AxiosResponse<MaterialDetailI>> {
-  return axios.get<MaterialDetailI>(
-    `${SERVICE_PATH}/lib-materials/${material_id}`
-  );
+  return axios.get<MaterialDetailI>(`${SERVICE_PATH_MATERIALS}/${material_id}`);
 }
 
 export function removeMaterial({
@@ -107,7 +104,7 @@ export function removeMaterial({
   material_id: number;
 }): Promise<AxiosResponse<{ result: boolean }>> {
   return axios.delete<{ result: boolean }>(
-    `${SERVICE_PATH}/lib-materials/${material_id}`
+    `${SERVICE_PATH_MATERIALS}/${material_id}`
   );
 }
 
@@ -116,7 +113,7 @@ export function updateMaterial(
 ): Promise<AxiosResponse<MaterialDetailI>> {
   const { material_id, ...rest } = data;
   return axios.patch<MaterialDetailI>(
-    `${SERVICE_PATH}/lib-materials/${material_id}`,
+    `${SERVICE_PATH_MATERIALS}/${material_id}`,
     { ...rest }
   );
 }
@@ -127,7 +124,7 @@ export function changeMaterialStatus({
   material_id: number;
 }): Promise<AxiosResponse<{ result: boolean }>> {
   return axios.patch<{ result: boolean }>(
-    `${SERVICE_PATH}/lib-materials/${material_id}/change_status`
+    `${SERVICE_PATH_MATERIALS}/${material_id}/change_status`
   );
 }
 
@@ -137,7 +134,7 @@ export function copyMaterial({
   material_id: number;
 }): Promise<AxiosResponse<MaterialDetailI>> {
   return axios.post<MaterialDetailI>(
-    `${SERVICE_PATH}/lib-materials/${material_id}/copy`
+    `${SERVICE_PATH_MATERIALS}/${material_id}/copy`
   );
 }
 
@@ -149,7 +146,7 @@ export function orderMaterials({
   category_id: number;
 }): Promise<AxiosResponse<{ result: boolean }>> {
   return axios.patch<{ result: boolean }>(
-    `${SERVICE_PATH}/lib-materials/${category_id}/order`,
+    `${SERVICE_PATH_MATERIALS}/${category_id}/order`,
     { id_order_list }
   );
 }

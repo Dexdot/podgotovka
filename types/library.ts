@@ -1,3 +1,5 @@
+import { SubjectI } from '@/types/subjects';
+
 export interface MaterialI {
   id: number;
   name: string;
@@ -26,9 +28,16 @@ export interface UpdateCategoryI {
   name: string;
 }
 
+export interface SearchMaterialI {
+  id: number;
+  name: string;
+  text: string;
+  subject: SubjectI;
+}
+
 export interface SearchMaterialsI {
   number_of_results: number;
-  materials: MaterialI[];
+  materials: SearchMaterialI[];
 }
 
 export interface MaterialDetailI {
@@ -46,7 +55,6 @@ export interface MaterialDetailI {
 export interface CreateMaterialI {
   category_id: number;
   name: string;
-  text: string;
 }
 
 export interface UpdateMaterialI {

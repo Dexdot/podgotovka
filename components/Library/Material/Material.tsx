@@ -1,6 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
-import { MaterialI, TODO_CATEGORIES } from '../helpers';
+import { MaterialI } from '@/types/library';
+
+import { LibraryContext } from '@/store/library';
 
 import { Editor } from './Editor';
 import { Footer } from './Footer';
@@ -8,29 +12,37 @@ import { Header } from './Header';
 
 import cls from './Material.module.scss';
 
-interface PropsI {
-  materialId: number | null;
-  subjectId: number;
-  editMode?: boolean;
-}
+export const Material: React.FC = observer(() => {
+  const router = useRouter();
+  const { pathname } = router;
+  const { subject_id, material_id } = router.query;
 
-export const Material: React.FC<PropsI> = ({
-  materialId,
-  editMode = false,
-  subjectId
-}) => {
-  const allMaterials = useMemo<MaterialI[]>(
-    () =>
-      TODO_CATEGORIES.map(({ materials }) => materials).reduce(
-        (acc, val) => [...acc, ...val],
-        []
-      ),
-    []
+  const materialId = useMemo<number | null>(
+    () => (material_id ? Number(material_id) : null),
+    [material_id]
   );
 
-  const currentMaterial = useMemo<MaterialI | null>(
-    () => allMaterials.find((item) => item.id === materialId) || null,
-    [allMaterials, materialId]
+  const subjectId = useMemo<number>(() => Number(subject_id), [subject_id]);
+
+  const editMode = useMemo<boolean>(
+    () => pathname.includes('create') || pathname.includes('edit'),
+    [pathname]
+  );
+
+  const { categories, fetchMaterial } = useContext(LibraryContext);
+
+  useEffect(() => {
+    if (materialId) {
+      fetchMaterial(materialId);
+    }
+  }, [fetchMaterial, materialId]);
+
+  const allMaterials = useMemo<MaterialI[]>(
+    () =>
+      categories
+        .map(({ materials }) => materials)
+        .reduce((acc, val) => [...acc, ...val], []),
+    [categories]
   );
 
   const nextMaterial = useMemo<MaterialI | null>(() => {
@@ -45,15 +57,24 @@ export const Material: React.FC<PropsI> = ({
 
   return (
     <div className={cls.root}>
-      <Header
-        materialId={materialId}
-        editMode={editMode}
-        subjectId={subjectId}
-      />
-      <Editor material={currentMaterial} editMode={editMode} />
-      {nextMaterial && !editMode && (
-        <Footer nextMaterial={nextMaterial} subjectId={subjectId} />
+      {!materialId && (
+        <div className={cls.material_new}>
+          Выберите материал в меню слева, чтобы начать работу
+        </div>
+      )}
+      {materialId && (
+        <>
+          <Header
+            nextMaterial={nextMaterial}
+            editMode={editMode}
+            subjectId={subjectId}
+          />
+          <Editor editMode={editMode} />
+          {nextMaterial && !editMode && (
+            <Footer nextMaterial={nextMaterial} subjectId={subjectId} />
+          )}
+        </>
       )}
     </div>
   );
-};
+});

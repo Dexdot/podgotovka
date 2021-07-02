@@ -27,17 +27,10 @@ export const ViewMaterialPage: React.FC<PropsI> = ({ subjects }) => {
         <>
           <div className={cls.categories}>
             <h2>{subject?.name}</h2>
-            <Categories
-              materialId={Number(material_id)}
-              subjectId={Number(subject_id)}
-              subjects={subjects}
-            />
+            <Categories subjects={subjects} />
           </div>
           <div className={cls.material}>
-            <Material
-              materialId={Number(material_id)}
-              subjectId={Number(subject_id)}
-            />
+            <Material />
           </div>
         </>
       )}

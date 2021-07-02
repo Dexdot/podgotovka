@@ -1,32 +1,77 @@
-import React, { useCallback, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
+
+import { SearchMaterialI } from '@/types/library';
+
+import { LibraryContext } from '@/store/library';
+
+import { LibraryAPI } from '@/api/library';
+
+import { useDebounce } from '@/hooks/useDebounce';
+
+import { showAlert } from '@/utils/network';
 
 import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Input } from '@/components/common/Input/Input';
 import { HighlightText } from '@/components/common/HighlightText/HighlighText';
+import { Spinner } from '@/components/common/Spinner/Spinner';
 
-import { TODO_SEARCH_RESULTS } from '../../Library/helpers';
 import { ClearIcon } from '../../Library/Icons';
 
 import cls from './LibraryLayout.module.scss';
 
-interface PropsI {
-  value: string;
-  onValueChange: (newValue: string) => void;
-  onSubmit: () => void;
-  onClear: () => void;
-  subjectId: number;
-}
+export const Search: React.FC = observer(() => {
+  const router = useRouter();
+  const { subject_id } = router.query;
 
-export const Search: React.FC<PropsI> = ({
-  value,
-  onValueChange,
-  onSubmit,
-  onClear,
-  subjectId
-}) => {
+  const { fetchCategories } = useContext(LibraryContext);
+
+  const ref = useRef<HTMLInputElement>(null);
+
+  const [autocompleteItems, setAutocompleteItems] = useState<SearchMaterialI[]>(
+    []
+  );
+  const [loading, setLoading] = useState<boolean>(false);
   const [inputInFocus, toggleInputInFocus] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const search = useDebounce(value, 250);
+
+  const fetchAutocompleteItems = useCallback(async () => {
+    if (search) {
+      try {
+        setLoading(true);
+        const { data } = await LibraryAPI.getAutocomplete({ q: search });
+        setAutocompleteItems(data);
+      } catch (error) {
+        showAlert({ error });
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [search]);
+
+  useEffect(() => {
+    if (subject_id) {
+      fetchCategories({ subject_id: Number(subject_id) });
+    }
+  }, [subject_id, fetchCategories]);
+
+  useEffect(() => {
+    fetchAutocompleteItems();
+  }, [fetchAutocompleteItems]);
+
+  const handleClear = useCallback(() => {
+    setValue('');
+  }, []);
 
   const handleFocus = useCallback(() => {
     toggleInputInFocus(true);
@@ -38,14 +83,21 @@ export const Search: React.FC<PropsI> = ({
     }, 100);
   }, []);
 
+  const handleSubmit = useCallback(() => {
+    if (value.trim()) {
+      router.push({ pathname: `/library/search`, query: { search: value } });
+    }
+    ref?.current?.blur();
+  }, [router, value, ref]);
+
   const handleKeyPress = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.code === 'Enter') {
-        onSubmit();
+        handleSubmit();
         handleBlur();
       }
     },
-    [onSubmit, handleBlur]
+    [handleSubmit, handleBlur]
   );
 
   const handleKeyDown = useCallback(
@@ -61,15 +113,16 @@ export const Search: React.FC<PropsI> = ({
     <>
       <header>
         <h1>Читальня</h1>
-        <ButtonLink href={`/library/subject/${subjectId}/create`}>
+        <ButtonLink href={`/library/subject/${subject_id}/create`}>
           Добавить материал
         </ButtonLink>
       </header>
 
       <div className={cls.searchbar}>
         <Input
+          ref={ref}
           value={value}
-          onChange={(e) => onValueChange(e.currentTarget.value)}
+          onChange={(e) => setValue(e.currentTarget.value)}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onKeyPress={handleKeyPress}
@@ -82,7 +135,7 @@ export const Search: React.FC<PropsI> = ({
             [cls.search_clear_visible]: !!value
           })}
           type="button"
-          onClick={() => onClear()}
+          onClick={handleClear}
           disabled={!value}
         >
           <ClearIcon />
@@ -95,24 +148,26 @@ export const Search: React.FC<PropsI> = ({
             [cls.autocomplete_open]: !!value && inputInFocus
           })}
         >
-          {TODO_SEARCH_RESULTS.map(({ id, subject_id, name }) => (
-            <li key={id}>
-              <Link href={`/library/subject/${subject_id}/material/${id}`}>
-                <a href={`/library/subject/${subject_id}/material/${id}`}>
-                  <HighlightText search={value} value={name} />
-                </a>
-              </Link>
-            </li>
-          ))}
-          {!TODO_SEARCH_RESULTS.length && (
+          {!loading &&
+            autocompleteItems.map(({ id, name, subject }) => (
+              <li key={id}>
+                <Link href={`/library/subject/${subject.id}/material/${id}`}>
+                  <a href={`/library/subject/${subject.id}/material/${id}`}>
+                    <HighlightText search={value} value={name} />
+                  </a>
+                </Link>
+              </li>
+            ))}
+          {!loading && !autocompleteItems.length && (
             <li>
               <p className={cls.search_empty}>
                 По данному запросу ничего не найдено
               </p>
             </li>
           )}
+          {loading && <Spinner />}
         </ul>
       </div>
     </>
   );
-};
+});

@@ -2,6 +2,9 @@
   margin-top: var(--padding);
 
   section {
+    height: auto;
+    transition: height 0.25s ease;
+
     margin-top: 16px;
     margin-bottom: 36px;
   }

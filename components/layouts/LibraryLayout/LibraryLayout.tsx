@@ -1,9 +1,9 @@
-import React, { cloneElement, useCallback, useEffect, useState } from 'react';
+import React, { cloneElement } from 'react';
 import { useRouter } from 'next/router';
 
 import { useSubjects } from '@/api/hooks/subjects/useSubjects';
 
-import { useDebounce } from '@/hooks/useDebounce';
+import { LibraryContext, libraryStore } from '@/store/library';
 
 import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Search } from '@/components/layouts/LibraryLayout/Search';
@@ -21,21 +21,6 @@ export const LibraryLayout: React.FC<PropsI> = ({ children }) => {
 
   const subjects = useSubjects();
 
-  const [value, setValue] = useState<string>('');
-  const search = useDebounce(value, 250);
-
-  useEffect(() => {
-    // todo search
-  }, [search]);
-
-  const handleSubmit = useCallback(() => {
-    router.push({ pathname: `/library/search`, query: { search: value } });
-  }, [router, value]);
-
-  const handleClear = useCallback(() => {
-    setValue('');
-  }, []);
-
   const getButtonVariant = (
     subjectId: number
   ): 'grey' | 'primary' | 'secondary' => {
@@ -49,30 +34,27 @@ export const LibraryLayout: React.FC<PropsI> = ({ children }) => {
   };
 
   return (
-    <section className={cls.root}>
-      <Search
-        value={value}
-        onValueChange={setValue}
-        onSubmit={handleSubmit}
-        onClear={handleClear}
-        subjectId={Number(subject_id)}
-      />
+    <LibraryContext.Provider value={libraryStore}>
+      <section className={cls.root}>
+        <Search />
 
-      <div className={cls.search_subjects}>
-        {subjects?.map((item) => (
-          <ButtonLink
-            key={item.id}
-            href={`/library/subject/${item.id}`}
-            variant={getButtonVariant(item.id)}
-          >
-            {item.name}
-          </ButtonLink>
-        ))}
-      </div>
-      {children &&
-        cloneElement(children, {
-          subjects
-        })}
-    </section>
+        <div className={cls.search_subjects}>
+          {subjects?.map((item) => (
+            <ButtonLink
+              key={item.id}
+              href={`/library/subject/${item.id}`}
+              variant={getButtonVariant(item.id)}
+            >
+              {item.name}
+            </ButtonLink>
+          ))}
+        </div>
+
+        {children &&
+          cloneElement(children, {
+            subjects
+          })}
+      </section>
+    </LibraryContext.Provider>
   );
 };

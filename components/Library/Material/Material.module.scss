@@ -1,5 +1,5 @@
 .root {
-  max-width: 800px;
+  width: 100%;
   padding: 24px;
 }
 
@@ -76,6 +76,10 @@
       max-width: 100%;
       margin: 0;
     }
+
+    .codex-editor__loader {
+      height: 40px;
+    }
   }
 
   .editor_statistics {
@@ -132,5 +136,40 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 26px;
+  }
+}
+
+.material_new {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--color-gray);
+}
+
+.modal_delete {
+  h2 {
+    margin-bottom: 16px;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+}
+
+.header_edit {
+  ul {
+    z-index: 2;
   }
 }

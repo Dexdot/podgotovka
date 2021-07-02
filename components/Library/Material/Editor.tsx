@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import dynamic from 'next/dynamic';
+import { observer } from 'mobx-react-lite';
 
-import { MaterialI, TODO_MATERIAL_DESC } from '../helpers';
+import { LibraryContext } from '@/store/library';
 
 import cls from './Material.module.scss';
 
@@ -11,30 +12,35 @@ const TextEditor = dynamic(
 );
 
 interface PropsI {
-  material: MaterialI | null;
   editMode: boolean;
 }
 
-export const Editor: React.FC<PropsI> = ({ material, editMode }) => {
+export const Editor: React.FC<PropsI> = observer(({ editMode }) => {
+  const { material, laodingMaterial } = useContext(LibraryContext);
+
   return (
     <div className={cls.editor_wrapper}>
-      <h2>{material?.name}</h2>
-      <TextEditor
-        data={{
-          blocks: TODO_MATERIAL_DESC
-        }}
-        readOnly={!editMode}
-      />
-      <div className={cls.editor_statistics}>
-        <div>
-          <span>{String.fromCodePoint(0x1f44d)}</span>
-          251
+      {!editMode && <h2>{material.name}</h2>}
+      {laodingMaterial === 'done' && (
+        <TextEditor
+          data={{
+            blocks: []
+          }}
+          readOnly={!editMode}
+        />
+      )}
+      {!editMode && laodingMaterial === 'done' && (
+        <div className={cls.editor_statistics}>
+          <div>
+            <span>{String.fromCodePoint(0x1f44d)}</span>
+            {material.likes_number}
+          </div>
+          <div>
+            <span>{String.fromCodePoint(0x1f44e)}</span>
+            {material.dislikes_number}
+          </div>
         </div>
-        <div>
-          <span>{String.fromCodePoint(0x1f44e)}</span>
-          39
-        </div>
-      </div>
+      )}
     </div>
   );
-};
+});
