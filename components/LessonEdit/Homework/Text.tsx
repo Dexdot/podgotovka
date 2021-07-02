@@ -17,11 +17,11 @@ const TextEditor = dynamic(
 export const Text: React.FC<Props> = ({ blocks, onChange }) => {
   return (
     <div>
-      <p className={cls.label}>Задание</p>
+      <p className={cls.label}>Вопрос</p>
       <TextEditor
         data={{ blocks }}
         onChange={(d) => onChange(d.blocks)}
-        placeholder="Добавьте описание задачи сюда"
+        placeholder="Добавьте описание вопроса сюда"
         resetStyles
       />
     </div>

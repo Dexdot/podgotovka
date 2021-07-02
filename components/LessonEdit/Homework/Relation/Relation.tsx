@@ -41,7 +41,7 @@ export const Relation: React.FC = observer(() => {
       ) : (
         <>
           <AddButton
-            text="Добавить родительскую задачу"
+            text="Добавить родительский вопрос"
             onClick={() => setOpen(!isOpen)}
             disabled={qsns.length <= 0}
           />
