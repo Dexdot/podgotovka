@@ -4,16 +4,17 @@ import cn from 'classnames';
 
 import { AddButton } from '@/components/common/AddButton/AddButton';
 import { HWEditContext } from '@/store/homework-edit';
+import { HWUpdateTestQuestionI } from '@/types/homeworks';
 
 import { useWindowClick } from '@/hooks/useWindowClick';
 import cls from './Relation.module.scss';
+import { DeleteIcon } from './icons';
 
 export const Relation: React.FC = observer(() => {
   const {
     invalidQuestionsOne,
     questionsOne,
     selectedQuestionIDOne,
-    selectedQuestionOne,
     addRelationID,
     removeRelationID
   } = useContext(HWEditContext);
@@ -24,9 +25,11 @@ export const Relation: React.FC = observer(() => {
     return questionsOne.filter((q) => !ids.includes(q.id));
   }, [invalidQuestionsOne, questionsOne, selectedQuestionIDOne]);
 
-  const parentQuestion = questionsOne.find((q) =>
+  const parentQuestionIndex = questionsOne.findIndex((q) =>
     q.relation_ids?.includes(selectedQuestionIDOne)
   );
+  const parentQuestion: HWUpdateTestQuestionI | undefined =
+    questionsOne[parentQuestionIndex];
 
   useWindowClick((e) => {
     if (!e.target.closest(`.${cls.root}`)) {
@@ -37,7 +40,20 @@ export const Relation: React.FC = observer(() => {
   return (
     <div className={cls.root}>
       {parentQuestion ? (
-        'parent'
+        <div className={cls.question}>
+          <div>
+            <span>{parentQuestionIndex + 1}.</span>
+            {parentQuestion.name}
+          </div>
+          <button
+            type="button"
+            onClick={() =>
+              removeRelationID(parentQuestion.id, selectedQuestionIDOne)
+            }
+          >
+            <DeleteIcon />
+          </button>
+        </div>
       ) : (
         <>
           <AddButton
@@ -52,7 +68,7 @@ export const Relation: React.FC = observer(() => {
                 <button
                   type="button"
                   onClick={() => {
-                    // todo:
+                    addRelationID(q.id, selectedQuestionIDOne);
                     setOpen(false);
                   }}
                 >

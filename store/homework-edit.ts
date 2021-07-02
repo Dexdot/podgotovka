@@ -148,15 +148,18 @@ export class HWEditStore {
     const question = this.questionsOne.find((q) => q.id === parentID);
 
     if (question) {
-      question.relation_ids = [relationID];
+      const ids = question.relation_ids || [];
+      question.relation_ids = [...ids, relationID];
     }
   };
 
-  removeRelationID = (parentID: number): void => {
+  removeRelationID = (parentID: number, relationID: number): void => {
     const question = this.questionsOne.find((q) => q.id === parentID);
 
     if (question) {
-      question.relation_ids = [];
+      const ids = question.relation_ids || [];
+      const filtered = ids.filter((v) => v !== relationID);
+      question.relation_ids = [...filtered];
     }
   };
 
