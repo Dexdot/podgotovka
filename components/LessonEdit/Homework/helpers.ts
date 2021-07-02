@@ -71,7 +71,7 @@ export function mapTestQuestions(
     } = q;
 
     const relation_questions = findRelationQsns(id, qsns);
-    const relationIDs = relation_questions.map((q) => q.id);
+    const relationIDs = relation_questions.map((qs) => qs.id);
 
     return {
       id,

@@ -62,7 +62,7 @@ export interface UpdateHWI {
     timer: number;
     questions: HWUpdateTestQuestionI[];
   };
-  part_two: {
+  part_two?: {
     timer: number;
     questions: HWSimpleQuestionI[];
   };

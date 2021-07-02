@@ -16,14 +16,24 @@ export const Relation: React.FC = observer(() => {
     questionsOne,
     selectedQuestionIDOne,
     addRelationID,
-    removeRelationID
+    removeRelationID,
+    allRelationQuestionsIDs
   } = useContext(HWEditContext);
   const [isOpen, setOpen] = useState(false);
 
   const qsns = useMemo(() => {
-    const ids = [...invalidQuestionsOne, selectedQuestionIDOne];
+    const ids = [
+      ...invalidQuestionsOne,
+      ...allRelationQuestionsIDs,
+      selectedQuestionIDOne
+    ];
     return questionsOne.filter((q) => !ids.includes(q.id));
-  }, [invalidQuestionsOne, questionsOne, selectedQuestionIDOne]);
+  }, [
+    invalidQuestionsOne,
+    questionsOne,
+    selectedQuestionIDOne,
+    allRelationQuestionsIDs
+  ]);
 
   const parentQuestionIndex = questionsOne.findIndex((q) =>
     q.relationIDs?.includes(selectedQuestionIDOne)

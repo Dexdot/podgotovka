@@ -17,7 +17,15 @@ function updateHW(
   return axios.put<HWEditDetailI>(`${SERVICE_PATH}/${lesson_id}`, hw);
 }
 
+function createHW(
+  lesson_id: number,
+  hw: UpdateHWI
+): Promise<AxiosResponse<HWEditDetailI>> {
+  return axios.post<HWEditDetailI>(`${SERVICE_PATH}/${lesson_id}`, hw);
+}
+
 export const HomeworksAPI = {
   getHWDetail,
-  updateHW
+  updateHW,
+  createHW
 };

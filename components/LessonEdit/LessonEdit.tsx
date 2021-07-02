@@ -77,6 +77,7 @@ export const LessonEdit: React.FC<Props> = observer(
     }, [lessonID, isCreate, fetchLesson]);
 
     // HW
+    const { setHomeworkStore } = store;
     const [hwStore, setHWStore] = useState<HWEditStore>();
     useEffect(() => {
       if (lessonID) {
@@ -85,6 +86,12 @@ export const LessonEdit: React.FC<Props> = observer(
         s.fetchHW();
       }
     }, [lessonID]);
+
+    useEffect(() => {
+      if (hwStore) {
+        setHomeworkStore(hwStore);
+      }
+    }, [setHomeworkStore, hwStore]);
 
     useEffect(() => {
       const countTestQuestions = store.lessonData?.count_test_questions;
@@ -151,7 +158,7 @@ export const LessonEdit: React.FC<Props> = observer(
                             }}
                           />
                         </div>
-                        {hwStore.invalidQuestionsOne.length > 0 && (
+                        {!hwStore.isPartOneValid && (
                           <div className={cls.warning}>
                             <Image
                               src="/emoji/exclamation-mark.png"

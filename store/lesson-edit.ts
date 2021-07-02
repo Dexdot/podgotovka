@@ -1,11 +1,12 @@
 import { createContext } from 'react';
-import { action, makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable, runInAction } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
 import { showAlert } from '@/utils/network';
 import { LessonsAPI } from '@/api/lessons';
 import { LessonEditDetailI, LessonType, UpdateLessonI } from '@/types/lessons';
 import { FileI } from '@/types/common';
+import { HWEditStore } from '@/store/homework-edit';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
@@ -31,6 +32,8 @@ export class LessonEditStore {
 
   public timecode = '';
 
+  public homeworkStore: HWEditStore | undefined;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -51,20 +54,31 @@ export class LessonEditStore {
     return data;
   };
 
-  saveLesson = (lessonID: number): void => {
-    const lessonData = this.prepareData();
+  saveLesson = async (lessonID: number): Promise<void> => {
     this.isLoading = true;
 
-    LessonsAPI.updateLesson(lessonID, lessonData).then(
-      action('fetchSuccess', ({ data }) => {
-        this.handleLessonData(data);
+    if (this.homeworkStore && this.homeworkStore.isValid) {
+      try {
+        await this.homeworkStore.saveHW();
+      } catch (error) {
         this.isLoading = false;
-      }),
-      action('fetchError', (error) => {
-        showAlert({ error });
-        this.isLoading = false;
-      })
-    );
+      }
+    }
+
+    runInAction(() => {
+      const lessonData = this.prepareData();
+
+      LessonsAPI.updateLesson(lessonID, lessonData).then(
+        action('fetchSuccess', ({ data }) => {
+          this.handleLessonData(data);
+          this.isLoading = false;
+        }),
+        action('fetchError', (error) => {
+          showAlert({ error });
+          this.isLoading = false;
+        })
+      );
+    });
   };
 
   fetchLesson = (lessonID: number): void => {
@@ -132,6 +146,11 @@ export class LessonEditStore {
 
   setTimecode = (v: string): void => {
     this.timecode = v;
+  };
+
+  // Homework store
+  setHomeworkStore = (v: HWEditStore): void => {
+    this.homeworkStore = v;
   };
 }
 

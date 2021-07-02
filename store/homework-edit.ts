@@ -11,14 +11,18 @@ import { showAlert } from '@/utils/network';
 import { HomeworksAPI } from '@/api/homeworks';
 import {
   getEmptyTestQuestions,
-  isQuestionOneValid
+  isQuestionOneValid,
+  mapTestQuestions
 } from '@/components/LessonEdit/Homework/helpers';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
+const defaultTimer = 3600;
 
 export class HWEditStore {
   public isLoading = false;
+
+  public isHWExists = true;
 
   public hwData: HWEditDetailI | undefined;
 
@@ -29,7 +33,7 @@ export class HWEditStore {
   // -- START Part 1 --
   public countTestQuestions = 0;
 
-  public timeOne = 3600;
+  public timeOne = defaultTimer;
 
   public questionsOne: HWUpdateTestQuestionI[] = [];
 
@@ -37,7 +41,7 @@ export class HWEditStore {
   // -- END Part 1 --
 
   // -- START Part 2 --
-  public timeTwo = 3600;
+  public timeTwo = defaultTimer;
   // -- END Part 2 --
 
   constructor(lessonID: number) {
@@ -49,11 +53,13 @@ export class HWEditStore {
     HomeworksAPI.getHWDetail(this.lessonID).then(
       action('fetchSuccess', ({ data }) => {
         this.handleData(data);
+        this.isHWExists = true;
       }),
       action('fetchError', (error) => {
         const notFound = error?.response?.status === 404;
 
         if (notFound) {
+          this.isHWExists = false;
           this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
         } else {
           showAlert({ error });
@@ -62,17 +68,82 @@ export class HWEditStore {
     );
   };
 
+  saveHW = (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      this.isLoading = true;
+
+      const hwData = this.prepareData();
+
+      const fn = this.isHWExists
+        ? HomeworksAPI.updateHW
+        : HomeworksAPI.createHW;
+
+      fn(this.lessonID, hwData).then(
+        action('fetchSuccess', ({ data }) => {
+          this.handleData(data);
+
+          this.isHWExists = true;
+          this.isLoading = false;
+          resolve();
+        }),
+        action('fetchError', (error) => {
+          const notFound = error?.response?.status === 404;
+
+          if (notFound) {
+            this.isHWExists = false;
+            this.setQuestionsOne(
+              getEmptyTestQuestions(this.countTestQuestions)
+            );
+          } else {
+            showAlert({ error });
+          }
+
+          this.isLoading = false;
+          reject();
+        })
+      );
+    });
+  };
+
   handleData = (data: HWEditDetailI): void => {
     if (data) {
       this.hwData = data;
       this.lessonID = data.lesson_id;
-      // TODO: Handle parts
+
+      if (data.deadline) {
+        const d = new Date(data.deadline * 1000);
+        this.setDeadline(d);
+      }
+
+      // Part one
+      if (data.part_one) {
+        const HW = data.part_one;
+        this.timeOne = HW.timer || defaultTimer;
+
+        if (HW.questions && HW.questions.length > 0) {
+          this.setQuestionsOne(mapTestQuestions(HW.questions));
+        } else {
+          this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
+        }
+      }
     }
+  };
+
+  prepareData = (): UpdateHWI => {
+    return {
+      deadline: this.deadline.getTime() / 1000,
+      part_one: this.preparePartOne(),
+      part_two: undefined
+    };
   };
 
   setDeadline = (v: Date): void => {
     this.deadline = v;
   };
+
+  get isValid(): boolean {
+    return this.isPartOneValid;
+  }
 
   // -- START Part 1 --
   preparePartOne = (): UpdateHWI['part_one'] => {
@@ -119,8 +190,26 @@ export class HWEditStore {
     return invalidQuestions.map((q) => q.id);
   }
 
+  get isPartOneValid(): boolean {
+    return this.invalidQuestionsOne.length <= 0;
+  }
+
   get selectedQuestionOne(): HWUpdateTestQuestionI | undefined {
     return this.questionsOne.find((q) => q.id === this.selectedQuestionIDOne);
+  }
+
+  get allRelationQuestionsIDs(): number[] {
+    const arr: number[] = [];
+
+    this.questionsOne.forEach((q) => {
+      if (q.relationIDs && q.relationIDs.length > 0) {
+        q.relationIDs.forEach((id) => {
+          arr.push(id);
+        });
+      }
+    });
+
+    return arr;
   }
 
   setCountTestQuestions = (v: number): void => {
