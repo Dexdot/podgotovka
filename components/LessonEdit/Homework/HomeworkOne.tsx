@@ -6,10 +6,11 @@ import { HWUpdateTestQuestionI } from '@/types/homeworks';
 
 import cls from './Homework.module.scss';
 import { Questions } from './Questions/Questions';
-import { Description } from './Description';
+import { Relation } from './Relation/Relation';
+import { Text } from './Text';
 import { Answer } from './Answer';
 import { Weight } from './Weight';
-import { Text } from './Text';
+import { Description } from './Description';
 
 export const HomeworkOne: React.FC = observer(() => {
   const store = useContext(HWEditContext);
@@ -18,17 +19,20 @@ export const HomeworkOne: React.FC = observer(() => {
   const {
     questionsOne,
     setQuestionsOne,
-    selectedQuestionOne,
+    selectedQuestionIDOne,
     selectQuestionOne,
-    setQuestionNameOne
+    setQuestionNameOne,
+    selectedQuestionOne,
+    invalidQuestionsOne
   } = store;
   const questions = useMemo(
     () =>
       questionsOne.map((q) => ({
         id: String(q.id),
-        name: q.name
+        name: q.name,
+        showWarning: invalidQuestionsOne.includes(q.id)
       })),
-    [questionsOne]
+    [questionsOne, invalidQuestionsOne]
   );
 
   const onOrderChange = (ids: string[]) => {
@@ -42,7 +46,7 @@ export const HomeworkOne: React.FC = observer(() => {
     setQuestionsOne(reorderedQuestions);
   };
 
-  // Selected question
+  // Selected question data
   const {
     setDescriptionBlocksOne,
     setQuestionFullMatchOne,
@@ -50,16 +54,13 @@ export const HomeworkOne: React.FC = observer(() => {
     setQuestionWeightOne,
     setTextBlocksOne
   } = store;
-  const selectedQuestion = questionsOne.find(
-    (q) => q.id === selectedQuestionOne
-  );
 
   return (
     <div className={cls.root}>
       <aside className={cls.questions}>
         <Questions
           questions={questions}
-          selectedID={String(selectedQuestionOne)}
+          selectedID={String(selectedQuestionIDOne)}
           onQuestionClick={(id) => selectQuestionOne(Number(id))}
           onNameChange={(id, name) => setQuestionNameOne(Number(id), name)}
           onOrderChange={onOrderChange}
@@ -67,37 +68,38 @@ export const HomeworkOne: React.FC = observer(() => {
       </aside>
 
       <section className={cls.question}>
-        {selectedQuestion && (
+        {selectedQuestionOne && (
           <>
-            <Description
-              key={`Description-${selectedQuestion.id}`}
-              blocks={selectedQuestion.descriptionBlocks}
-              onChange={(bs) =>
-                setDescriptionBlocksOne(selectedQuestion.id, bs)
-              }
+            <Relation />
+            <Text
+              key={`Text-${selectedQuestionIDOne}`}
+              blocks={selectedQuestionOne.textBlocks}
+              onChange={(bs) => setTextBlocksOne(selectedQuestionIDOne, bs)}
             />
             <div className={cls.hr} />
             <Answer
-              id={selectedQuestion.id}
-              checked={selectedQuestion.only_full_match}
+              id={selectedQuestionIDOne}
+              checked={selectedQuestionOne.only_full_match}
               onChecked={(checked) =>
-                setQuestionFullMatchOne(selectedQuestion.id, checked)
+                setQuestionFullMatchOne(selectedQuestionIDOne, checked)
               }
-              answer={selectedQuestion.right_answer_text}
+              answer={selectedQuestionOne.right_answer_text}
               onAnswerChange={(answer) =>
-                setQuestionAnswerOne(selectedQuestion.id, answer)
+                setQuestionAnswerOne(selectedQuestionIDOne, answer)
               }
             />
             <div className={cls.hr} />
             <Weight
-              weight={selectedQuestion.weight}
-              onChange={(v) => setQuestionWeightOne(selectedQuestion.id, v)}
+              weight={selectedQuestionOne.weight}
+              onChange={(v) => setQuestionWeightOne(selectedQuestionIDOne, v)}
             />
             <div className={cls.hr} />
-            <Text
-              key={`Text-${selectedQuestion.id}`}
-              blocks={selectedQuestion.textBlocks}
-              onChange={(bs) => setTextBlocksOne(selectedQuestion.id, bs)}
+            <Description
+              key={`Description-${selectedQuestionIDOne}`}
+              blocks={selectedQuestionOne.descriptionBlocks}
+              onChange={(bs) =>
+                setDescriptionBlocksOne(selectedQuestionIDOne, bs)
+              }
             />
           </>
         )}

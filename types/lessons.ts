@@ -42,4 +42,5 @@ export interface LessonEditDetailI extends LessonI {
   created_at: number;
   files: FileI[];
   time_codes?: string;
+  count_test_questions?: number;
 }

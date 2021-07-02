@@ -5,7 +5,10 @@ import type { OutputBlockData } from '@editorjs/editorjs';
 import { HWEditDetailI, HWUpdateTestQuestionI } from '@/types/homeworks';
 import { showAlert } from '@/utils/network';
 import { HomeworksAPI } from '@/api/homeworks';
-import { getEmptyTestQuestions } from '@/components/LessonEdit/Homework/helpers';
+import {
+  getEmptyTestQuestions,
+  isQuestionOneValid
+} from '@/components/LessonEdit/Homework/helpers';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
@@ -19,17 +22,19 @@ export class HWEditStore {
 
   public deadline = now;
 
-  // Part one
+  // -- START Part 1 --
   public countTestQuestions = 0;
 
   public timeOne = 3600;
 
   public questionsOne: HWUpdateTestQuestionI[] = [];
 
-  public selectedQuestionOne = 0;
+  public selectedQuestionIDOne = 0;
+  // -- END Part 1 --
 
-  // Part two
+  // -- START Part 2 --
   public timeTwo = 3600;
+  // -- END Part 2 --
 
   constructor(lessonID: number) {
     makeAutoObservable(this);
@@ -65,9 +70,24 @@ export class HWEditStore {
     this.deadline = v;
   };
 
-  // Part one
+  // -- START Part 1 --
+  get invalidQuestionsOne(): number[] {
+    const invalidQuestions = this.questionsOne.filter(
+      (q) => !isQuestionOneValid(q)
+    );
+    return invalidQuestions.map((q) => q.id);
+  }
+
+  get selectedQuestionOne(): HWUpdateTestQuestionI | undefined {
+    return this.questionsOne.find((q) => q.id === this.selectedQuestionIDOne);
+  }
+
   setCountTestQuestions = (v: number): void => {
     this.countTestQuestions = v;
+
+    if (!this.hwData || !this.countTestQuestions) {
+      this.setQuestionsOne(getEmptyTestQuestions(this.countTestQuestions));
+    }
   };
 
   setTimeOne = (v: number): void => {
@@ -79,7 +99,7 @@ export class HWEditStore {
   };
 
   selectQuestionOne = (v: number): void => {
-    this.selectedQuestionOne = v;
+    this.selectedQuestionIDOne = v;
   };
 
   setQuestionNameOne = (id: number, v: string): void => {
@@ -124,10 +144,13 @@ export class HWEditStore {
     }
   };
 
-  // Part two
+  // -- END Part 1 --
+
+  // -- START Part 1 --
   setTimeTwo = (v: number): void => {
     this.timeTwo = v * 60;
   };
+  // -- END Part 2 --
 }
 
 export const hwEditStore = new HWEditStore(-1);

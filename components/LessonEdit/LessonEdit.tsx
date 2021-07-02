@@ -82,11 +82,16 @@ export const LessonEdit: React.FC<Props> = observer(
       if (lessonID) {
         const s = new HWEditStore(lessonID);
         setHWStore(s);
-        // TODO: set value from course
-        s.setCountTestQuestions(10);
         s.fetchHW();
       }
     }, [lessonID]);
+
+    useEffect(() => {
+      const countTestQuestions = store.lessonData?.count_test_questions;
+      if (hwStore && countTestQuestions) {
+        hwStore.setCountTestQuestions(countTestQuestions);
+      }
+    }, [hwStore, store.lessonData?.count_test_questions]);
 
     return (
       <div className={cls.root}>
@@ -146,13 +151,15 @@ export const LessonEdit: React.FC<Props> = observer(
                             }}
                           />
                         </div>
-                        <div className={cls.warning}>
-                          <Image
-                            src="/emoji/exclamation-mark.png"
-                            width="22"
-                            height="22"
-                          />
-                        </div>
+                        {hwStore.invalidQuestionsOne.length > 0 && (
+                          <div className={cls.warning}>
+                            <Image
+                              src="/emoji/exclamation-mark.png"
+                              width="22"
+                              height="22"
+                            />
+                          </div>
+                        )}
                       </div>
                     </header>
                   }

@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import { OutputBlockData } from '@editorjs/editorjs';
-
-import { AddButton } from '@/components/common/AddButton/AddButton';
 
 import cls from './Homework.module.scss';
 
@@ -17,24 +15,15 @@ const TextEditor = dynamic(
 );
 
 export const Text: React.FC<Props> = ({ blocks, onChange }) => {
-  const [isOpen, setOpen] = useState(blocks.length > 0);
-
   return (
     <div>
-      <p className={cls.label}>Пояснение</p>
-      <p className={cls.subtitle}>
-        Пояснение увидит ученик после выполнения всего домашнего задания
-      </p>
-      {isOpen ? (
-        <TextEditor
-          data={{ blocks }}
-          onChange={(d) => onChange(d.blocks)}
-          placeholder="Добавьте пояснение сюда"
-          resetStyles
-        />
-      ) : (
-        <AddButton text="Добавить пояснение" onClick={() => setOpen(true)} />
-      )}
+      <p className={cls.label}>Задание</p>
+      <TextEditor
+        data={{ blocks }}
+        onChange={(d) => onChange(d.blocks)}
+        placeholder="Добавьте описание задачи сюда"
+        resetStyles
+      />
     </div>
   );
 };

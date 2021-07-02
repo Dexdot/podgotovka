@@ -10,6 +10,7 @@ import cls from './Questions.module.scss';
 export type QuestionI = {
   id: string;
   name: string;
+  showWarning?: boolean;
 };
 
 type Props = {
@@ -42,7 +43,9 @@ export const Question: React.FC<Props> = ({
         onBlur={() => onNameChange(name)}
         onClick={() => onQuestionClick(question.id)}
       />
-      <Image src="/emoji/exclamation-mark.png" width="22" height="22" />
+      {question.showWarning && (
+        <Image src="/emoji/exclamation-mark.png" width="22" height="22" />
+      )}
     </div>
   );
 };

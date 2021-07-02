@@ -6,11 +6,11 @@ export type HWAnswerType = 'text' | 'file' | 'audio' | 'text_with_file';
 export interface HWTestQuestionBaseI {
   id: number;
   name: string;
-  description: string;
-  text?: string;
+  text: string;
+  description?: string;
   // Only frontend
-  descriptionBlocks: OutputBlockData[];
   textBlocks: OutputBlockData[];
+  descriptionBlocks: OutputBlockData[];
   weight: number;
   only_full_match: boolean;
   right_answer_text: string;
@@ -23,8 +23,8 @@ export interface HWTestQuestionI extends HWTestQuestionBaseI {
 export interface HWSimpleQuestionI {
   id: number;
   name: string;
-  description: string;
-  text?: string;
+  text: string;
+  description?: string;
   type: HWAnswerType;
 }
 
@@ -52,6 +52,8 @@ export interface HWEditDetailI {
 // Update
 export interface HWUpdateTestQuestionI extends HWTestQuestionBaseI {
   relation_questions?: HWTestQuestionBaseI[];
+  // Only frontend
+  relation_ids?: number[];
 }
 
 export interface UpdateHWI {

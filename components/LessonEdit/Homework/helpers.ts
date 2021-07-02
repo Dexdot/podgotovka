@@ -14,7 +14,8 @@ const emptyQuestion: HWUpdateTestQuestionI = {
   weight: 1,
   only_full_match: false,
   right_answer_text: '',
-  relation_questions: []
+  relation_questions: [],
+  relation_ids: []
 };
 
 export const getEmptyTestQuestions = (
@@ -69,6 +70,9 @@ export function mapTestQuestions(
       right_answer_text
     } = q;
 
+    const relation_questions = findRelationQsns(id, qsns);
+    const relation_ids = relation_questions.map((q) => q.id);
+
     return {
       id,
       name: name || '',
@@ -79,7 +83,20 @@ export function mapTestQuestions(
       weight: weight || 1,
       only_full_match: !!only_full_match,
       right_answer_text: right_answer_text || '',
-      relation_questions: findRelationQsns(id, qsns)
+      relation_questions,
+      relation_ids
     };
   });
+}
+
+export function isQuestionOneValid(q: HWUpdateTestQuestionI): boolean {
+  if (!q.name || !q.weight || !q.right_answer_text) {
+    return false;
+  }
+
+  if (q.textBlocks.length <= 0) {
+    return false;
+  }
+
+  return true;
 }
