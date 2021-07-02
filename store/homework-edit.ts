@@ -2,7 +2,11 @@ import { createContext } from 'react';
 import { action, makeAutoObservable } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
-import { HWEditDetailI, HWUpdateTestQuestionI } from '@/types/homeworks';
+import {
+  HWEditDetailI,
+  HWUpdateTestQuestionI,
+  UpdateHWI
+} from '@/types/homeworks';
 import { showAlert } from '@/utils/network';
 import { HomeworksAPI } from '@/api/homeworks';
 import {
@@ -71,6 +75,43 @@ export class HWEditStore {
   };
 
   // -- START Part 1 --
+  preparePartOne = (): UpdateHWI['part_one'] => {
+    return {
+      timer: this.timeOne,
+      questions: this.questionsOne.map((q) => {
+        const {
+          id,
+          name,
+          weight,
+          only_full_match,
+          right_answer_text,
+          textBlocks,
+          descriptionBlocks,
+          relationIDs
+        } = q;
+
+        const ids = relationIDs || [];
+        const relation_questions = this.questionsOne.filter((q) =>
+          ids.includes(q.id)
+        );
+
+        return {
+          id,
+          name,
+          weight,
+          relation_questions,
+          only_full_match,
+          right_answer_text,
+          text: JSON.stringify(textBlocks),
+          description: JSON.stringify(descriptionBlocks),
+          // Only frontend
+          textBlocks: [],
+          descriptionBlocks: []
+        };
+      })
+    };
+  };
+
   get invalidQuestionsOne(): number[] {
     const invalidQuestions = this.questionsOne.filter(
       (q) => !isQuestionOneValid(q)
@@ -148,8 +189,8 @@ export class HWEditStore {
     const question = this.questionsOne.find((q) => q.id === parentID);
 
     if (question) {
-      const ids = question.relation_ids || [];
-      question.relation_ids = [...ids, relationID];
+      const ids = question.relationIDs || [];
+      question.relationIDs = [...ids, relationID];
     }
   };
 
@@ -157,9 +198,9 @@ export class HWEditStore {
     const question = this.questionsOne.find((q) => q.id === parentID);
 
     if (question) {
-      const ids = question.relation_ids || [];
+      const ids = question.relationIDs || [];
       const filtered = ids.filter((v) => v !== relationID);
-      question.relation_ids = [...filtered];
+      question.relationIDs = [...filtered];
     }
   };
 

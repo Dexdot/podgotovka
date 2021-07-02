@@ -1,7 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult
+} from 'react-beautiful-dnd';
 
 import { reorderDND } from '@/utils/common';
 
@@ -23,7 +28,7 @@ export const QuestionsList: React.FC<Props> = ({
   onOrderChange,
   onQuestionClick
 }) => {
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }

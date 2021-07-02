@@ -26,7 +26,7 @@ export const Relation: React.FC = observer(() => {
   }, [invalidQuestionsOne, questionsOne, selectedQuestionIDOne]);
 
   const parentQuestionIndex = questionsOne.findIndex((q) =>
-    q.relation_ids?.includes(selectedQuestionIDOne)
+    q.relationIDs?.includes(selectedQuestionIDOne)
   );
   const parentQuestion: HWUpdateTestQuestionI | undefined =
     questionsOne[parentQuestionIndex];

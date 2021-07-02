@@ -53,7 +53,7 @@ export interface HWEditDetailI {
 export interface HWUpdateTestQuestionI extends HWTestQuestionBaseI {
   relation_questions?: HWTestQuestionBaseI[];
   // Only frontend
-  relation_ids?: number[];
+  relationIDs?: number[];
 }
 
 export interface UpdateHWI {

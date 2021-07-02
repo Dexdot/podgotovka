@@ -15,7 +15,7 @@ const emptyQuestion: HWUpdateTestQuestionI = {
   only_full_match: false,
   right_answer_text: '',
   relation_questions: [],
-  relation_ids: []
+  relationIDs: []
 };
 
 export const getEmptyTestQuestions = (
@@ -71,7 +71,7 @@ export function mapTestQuestions(
     } = q;
 
     const relation_questions = findRelationQsns(id, qsns);
-    const relation_ids = relation_questions.map((q) => q.id);
+    const relationIDs = relation_questions.map((q) => q.id);
 
     return {
       id,
@@ -84,7 +84,7 @@ export function mapTestQuestions(
       only_full_match: !!only_full_match,
       right_answer_text: right_answer_text || '',
       relation_questions,
-      relation_ids
+      relationIDs
     };
   });
 }
