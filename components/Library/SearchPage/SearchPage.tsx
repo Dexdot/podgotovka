@@ -6,8 +6,8 @@ import { SearchMaterialsI } from '@/types/library';
 
 import { LibraryAPI } from '@/api/library';
 
-import { pluralize } from '@/utils/pluralize';
 import { showAlert } from '@/utils/network';
+import { declension } from '@/utils/format';
 
 import { getDescription } from './helpers';
 
@@ -45,10 +45,12 @@ export const SearchPage: React.FC = () => {
         <span>Результаты по запросу &quot;{search}&quot;</span>
         <span>•</span>
         <span>
-          {pluralize({
-            words: ['результат', 'результата', 'результатов'],
-            count: searchResults.number_of_results
-          })}
+          {`${searchResults.number_of_results} ${declension(
+            searchResults.number_of_results,
+            'результат',
+            'результата',
+            'результатов'
+          )}`}
         </span>
       </p>
 

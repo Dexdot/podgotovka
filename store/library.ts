@@ -23,7 +23,7 @@ export class LibraryStore {
 
   public loading: LoadingStateType = 'done';
 
-  public laodingMaterial: LoadingStateType = 'done';
+  public loadingMaterial: LoadingStateType = 'done';
 
   constructor() {
     makeAutoObservable(this);
@@ -115,16 +115,16 @@ export class LibraryStore {
 
   fetchMaterial = (material_id: number): Promise<MaterialDetailI> => {
     return new Promise((res, rej) => {
-      this.laodingMaterial = 'loading';
+      this.loadingMaterial = 'loading';
       LibraryAPI.fetchMaterialDetail({ material_id }).then(
         action('fetchSuccess', ({ data }) => {
           this.updMaterial(data);
-          this.laodingMaterial = 'done';
+          this.loadingMaterial = 'done';
           res(data);
         }),
         action('fetchError', (error) => {
           showAlert({ error });
-          this.laodingMaterial = 'error';
+          this.loadingMaterial = 'error';
           rej();
         })
       );
@@ -133,7 +133,7 @@ export class LibraryStore {
 
   createMaterial = (material: CreateMaterialI): Promise<MaterialDetailI> => {
     return new Promise((res, rej) => {
-      this.laodingMaterial = 'loading';
+      this.loadingMaterial = 'loading';
       LibraryAPI.createMaterial(material).then(
         action('fetchSuccess', ({ data }) => {
           const newCategories = this.categories.map((item) => {
@@ -144,12 +144,12 @@ export class LibraryStore {
           });
           this.upd(newCategories);
           this.updMaterial(data);
-          this.laodingMaterial = 'done';
+          this.loadingMaterial = 'done';
           res(data);
         }),
         action('fetchError', (error) => {
           showAlert({ error });
-          this.laodingMaterial = 'error';
+          this.loadingMaterial = 'error';
           rej();
         })
       );
@@ -186,7 +186,7 @@ export class LibraryStore {
 
   updateMaterial = (updatedMaterial: UpdateMaterialI): Promise<void> => {
     return new Promise((res, rej) => {
-      this.laodingMaterial = 'loading';
+      this.loadingMaterial = 'loading';
       LibraryAPI.updateMaterial(updatedMaterial).then(
         action('fetchSuccess', ({ data }) => {
           const newCategories = this.categories.map((item) => {
@@ -203,12 +203,12 @@ export class LibraryStore {
           });
           this.upd(newCategories);
           this.updMaterial(data);
-          this.laodingMaterial = 'done';
+          this.loadingMaterial = 'done';
           res();
         }),
         action('fetchError', (error) => {
           showAlert({ error });
-          this.laodingMaterial = 'error';
+          this.loadingMaterial = 'error';
           rej();
         })
       );
@@ -258,7 +258,7 @@ export class LibraryStore {
 
   copyMaterial = (material_id: number): Promise<MaterialDetailI> => {
     return new Promise((res, rej) => {
-      this.laodingMaterial = 'loading';
+      this.loadingMaterial = 'loading';
       LibraryAPI.copyMaterial({ material_id }).then(
         action('fetchSuccess', ({ data }) => {
           const newCategories = this.categories.map((item) => {
@@ -271,12 +271,12 @@ export class LibraryStore {
           });
           this.upd(newCategories);
           this.updMaterial(data);
-          this.laodingMaterial = 'done';
+          this.loadingMaterial = 'done';
           res(data);
         }),
         action('fetchError', (error) => {
           showAlert({ error });
-          this.laodingMaterial = 'error';
+          this.loadingMaterial = 'error';
           rej();
         })
       );

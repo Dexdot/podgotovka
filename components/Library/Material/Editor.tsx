@@ -17,7 +17,7 @@ interface PropsI {
 }
 
 export const Editor: React.FC<PropsI> = observer(({ editMode, onChange }) => {
-  const { material, laodingMaterial } = useContext(LibraryContext);
+  const { material, loadingMaterial } = useContext(LibraryContext);
   const [ready, toggleReady] = useState<boolean>(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export const Editor: React.FC<PropsI> = observer(({ editMode, onChange }) => {
   return (
     <div className={cls.editor_wrapper}>
       {!editMode && <h2>{material.name}</h2>}
-      {laodingMaterial === 'done' && (
+      {loadingMaterial === 'done' && (
         <TextEditor
           data={{
             blocks: material.text ? JSON.parse(material.text) : []
@@ -38,7 +38,7 @@ export const Editor: React.FC<PropsI> = observer(({ editMode, onChange }) => {
           onReady={() => toggleReady(true)}
         />
       )}
-      {!editMode && laodingMaterial === 'done' && ready && (
+      {!editMode && loadingMaterial === 'done' && ready && (
         <div className={cls.editor_statistics}>
           <div>
             <span>{String.fromCodePoint(0x1f44d)}</span>

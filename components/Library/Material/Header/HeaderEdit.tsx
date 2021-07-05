@@ -27,7 +27,7 @@ interface PropsI {
 
 export const HeaderEdit: React.FC<PropsI> = observer(
   ({ onMoreClick, onStatusChange, onSave }) => {
-    const { material, laodingMaterial, updateMaterialName } =
+    const { material, loadingMaterial, updateMaterialName } =
       useContext(LibraryContext);
 
     const statusValue = useMemo<DropdownType | null>(() => {
@@ -52,7 +52,7 @@ export const HeaderEdit: React.FC<PropsI> = observer(
             value={null}
             placeholder="Еще"
             onChange={onMoreClick}
-            disabled={laodingMaterial === 'loading'}
+            disabled={loadingMaterial === 'loading'}
           />
           <Dropdown
             items={statusOptions}
@@ -65,9 +65,9 @@ export const HeaderEdit: React.FC<PropsI> = observer(
               />
             }
             onChange={onStatusChange}
-            disabled={laodingMaterial === 'loading'}
+            disabled={loadingMaterial === 'loading'}
           />
-          <Button onClick={onSave} disabled={laodingMaterial === 'loading'}>
+          <Button onClick={onSave} disabled={loadingMaterial === 'loading'}>
             Сохранить
           </Button>
         </div>

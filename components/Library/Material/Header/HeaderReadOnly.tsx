@@ -20,7 +20,7 @@ interface PropsI {
 
 export const HeaderReadOnly: React.FC<PropsI> = observer(
   ({ subjectId, onCopy }) => {
-    const { material, laodingMaterial } = useContext(LibraryContext);
+    const { material, loadingMaterial } = useContext(LibraryContext);
 
     return (
       <>
@@ -45,7 +45,7 @@ export const HeaderReadOnly: React.FC<PropsI> = observer(
           <Button
             variant="grey"
             onClick={onCopy}
-            loading={laodingMaterial === 'loading'}
+            loading={loadingMaterial === 'loading'}
           >
             <CopyIcon />
             Создать копию
@@ -53,7 +53,7 @@ export const HeaderReadOnly: React.FC<PropsI> = observer(
           <ButtonLink
             variant="grey"
             href={`/library/subject/${subjectId}/material/${material.id}/edit`}
-            loading={laodingMaterial === 'loading'}
+            loading={loadingMaterial === 'loading'}
           >
             <EditIcon />
             Изменить
