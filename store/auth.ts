@@ -6,6 +6,7 @@ import { AuthI, AuthJWTI } from '@/types/auth';
 import { AUTH_NAME } from '@/utils/consts';
 import { PodgotovkaAPI } from '@/api/instance';
 import { deleteCookie, setCookie } from '@/utils/cookie';
+import { RoleType } from '@/types/app/users';
 
 const prodCookieOptions = {
   path: '/',
@@ -24,7 +25,7 @@ const cookieOptions =
 export class AuthStore {
   public auth: AuthI | undefined;
 
-  public is_student = false;
+  public role: RoleType | undefined;
 
   constructor() {
     makeAutoObservable(this);
@@ -32,7 +33,7 @@ export class AuthStore {
 
   setAuth = (v: AuthI): void => {
     const jwt = jwt_decode<AuthJWTI>(v.access_token);
-    this.is_student = jwt.role === 'student';
+    this.role = jwt.role;
 
     this.auth = { ...v };
     PodgotovkaAPI.updateToken(v.access_token);
@@ -40,11 +41,15 @@ export class AuthStore {
   };
 
   remove = (): void => {
-    this.is_student = false;
+    this.role = undefined;
     this.auth = undefined;
     PodgotovkaAPI.updateToken('');
     deleteCookie(AUTH_NAME, cookieOptions);
   };
+
+  get isStudent(): boolean {
+    return this.role === 'student';
+  }
 }
 
 export const authStore = new AuthStore();
