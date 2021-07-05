@@ -65,7 +65,7 @@ export const BasicInfo: React.FC = observer(() => {
 
       <div className={cls.hr} />
       <h2 className={cls.label}>Дата и время начала занятия</h2>
-      <div>
+      <div className={cls.time}>
         <DateTimePicker
           showTimeInput
           date={dateStart}

@@ -52,6 +52,7 @@ export const DateTimePicker: React.FC<Props> = ({
         dateFormat={dateFormat || defaultDateFormat}
         timeInputLabel="Время:"
         showTimeInput={showTimeInput}
+        shouldCloseOnSelect={!showTimeInput}
         inline={inline}
         className={cls.field}
         dayClassName={() => cls.day}
