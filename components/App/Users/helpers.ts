@@ -16,3 +16,6 @@ export const roles: DropdownType[] = [
   { id: 'curator', text: 'Куратор' },
   { id: 'helper', text: 'Хэлпер' }
 ];
+
+export const hasSubjects = (role: string): boolean =>
+  role === 'teacher' || role === 'checker';

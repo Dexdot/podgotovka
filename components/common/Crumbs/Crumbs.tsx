@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Link from 'next/link';
 
 import cls from './Crumbs.module.scss';
@@ -19,14 +19,14 @@ export const Crumbs: React.FC<PropsI> = ({ items }) => {
         const isLast = index === items.length - 1;
 
         if (isLast) {
-          return <span>{item.text}</span>;
+          return <span key={item.to}>{item.text}</span>;
         }
 
         return (
-          <>
+          <Fragment key={item.to}>
             <Link href={item.to}>{item.text}</Link>
             <span>/</span>
-          </>
+          </Fragment>
         );
       })}
     </div>

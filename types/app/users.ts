@@ -15,7 +15,7 @@ export interface NewUserI {
   role: RoleType;
   photo_link?: string;
   vk_link?: string;
-  subject_id: number;
+  subject_id?: number;
 }
 
 export interface UpdateUserI {
