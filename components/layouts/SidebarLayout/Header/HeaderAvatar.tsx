@@ -21,7 +21,7 @@ export const HeaderAvatar: React.FC = observer(() => {
   const signout = () => {
     setOpen(false);
     remove();
-    router.push('/app/signin');
+    router.push('/signin');
   };
 
   useWindowClick((e) => {

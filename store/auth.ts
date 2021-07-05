@@ -22,7 +22,11 @@ const devCookieOptions = {
 const cookieOptions =
   process.env.NODE_ENV === 'development' ? devCookieOptions : prodCookieOptions;
 
+type AuthState = 'initial' | 'authed' | 'not_authed';
+
 export class AuthStore {
+  public state: AuthState = 'initial';
+
   public auth: AuthI | undefined;
 
   public role: RoleType | undefined;
@@ -36,6 +40,7 @@ export class AuthStore {
     this.role = jwt.role;
 
     this.auth = { ...v };
+    this.setState('authed');
     PodgotovkaAPI.updateToken(v.access_token);
     setCookie(AUTH_NAME, JSON.stringify(v), cookieOptions);
   };
@@ -43,6 +48,7 @@ export class AuthStore {
   remove = (): void => {
     this.role = undefined;
     this.auth = undefined;
+    this.setState('not_authed');
     PodgotovkaAPI.updateToken('');
     deleteCookie(AUTH_NAME, cookieOptions);
   };
@@ -50,6 +56,10 @@ export class AuthStore {
   get isStudent(): boolean {
     return this.role === 'student';
   }
+
+  setState = (v: AuthState): void => {
+    this.state = v;
+  };
 }
 
 export const authStore = new AuthStore();

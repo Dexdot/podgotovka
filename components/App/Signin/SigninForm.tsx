@@ -25,7 +25,7 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
   const submit = async (form: FormI, helpers: FormikHelpers<FormI>) => {
     try {
       const { data } = await onSubmit(form);
-      authStore.setAuth({ ...data, is_student: false });
+      authStore.setAuth(data);
 
       helpers.setSubmitting(false);
       helpers.resetForm();

@@ -12,8 +12,7 @@ export const API_BASE = isDevBuild
   ? 'https://devapi.podgotovka.ru'
   : 'https://api.podgotovka.ru';
 
-export const AUTH_NAME =
-  '$2y$12$AFwV6R.Kh06l5kTkzEoJMu23f1hVSB.uMFf5mxEWmCgTt.OUYVvW2';
+export const AUTH_NAME = 'Kh06l5kTkzEoJMu23f1hVSB';
 
 export const COURSE_STATUSES: Record<string, CourseStatus> = {
   draft: 'draft',
