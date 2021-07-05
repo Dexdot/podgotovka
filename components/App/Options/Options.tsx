@@ -29,7 +29,7 @@ export const Options: React.FC = () => {
   const [type, setType] = useState<DropdownType | null>(null);
 
   const params = useMemo<SearchParamsI>(
-    () => ({ search: debouncedSearch, type: type?.id }),
+    () => ({ q: debouncedSearch, type: type?.id }),
     [debouncedSearch, type]
   );
 

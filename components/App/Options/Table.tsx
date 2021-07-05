@@ -47,6 +47,13 @@ export const Table: React.FC<PropsI> = ({ open, options }) => {
           )}
         </div>
       ))}
+      {!options.length && (
+        <div className={cls.row}>
+          <div className={cls.option_name_desc}>
+            <p className={cls.empty}>Ничего не найдено</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
