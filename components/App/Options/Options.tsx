@@ -3,7 +3,7 @@ import { FormikHelpers } from 'formik';
 import cn from 'classnames';
 
 import { OptionI } from '@/types/common';
-import { SearchParamsI } from '@/types/options';
+import { SearchParamsI } from '@/types/app/options';
 
 import { OptionsAPI } from '@/api/app/options';
 import { useFilteredOptions } from '@/api/app/hooks/options/useFilteredOptions';

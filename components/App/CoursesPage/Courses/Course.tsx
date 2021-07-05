@@ -13,7 +13,7 @@ import {
   ActionType
 } from '@/components/common/ActionsDropdown/ActionsDropdown';
 
-import { CourseI } from '@/types/courses';
+import { CourseI } from '@/types/app/courses';
 import { getDateText } from '@/utils/date';
 import { CoursesAPI } from '@/api/app/courses';
 import { showAlert } from '@/utils/network';

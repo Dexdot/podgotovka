@@ -6,7 +6,7 @@ import {
   SearchParamsI,
   NewUserI,
   UpdateUserI
-} from '@/types/users';
+} from '@/types/app/users';
 import { PodgotovkaAPI } from '@/api/instance';
 
 const { axios } = PodgotovkaAPI;

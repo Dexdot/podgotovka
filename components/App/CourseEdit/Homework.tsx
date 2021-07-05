@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { Input } from '@/components/common/Input/Input';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 import { onlyNumbers } from '@/utils/format';
 
 import cls from './CourseEdit.module.scss';

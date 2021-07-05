@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { CourseI } from '@/types/courses';
+import { CourseI } from '@/types/app/courses';
 import { CoursesAPI, CoursesFilters } from '@/api/app/courses';
 import { showAlert } from '@/utils/network';
 

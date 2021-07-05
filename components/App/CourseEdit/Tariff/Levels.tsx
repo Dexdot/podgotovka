@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Input } from '@/components/common/Input/Input';
 
 import { LevelI, TariffLevelType } from '@/types/common';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 import { numberWithSpaces, onlyNumbers } from '@/utils/format';
 
 import cls from './Tariff.module.scss';

@@ -8,7 +8,7 @@ import {
   CourseTariffI,
   UpdateCourseDataI,
   UpdateCourseTariffI
-} from '@/types/courses';
+} from '@/types/app/courses';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/courses';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { UserDetailsI } from '@/types/users';
+import { UserDetailsI } from '@/types/app/users';
 
 import { TextareaFlat } from '@/components/common/Textarea/TextareaFlat';
 

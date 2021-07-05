@@ -1,6 +1,6 @@
 import { DirectionType } from '@/types/common';
-import { CourseStatus } from '@/types/courses';
-import { LessonType } from '@/types/lessons';
+import { CourseStatus } from '@/types/app/courses';
+import { LessonType } from '@/types/app/lessons';
 
 const isDevBuild = process.env.BUILD_ENV === 'development';
 

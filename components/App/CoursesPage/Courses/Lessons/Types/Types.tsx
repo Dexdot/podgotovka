@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import { useWindowClick } from '@/hooks/useWindowClick';
 import { AddButton } from '@/components/common/AddButton/AddButton';
-import { LessonType } from '@/types/lessons';
+import { LessonType } from '@/types/app/lessons';
 
 import cls from './Types.module.scss';
 import { WebinarIcon, ExamIcon, ExtraIcon } from './icons';

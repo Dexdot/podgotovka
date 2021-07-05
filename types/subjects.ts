@@ -1,4 +1,4 @@
-import { DirectionType } from './common';
+import { DirectionType } from '@/types/common';
 
 export interface SubjectI {
   id: number;

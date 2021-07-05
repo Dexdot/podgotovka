@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { CourseEdit } from '@/components/App/CourseEdit/CourseEdit';
-import { CourseEditContext, CourseEditStore } from '@/store/course-edit';
+import { CourseEditContext, CourseEditStore } from '@/store/app/course-edit';
 
 const CourseEditPage: React.FC = () => {
   const router = useRouter();

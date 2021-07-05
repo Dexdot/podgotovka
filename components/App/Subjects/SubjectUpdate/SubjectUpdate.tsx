@@ -5,13 +5,13 @@ import { useRouter } from 'next/router';
 
 import { SubjectHeader } from '@/components/App/Subjects/SubjectHeader/SubjectHeader';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
+import { SubjectEdit } from '@/components/App/Subjects/SubjectEdit/SubjectEdit';
 
 import { updateSubject } from '@/api/app/subjects';
 
 import { useSubject } from '@/api/app/hooks/subjects/useSubject';
 import { showAlert } from '@/utils/network';
 import cls from './SubjectUpdate.module.scss';
-import { SubjectEdit } from '../SubjectEdit/SubjectEdit';
 
 type Props = {
   subjectID: number;

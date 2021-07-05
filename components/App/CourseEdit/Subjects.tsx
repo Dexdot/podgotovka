@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { SubjectI } from '@/types/subjects';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
+import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 
 import cls from './CourseEdit.module.scss';
-import { Checkbox } from '../../common/Checkbox/Checkbox';
 
 type Props = {
   subjects: SubjectI[];

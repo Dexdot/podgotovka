@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { TariffLevelType } from '@/types/common';
 import { useLevels } from '@/api/app/hooks/useLevels';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 
 import cls from './Tariff.module.scss';
 import { Levels } from './Levels';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { LessonI } from '@/types/lessons';
+import { LessonI } from '@/types/app/lessons';
 import { getDateText, toHHMM } from '@/utils/date';
 import {
   ActionsDropdown,

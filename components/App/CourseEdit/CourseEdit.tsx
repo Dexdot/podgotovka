@@ -8,7 +8,7 @@ import { Tabs } from '@/components/common/Tabs/Tabs';
 
 import { TariffLevelType } from '@/types/common';
 import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 
 import cls from './CourseEdit.module.scss';
 import { SubjectIcon } from './icons';

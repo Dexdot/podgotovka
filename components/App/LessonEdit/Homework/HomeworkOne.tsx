@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { HWEditContext } from '@/store/homework-edit';
-import { HWUpdateTestQuestionI } from '@/types/homeworks';
+import { HWEditContext } from '@/store/app/homework-edit';
+import { HWUpdateTestQuestionI } from '@/types/app/homeworks';
 
 import cls from './Homework.module.scss';
 import { Questions } from './Questions/Questions';

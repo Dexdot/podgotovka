@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 import cn from 'classnames';
 
 import { AddButton } from '@/components/common/AddButton/AddButton';
-import { HWEditContext } from '@/store/homework-edit';
-import { HWUpdateTestQuestionI } from '@/types/homeworks';
+import { HWEditContext } from '@/store/app/homework-edit';
+import { HWUpdateTestQuestionI } from '@/types/app/homeworks';
 
 import { useWindowClick } from '@/hooks/useWindowClick';
 import cls from './Relation.module.scss';

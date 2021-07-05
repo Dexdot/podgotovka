@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 
-import { SearchParamsI, UserDetailsI } from '@/types/users';
+import { SearchParamsI, UserDetailsI } from '@/types/app/users';
 
 import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
-import { UsersContext } from '@/store/users';
+import { UsersContext } from '@/store/app/users';
 
 import { useDebounce } from '@/hooks/useDebounce';
 

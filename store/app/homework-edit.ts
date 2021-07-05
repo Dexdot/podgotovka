@@ -8,7 +8,7 @@ import {
   HWSimpleQuestionI,
   HWUpdateTestQuestionI,
   UpdateHWI
-} from '@/types/homeworks';
+} from '@/types/app/homeworks';
 import { showAlert } from '@/utils/network';
 import { HomeworksAPI } from '@/api/app/homeworks';
 import {

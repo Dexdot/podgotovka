@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 
-import { UsersContext } from '@/store/users';
+import { UsersContext } from '@/store/app/users';
 
 import { Header } from './Header';
 import { Bio } from './Bio';

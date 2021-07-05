@@ -8,11 +8,11 @@ import { BackLink } from '@/components/common/BackLink/BackLink';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
 
-import { LessonEditContext } from '@/store/lesson-edit';
-import { CreateLessonI, LessonType } from '@/types/lessons';
+import { LessonEditContext } from '@/store/app/lesson-edit';
+import { CreateLessonI, LessonType } from '@/types/app/lessons';
 import { LessonsAPI } from '@/api/app/lessons';
 import { showAlert } from '@/utils/network';
-import { HWEditContext, HWEditStore } from '@/store/homework-edit';
+import { HWEditContext, HWEditStore } from '@/store/app/homework-edit';
 
 import { LESSON_TYPES } from '@/utils/consts';
 import cls from './LessonEdit.module.scss';

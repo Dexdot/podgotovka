@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { OptionI } from '@/types/common';
-import { SearchParamsI } from '@/types/options';
+import { SearchParamsI } from '@/types/app/options';
 
 import { fetchOptions } from '@/api/app/options';
 

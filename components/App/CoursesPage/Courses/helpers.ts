@@ -1,5 +1,5 @@
 import { DropdownType } from '@/components/common/Dropdown/Dropdown';
-import { CourseI, CourseStatus } from '@/types/courses';
+import { CourseI, CourseStatus } from '@/types/app/courses';
 import { COURSE_STATUSES } from '@/utils/consts';
 
 export const courses: CourseI[] = [

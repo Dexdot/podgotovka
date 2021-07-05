@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useCourses } from '@/api/app/hooks/courses/useCourses';
 import { Input } from '@/components/common/Input/Input';
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
-import { CourseStatus } from '@/types/courses';
+import { CourseStatus } from '@/types/app/courses';
 
 import { Courses } from './Courses';
 import cls from './Course.module.scss';

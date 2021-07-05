@@ -8,7 +8,7 @@ import {
   UpdateUserI,
   SearchParamsI,
   UserDetailsI
-} from '@/types/users';
+} from '@/types/app/users';
 
 import { UsersAPI } from '@/api/app/users';
 

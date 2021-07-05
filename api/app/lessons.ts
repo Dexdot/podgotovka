@@ -6,7 +6,7 @@ import {
   LessonEditDetailI,
   LessonI,
   UpdateLessonI
-} from '@/types/lessons';
+} from '@/types/app/lessons';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/lessons';

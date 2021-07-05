@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { Input } from '@/components/common/Input/Input';
 import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
 
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 
 import cls from './BasicInfo.module.scss';
 

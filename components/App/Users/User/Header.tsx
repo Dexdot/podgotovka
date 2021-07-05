@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { UserDetailsI } from '@/types/users';
+import { UserDetailsI } from '@/types/app/users';
 
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { ButtonLink } from '@/components/common/Button/ButtonLink';

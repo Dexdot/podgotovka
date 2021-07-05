@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { LessonI } from '@/types/lessons';
+import { LessonI } from '@/types/app/lessons';
 import { LessonsAPI, LessonsFilters } from '@/api/app/lessons';
 import { showAlert } from '@/utils/network';
 

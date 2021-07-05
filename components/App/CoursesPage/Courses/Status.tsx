@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { DropdownType, Dropdown } from '@/components/common/Dropdown/Dropdown';
 import { CoursesAPI } from '@/api/app/courses';
-import { CourseI, CourseStatus } from '@/types/courses';
+import { CourseI, CourseStatus } from '@/types/app/courses';
 import { showAlert } from '@/utils/network';
 
 import cls from './Course.module.scss';

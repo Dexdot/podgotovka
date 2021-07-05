@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { LessonEdit } from '@/components/App/LessonEdit/LessonEdit';
 
-import { LessonEditContext, LessonEditStore } from '@/store/lesson-edit';
+import { LessonEditContext, LessonEditStore } from '@/store/app/lesson-edit';
 
 const EditLessonPage: React.FC = () => {
   const router = useRouter();

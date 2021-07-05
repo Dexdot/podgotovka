@@ -4,7 +4,7 @@ import { useFormik, FormikHelpers } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { nanoid } from 'nanoid';
 
-import { UsersContext } from '@/store/users';
+import { UsersContext } from '@/store/app/users';
 
 import { Button } from '@/components/common/Button/Button';
 import { ButtonLink } from '@/components/common/Button/ButtonLink';

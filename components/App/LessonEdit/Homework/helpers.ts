@@ -3,7 +3,7 @@ import {
   HWTestQuestionBaseI,
   HWTestQuestionI,
   HWUpdateTestQuestionI
-} from '@/types/homeworks';
+} from '@/types/app/homeworks';
 
 const emptyTestQuestion: HWUpdateTestQuestionI = {
   id: 0,

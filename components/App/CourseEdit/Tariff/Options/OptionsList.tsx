@@ -10,7 +10,7 @@ import {
 } from 'react-beautiful-dnd';
 
 import { reorderDND } from '@/utils/common';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 
 import cls from './Options.module.scss';
 import { Option } from './Option';

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 
 import { PodgotovkaAPI } from '@/api/instance';
-import { HWEditDetailI, UpdateHWI } from '@/types/homeworks';
+import { HWEditDetailI, UpdateHWI } from '@/types/app/homeworks';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/homeworks/lessons';

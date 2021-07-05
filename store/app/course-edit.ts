@@ -7,7 +7,7 @@ import {
   CourseTariffI,
   UpdateCourseDataI,
   UpdateCourseTariffI
-} from '@/types/courses';
+} from '@/types/app/courses';
 import { SubjectI } from '@/types/subjects';
 import {
   LevelI,

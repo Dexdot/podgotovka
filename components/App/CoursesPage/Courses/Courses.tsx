@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { CourseI } from '@/types/courses';
+import { CourseI } from '@/types/app/courses';
 
 import cls from './Course.module.scss';
 import { Course } from './Course';

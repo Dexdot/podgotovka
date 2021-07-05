@@ -1,5 +1,5 @@
-import { LevelI, LevelPriceI, OptionI, TariffValueType } from './common';
-import { SubjectI } from './subjects';
+import { LevelI, LevelPriceI, OptionI, TariffValueType } from '@/types/common';
+import { SubjectI } from '@/types/subjects';
 
 export type CourseStatus = 'draft' | 'archive' | 'removed' | 'published';
 

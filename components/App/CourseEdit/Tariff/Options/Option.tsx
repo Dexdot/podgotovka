@@ -8,7 +8,7 @@ import { Input } from '@/components/common/Input/Input';
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 
 import { OptionI } from '@/types/common';
-import { CourseEditContext } from '@/store/course-edit';
+import { CourseEditContext } from '@/store/app/course-edit';
 import { numberWithSpaces, onlyNumbers } from '@/utils/format';
 
 import cls from './Options.module.scss';

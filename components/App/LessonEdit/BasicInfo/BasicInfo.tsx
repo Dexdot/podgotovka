@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import dynamic from 'next/dynamic';
 import { observer } from 'mobx-react-lite';
 
-import { LessonEditContext } from '@/store/lesson-edit';
+import { LessonEditContext } from '@/store/app/lesson-edit';
 import { InputFlat } from '@/components/common/Input/InputFlat';
 import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicker';
 import { Files } from '@/components/common/Files/Files';

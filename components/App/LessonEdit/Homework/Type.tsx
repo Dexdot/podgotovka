@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { HWAnswerType } from '@/types/homeworks';
+import { HWAnswerType } from '@/types/app/homeworks';
 import { DropdownType, Dropdown } from '@/components/common/Dropdown/Dropdown';
 
 import cls from './Homework.module.scss';

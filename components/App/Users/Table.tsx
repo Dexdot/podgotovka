@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
-import { UsersContext } from '@/store/users';
+import { UsersContext } from '@/store/app/users';
 
 import { Dropdown } from '@/components/common/Dropdown/Dropdown';
 import { Avatar } from '@/components/common/Avatar/Avatar';

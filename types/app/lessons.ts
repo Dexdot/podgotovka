@@ -1,4 +1,4 @@
-import { FileI } from './common';
+import { FileI } from '@/types/common';
 
 export type LessonType =
   | 'webinar'
