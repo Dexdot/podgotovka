@@ -38,6 +38,7 @@ export interface UpdateLessonI {
 }
 
 export interface LessonEditDetailI extends LessonI {
+  subject_id: number;
   course_id: number;
   created_at: number;
   files: FileI[];

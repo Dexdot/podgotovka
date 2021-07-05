@@ -22,12 +22,18 @@
 .filters {
   display: flex;
   align-items: center;
-  margin-left: -12px;
+
+  border-bottom: 1px solid #f2f3f5;
+  padding-bottom: 12px;
+  margin-bottom: 36px;
 
   > li {
-    margin-left: 12px;
     display: flex;
     align-items: center;
+
+    &:not(:first-child) {
+      margin-left: 12px;
+    }
 
     &:first-child {
       width: 212px;
