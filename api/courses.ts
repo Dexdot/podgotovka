@@ -72,9 +72,13 @@ function updateCourseStatus(
 }
 
 function copyCourse(
-  course_id: number
+  course_id: number,
+  time: { time_start: number; time_finish: number }
 ): Promise<AxiosResponse<CourseEditDetailI>> {
-  return axios.post<CourseEditDetailI>(`${SERVICE_PATH}/${course_id}/copy`);
+  return axios.post<CourseEditDetailI>(
+    `${SERVICE_PATH}/${course_id}/copy`,
+    time
+  );
 }
 
 export const CoursesAPI = {

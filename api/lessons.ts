@@ -45,9 +45,16 @@ function updateLesson(
 }
 
 function copyLesson(
-  lesson_id: number
+  lesson_id: number,
+  info: {
+    time_start: number;
+    course_id: number;
+  }
 ): Promise<AxiosResponse<LessonEditDetailI>> {
-  return axios.post<LessonEditDetailI>(`${SERVICE_PATH}/${lesson_id}/copy`);
+  return axios.post<LessonEditDetailI>(
+    `${SERVICE_PATH}/${lesson_id}/copy`,
+    info
+  );
 }
 
 export const LessonsAPI = {

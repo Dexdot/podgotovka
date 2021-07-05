@@ -55,7 +55,7 @@ export const Lessons: React.FC<Props> = ({ courseID }) => {
           <ul className={cls.lessons}>
             {lessons.map((l) => (
               <li key={l.id}>
-                <LessonItem lesson={l} />
+                <LessonItem lesson={l} courseID={courseID} />
               </li>
             ))}
           </ul>

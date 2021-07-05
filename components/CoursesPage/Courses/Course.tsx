@@ -28,6 +28,9 @@ const TextEditor = dynamic(
   { ssr: false }
 );
 
+const now = new Date();
+now.setHours(0, 0, 0, 0);
+
 type Props = {
   course: CourseI;
   isOpen: boolean;
@@ -68,7 +71,10 @@ export const Course: React.FC<Props> = ({ course, isOpen, onOpenClick }) => {
     setCopying(true);
 
     try {
-      const { data } = await CoursesAPI.copyCourse(course.id);
+      const { data } = await CoursesAPI.copyCourse(course.id, {
+        time_start: course.time_start || now.getTime() / 1000,
+        time_finish: course.time_finish || now.getTime() / 1000
+      });
       router.push(`/app/courses/${data.id}`);
     } catch (error) {
       showAlert({ error });
