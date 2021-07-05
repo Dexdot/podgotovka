@@ -88,10 +88,10 @@ export const EditUser: React.FC = observer(() => {
       const { subject, created_at, ...details } = userDetails;
       form.setValues({
         ...details,
-        subject_id: subject?.id || -1
+        subject_id: subject?.id
       });
     }
-  }, [userDetails.id]);
+  }, [userDetails]);
 
   return (
     <section className={cls.root}>

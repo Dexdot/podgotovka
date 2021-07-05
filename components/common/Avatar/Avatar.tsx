@@ -4,6 +4,7 @@ import React, { useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useImage } from '@/hooks/useImage';
 import { COLORS } from '@/utils/consts';
+import { randomColor } from '@/utils/randomColor';
 
 import cls from './Avatar.module.scss';
 
@@ -20,6 +21,7 @@ type Props = {
   user?: AvatarUser;
   style?: ElementCSSInlineStyle;
   onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  idForColor?: number;
 };
 
 export function Avatar({
@@ -28,7 +30,8 @@ export function Avatar({
   size,
   user,
   style,
-  onClick
+  onClick,
+  idForColor
 }: Props): JSX.Element {
   const [image, , error] = useImage(src || '');
   const showPlaceholder = useMemo(() => !!error || !src, [src, error]);
@@ -77,7 +80,9 @@ export function Avatar({
           <div
             className={cls.placeholder}
             style={{
-              backgroundColor: COLORS.primary,
+              backgroundColor: idForColor
+                ? randomColor(idForColor)
+                : COLORS.primary,
               fontSize: (size || 32) / 2.25
             }}
           >
@@ -96,5 +101,6 @@ Avatar.defaultProps = {
   href: '',
   user: null,
   onClick: null,
-  style: {}
+  style: {},
+  idForColor: undefined
 };

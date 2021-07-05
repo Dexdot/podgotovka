@@ -50,6 +50,7 @@ export const Table: React.FC = observer(() => {
                 src={user.photo_link}
                 size={48}
                 user={{ name: user.name || '' }}
+                idForColor={user.id}
               />
               <div className={cls.name_and_login}>
                 <Link href={`/app/users/${user.id}`}>

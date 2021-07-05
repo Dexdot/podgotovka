@@ -42,6 +42,7 @@ export const Header: React.FC<PropsI> = ({ details, onStatusChange }) => {
             href={details.photo_link}
             size={72}
             user={{ name: details.name || '' }}
+            idForColor={details.id}
           />
           <div className={cls.user}>
             <h1 className={cls.user_name}>{details.name}</h1>
