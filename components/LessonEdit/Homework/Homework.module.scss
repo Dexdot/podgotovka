@@ -67,3 +67,11 @@
     display: none;
   }
 }
+
+.editor {
+  :global {
+    .ce-toolbar__plus {
+      left: -34px;
+    }
+  }
+}

@@ -20,7 +20,7 @@ export const Description: React.FC<Props> = ({ blocks, onChange }) => {
   const [isOpen, setOpen] = useState(blocks.length > 0);
 
   return (
-    <div>
+    <div className={cls.editor}>
       <p className={cls.label}>Пояснение</p>
       <p className={cls.subtitle}>
         Пояснение увидит ученик после выполнения всего домашнего задания
