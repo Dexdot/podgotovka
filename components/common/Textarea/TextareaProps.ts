@@ -6,6 +6,7 @@ export interface TextareaProps {
   placeholder?: string;
   name?: string;
   errorText?: string;
+  initialHeight?: number;
 }
 
 export const defaultProps = {
@@ -13,5 +14,6 @@ export const defaultProps = {
   placeholder: undefined,
   name: undefined,
   onBlur: undefined,
-  errorText: ''
+  errorText: '',
+  initialHeight: undefined
 };

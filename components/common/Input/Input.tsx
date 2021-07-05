@@ -13,12 +13,16 @@ export const Input = forwardRef<any, Props>((props, ref) => {
     value,
     onChange,
     onBlur,
+    onFocus,
+    onKeyPress,
+    onKeyDown,
     disabled,
     placeholder,
     type,
     name,
     errorText,
-    search
+    search,
+    autoFocus
   } = props;
 
   return (
@@ -35,9 +39,14 @@ export const Input = forwardRef<any, Props>((props, ref) => {
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={onFocus}
+        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         disabled={disabled}
         name={name}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus={autoFocus}
       />
       <span
         className={cn(cls.error_wrap, { [cls.error_wrap_active]: !!errorText })}

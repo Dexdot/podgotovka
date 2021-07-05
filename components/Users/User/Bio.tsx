@@ -1,15 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { UserDetailsI } from '@/types/users';
 
-import cls from './User.module.scss';
+import { TextareaFlat } from '@/components/common/Textarea/TextareaFlat';
 
 interface PropsI {
   details: UserDetailsI;
 }
 
 export const Bio: React.FC<PropsI> = ({ details }) => {
-  const ref = useRef<HTMLTextAreaElement>(null);
   const [value, setValue] = useState<string>('');
 
   useEffect(() => {
@@ -21,26 +20,12 @@ export const Bio: React.FC<PropsI> = ({ details }) => {
     }
   }, [details.id]);
 
-  useEffect(() => {
-    if (ref && ref.current) {
-      ref.current.style.height = `auto`;
-      const height = ref.current.scrollHeight;
-      if (value) {
-        ref.current.style.height = `${height}px`;
-      } else {
-        ref.current.style.height = ``;
-      }
-    }
-  }, [value, ref]);
-
   return (
     <>
       <h2>Био</h2>
-      <textarea
-        ref={ref}
+      <TextareaFlat
         value={value}
         onChange={(e) => setValue(e.currentTarget.value)}
-        className={cls.textarea}
         disabled
       />
     </>
