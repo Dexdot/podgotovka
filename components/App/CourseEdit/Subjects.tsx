@@ -5,7 +5,7 @@ import { SubjectI } from '@/types/subjects';
 import { CourseEditContext } from '@/store/course-edit';
 
 import cls from './CourseEdit.module.scss';
-import { Checkbox } from '../common/Checkbox/Checkbox';
+import { Checkbox } from '../../common/Checkbox/Checkbox';
 
 type Props = {
   subjects: SubjectI[];

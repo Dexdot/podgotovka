@@ -2,15 +2,16 @@ import React from 'react';
 import Link from 'next/link';
 
 import { HeaderLogo } from '@/components/layouts/SidebarLayout/Header/HeaderLogo';
-import { auth } from '@/api/common/auth';
+import { authApp } from '@/api/common/auth';
 
 import cls from './Signin.module.scss';
 import { SigninForm } from './SigninForm';
 import { FormI } from './helpers';
 
+// Not student signin
 export const Signin: React.FC = () => {
   const submit = (f: FormI) => {
-    return auth(f);
+    return authApp(f);
   };
 
   return (

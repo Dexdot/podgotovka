@@ -3,8 +3,8 @@ import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
-import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
-import { SubjectEdit } from '@/components/Subjects/SubjectEdit/SubjectEdit';
+import { SubjectHeader } from '@/components/App/Subjects/SubjectHeader/SubjectHeader';
+import { SubjectEdit } from '@/components/App/Subjects/SubjectEdit/SubjectEdit';
 
 import { useDirections } from '@/hooks/useDirections';
 import { DirectionType } from '@/types/common';

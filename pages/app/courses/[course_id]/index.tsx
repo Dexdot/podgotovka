@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { CourseEdit } from '@/components/CourseEdit/CourseEdit';
+import { CourseEdit } from '@/components/App/CourseEdit/CourseEdit';
 import { CourseEditContext, CourseEditStore } from '@/store/course-edit';
 
 const CourseEditPage: React.FC = () => {

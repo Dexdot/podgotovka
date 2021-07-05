@@ -1,7 +1,7 @@
 import React from 'react';
 import { withLayout } from '@moxy/next-layout';
 import { AppLayout } from '@/components/layouts/AppLayout/AppLayout';
-import { Signin } from '@/components/Auth/Signin/Signin';
+import { Signin } from '@/components/Auth/App/Signin';
 
 const SigninPage: React.FC = () => {
   return <Signin />;

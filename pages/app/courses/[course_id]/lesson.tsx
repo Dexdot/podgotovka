@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { LessonEdit } from '@/components/LessonEdit/LessonEdit';
+import { LessonEdit } from '@/components/App/LessonEdit/LessonEdit';
 
 import { LessonEditContext, LessonEditStore } from '@/store/lesson-edit';
 import { LessonType } from '@/types/lessons';

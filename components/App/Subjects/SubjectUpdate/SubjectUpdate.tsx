@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { SubjectHeader } from '@/components/Subjects/SubjectHeader/SubjectHeader';
+import { SubjectHeader } from '@/components/App/Subjects/SubjectHeader/SubjectHeader';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
 import { updateSubject } from '@/api/subjects';

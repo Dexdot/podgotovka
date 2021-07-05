@@ -16,7 +16,7 @@ import {
   isQuestionOneValid,
   isQuestionTwoValid,
   mapTestQuestions
-} from '@/components/LessonEdit/Homework/helpers';
+} from '@/components/App/LessonEdit/Homework/helpers';
 
 const now = new Date();
 now.setHours(0, 0, 0, 0);
