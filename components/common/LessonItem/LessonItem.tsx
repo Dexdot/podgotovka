@@ -16,9 +16,10 @@ import { TimeIcon } from './icons';
 
 type Props = {
   lesson: LessonI;
+  courseID: number;
 };
 
-export const LessonItem: React.FC<Props> = ({ lesson }) => {
+export const LessonItem: React.FC<Props> = ({ lesson, courseID }) => {
   const router = useRouter();
 
   // Date
@@ -32,7 +33,10 @@ export const LessonItem: React.FC<Props> = ({ lesson }) => {
     setCopying(true);
 
     try {
-      const { data } = await LessonsAPI.copyLesson(lesson.id);
+      const { data } = await LessonsAPI.copyLesson(lesson.id, {
+        time_start: lesson.time_start,
+        course_id: courseID
+      });
       router.push(`/app/lessons/${data.id}`);
     } catch (error) {
       showAlert({ error });

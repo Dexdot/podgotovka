@@ -26,17 +26,17 @@ export class AuthStore {
     makeAutoObservable(this);
   }
 
-  setAuth(v: AuthI): void {
+  setAuth = (v: AuthI): void => {
     this.auth = v;
     PodgotovkaAPI.updateToken(v.access_token);
     setCookie(AUTH_NAME, JSON.stringify(v), cookieOptions);
-  }
+  };
 
-  remove(): void {
+  remove = (): void => {
     this.auth = undefined;
     PodgotovkaAPI.updateToken('');
     deleteCookie(AUTH_NAME, cookieOptions);
-  }
+  };
 }
 
 export const authStore = new AuthStore();

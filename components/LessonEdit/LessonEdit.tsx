@@ -103,7 +103,18 @@ export const LessonEdit: React.FC<Props> = observer(
 
     return (
       <div className={cls.root}>
-        <BackLink href="/app/subjects" text="Вернуться к предметам" />
+        <BackLink
+          href={
+            store.lessonData?.subject_id
+              ? `/app/subjects/${store.lessonData?.subject_id}/courses`
+              : '/app/subjects'
+          }
+          text={
+            store.lessonData?.subject_id
+              ? 'Вернуться к предмету'
+              : 'Вернуться к предметам'
+          }
+        />
 
         <header className={cls.header}>
           <h1 className={cls.title}>{name || 'Новое занятие'}</h1>

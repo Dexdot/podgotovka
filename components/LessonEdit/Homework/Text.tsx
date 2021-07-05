@@ -16,7 +16,7 @@ const TextEditor = dynamic(
 
 export const Text: React.FC<Props> = ({ blocks, onChange }) => {
   return (
-    <div>
+    <div className={cls.editor}>
       <p className={cls.label}>Вопрос</p>
       <TextEditor
         data={{ blocks }}
