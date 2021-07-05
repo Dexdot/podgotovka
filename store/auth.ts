@@ -1,6 +1,8 @@
 import { createContext } from 'react';
 import { makeAutoObservable } from 'mobx';
-import { AuthI } from '@/types/auth';
+import jwt_decode from 'jwt-decode';
+
+import { AuthI, AuthJWTI } from '@/types/auth';
 import { AUTH_NAME } from '@/utils/consts';
 import { PodgotovkaAPI } from '@/api/instance';
 import { deleteCookie, setCookie } from '@/utils/cookie';
@@ -22,17 +24,23 @@ const cookieOptions =
 export class AuthStore {
   public auth: AuthI | undefined;
 
+  public is_student = false;
+
   constructor() {
     makeAutoObservable(this);
   }
 
   setAuth = (v: AuthI): void => {
-    this.auth = v;
+    const jwt = jwt_decode<AuthJWTI>(v.access_token);
+    this.is_student = jwt.role === 'student';
+
+    this.auth = { ...v };
     PodgotovkaAPI.updateToken(v.access_token);
     setCookie(AUTH_NAME, JSON.stringify(v), cookieOptions);
   };
 
   remove = (): void => {
+    this.is_student = false;
     this.auth = undefined;
     PodgotovkaAPI.updateToken('');
     deleteCookie(AUTH_NAME, cookieOptions);
