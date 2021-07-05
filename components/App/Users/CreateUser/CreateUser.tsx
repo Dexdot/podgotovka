@@ -9,6 +9,7 @@ import { UsersContext } from '@/store/app/users';
 import { Button } from '@/components/common/Button/Button';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
+import { RoleType } from '@/types/app/users';
 import { Role } from './Role';
 import { Main } from './Main';
 import { RoleInCollapseHeader } from './RoleInCollapseHeader';
@@ -65,7 +66,7 @@ export const CreateUser: React.FC = observer(() => {
     }
   };
 
-  const checkRole = (role: string) => {
+  const checkRole = (role: RoleType) => {
     form.setFieldValue('role', role);
     setCollapse(MAIN_COLLAPSE);
   };

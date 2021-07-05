@@ -5,14 +5,19 @@ import {
   UserDetailsI,
   SearchParamsI,
   NewUserI,
-  UpdateUserI
+  UpdateUserI,
+  UserMeI
 } from '@/types/app/users';
 import { PodgotovkaAPI } from '@/api/instance';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/accounts';
 
-export function fetchUsers(
+function fetchOwnAccount(): Promise<AxiosResponse<UserMeI>> {
+  return axios.get<UserMeI>(`${SERVICE_PATH}/me`);
+}
+
+function fetchUsers(
   searchParams: SearchParamsI
 ): Promise<AxiosResponse<UserI[]>> {
   return axios.get<UserI[]>(`${SERVICE_PATH}`, {
@@ -20,22 +25,20 @@ export function fetchUsers(
   });
 }
 
-export function fetchUserDetails(
-  id: number
-): Promise<AxiosResponse<UserDetailsI>> {
+function fetchUserDetails(id: number): Promise<AxiosResponse<UserDetailsI>> {
   return axios.get<UserDetailsI>(`${SERVICE_PATH}/${id}`);
 }
 
-export function createUser(data: NewUserI): Promise<AxiosResponse<UserI>> {
+function createUser(data: NewUserI): Promise<AxiosResponse<UserI>> {
   return axios.post<UserI>(`${SERVICE_PATH}`, data);
 }
 
-export function updateUser(data: UpdateUserI): Promise<AxiosResponse<UserI>> {
+function updateUser(data: UpdateUserI): Promise<AxiosResponse<UserI>> {
   const { id, ...form } = data;
   return axios.patch<UserI>(`${SERVICE_PATH}/${id}`, form);
 }
 
-export function resetUserPassword(
+function resetUserPassword(
   id: number,
   password: string
 ): Promise<AxiosResponse<{ result: boolean }>> {
@@ -46,6 +49,7 @@ export function resetUserPassword(
 }
 
 export const UsersAPI = {
+  fetchOwnAccount,
   fetchUsers,
   fetchUserDetails,
   createUser,

@@ -3,13 +3,14 @@ import { FormikProps } from 'formik';
 
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 
+import { RoleType } from '@/types/app/users';
 import { FormI } from './helpers';
 
 import { roles } from '../helpers';
 import cls from './CreateUser.module.scss';
 
 interface PropsI {
-  onCheckRole: (role: string) => void;
+  onCheckRole: (role: RoleType) => void;
   form: FormikProps<FormI>;
 }
 
@@ -22,7 +23,7 @@ export const Role: React.FC<PropsI> = ({ onCheckRole, form }) => {
         <div key={item.id} className={cls.checkbox}>
           <Checkbox
             id={`role_${item.id}`}
-            onChange={() => onCheckRole(item.id)}
+            onChange={() => onCheckRole(item.id as RoleType)}
             checked={form.values.role === item.id}
           />
           <label htmlFor={`role_${item.id}`}>{item.text}</label>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 
-import { SearchParamsI, UserDetailsI } from '@/types/app/users';
+import { RoleType, SearchParamsI, UserDetailsI } from '@/types/app/users';
 
 import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
@@ -42,7 +42,7 @@ export const Search: React.FC = () => {
       name_like: debouncedSearch,
       is_active: status && status.id ? JSON.parse(status.id) : undefined,
       subject_id: subject && subject.id ? Number(subject.id) : undefined,
-      role: role && role.id ? role.id : undefined
+      role: role && role.id ? (role.id as RoleType) : undefined
     }),
     [debouncedSearch, status, subject, role]
   );

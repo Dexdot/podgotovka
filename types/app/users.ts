@@ -1,10 +1,18 @@
 import { SubjectI } from '@/types/subjects';
 
+export type RoleType =
+  | 'admin'
+  | 'teacher'
+  | 'checker'
+  | 'curator'
+  | 'helper'
+  | 'student';
+
 export interface NewUserI {
   login: string;
   password: string;
   name: string;
-  role: string;
+  role: RoleType;
   photo_link?: string;
   vk_link?: string;
   subject_id: number;
@@ -24,11 +32,15 @@ export interface UserI {
   id: number;
   name: string;
   login: string;
-  role: string;
+  role: RoleType;
   is_active: boolean;
   vk_link?: string;
   photo_link?: string;
   subject?: SubjectI;
+}
+
+export interface UserMeI extends UserI {
+  created_at: number;
 }
 
 export interface UserDetailsI extends UserI {
@@ -37,7 +49,7 @@ export interface UserDetailsI extends UserI {
 }
 
 export interface SearchParamsI {
-  role?: string;
+  role?: RoleType;
   is_active?: boolean;
   subject_id?: number;
   name_like?: string;

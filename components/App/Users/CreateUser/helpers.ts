@@ -1,3 +1,5 @@
+import { RoleType } from '@/types/app/users';
+
 export const ROLE_COLLAPSE = 1;
 export const MAIN_COLLAPSE = 2;
 
@@ -9,14 +11,14 @@ export interface FormI {
   login: string;
   password: string;
   name: string;
-  role: string;
+  role: RoleType;
   subject_id: number;
   vk_link?: string;
   photo_link?: string;
 }
 
 export const initialValues: FormI = {
-  role: '',
+  role: 'teacher',
   name: '',
   login: '',
   vk_link: undefined,

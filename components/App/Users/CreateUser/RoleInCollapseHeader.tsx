@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { RoleType } from '@/types/app/users';
 import { UserIcon } from '../Icons';
 
 import { roles } from '../helpers';
 import cls from './CreateUser.module.scss';
 
 interface PropsI {
-  role: string;
+  role: RoleType;
 }
 
 export const RoleInCollapseHeader: React.FC<PropsI> = ({ role }) => {
