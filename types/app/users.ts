@@ -28,7 +28,7 @@ export interface UserI {
   is_active: boolean;
   vk_link?: string;
   photo_link?: string;
-  subject: SubjectI;
+  subject?: SubjectI;
 }
 
 export interface UserDetailsI extends UserI {

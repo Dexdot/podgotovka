@@ -36,7 +36,7 @@ export const Table: React.FC = observer(() => {
 
       {users.map((user) => {
         const selectedSubject = subjects?.find(
-          (item) => item.id === user.subject.id
+          (item) => item.id === user.subject?.id
         );
         const selectedRole = roles.find((item) => item.id === user.role);
         const selectedStatus = statuses.find(

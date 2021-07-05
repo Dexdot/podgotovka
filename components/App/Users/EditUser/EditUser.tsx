@@ -88,7 +88,7 @@ export const EditUser: React.FC = observer(() => {
       const { subject, created_at, ...details } = userDetails;
       form.setValues({
         ...details,
-        subject_id: subject.id
+        subject_id: subject?.id || -1
       });
     }
   }, [userDetails.id]);
