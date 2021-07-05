@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { PodgotovkaAPI } from '@/api/instance';
 import { AuthI } from '@/types/auth';
 import { getFormData } from '@/utils/network';
-import { FormI } from '@/components/Auth/App/helpers';
+import { FormI } from '@/components/App/Signin/helpers';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1';

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,8 +14,8 @@ import { SettingsIcon, ExitIcon } from './icons';
 
 export const HeaderAvatar: React.FC = observer(() => {
   const router = useRouter();
-  const { remove } = useContext(AuthContext);
-  const [ownAccount] = useOwnAccount();
+  const { auth, remove } = useContext(AuthContext);
+  const [ownAccount, loadOwnAccount] = useOwnAccount();
 
   const [isOpen, setOpen] = useState(false);
   const signout = () => {
@@ -29,6 +29,12 @@ export const HeaderAvatar: React.FC = observer(() => {
       setOpen(false);
     }
   });
+
+  useEffect(() => {
+    if (auth?.access_token) {
+      loadOwnAccount();
+    }
+  }, [auth?.access_token, loadOwnAccount]);
 
   return (
     <div className={cls.right}>
