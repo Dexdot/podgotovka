@@ -19,6 +19,30 @@
   align-items: center;
 }
 
+.filters {
+  display: flex;
+  align-items: center;
+  margin-left: -12px;
+
+  > li {
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+
+    &:first-child {
+      width: 212px;
+
+      input {
+        height: 34px;
+      }
+
+      input + span {
+        display: none;
+      }
+    }
+  }
+}
+
 .period {
   display: flex;
   align-items: center;
