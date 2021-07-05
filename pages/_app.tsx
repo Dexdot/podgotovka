@@ -7,6 +7,7 @@ import '@/styles/index.scss';
 
 import { SidebarLayout } from '@/components/layouts/SidebarLayout/SidebarLayout';
 import { StoreRoot } from '@/store/StoreRoot';
+import { HandleAuth } from '@/components/HandleAuth';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
@@ -17,11 +18,13 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       </Head>
 
       <StoreRoot>
-        <LayoutTree
-          defaultLayout={<SidebarLayout />}
-          Component={Component}
-          pageProps={pageProps}
-        />
+        <HandleAuth>
+          <LayoutTree
+            defaultLayout={<SidebarLayout />}
+            Component={Component}
+            pageProps={pageProps}
+          />
+        </HandleAuth>
       </StoreRoot>
     </>
   );
