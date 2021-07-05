@@ -26,6 +26,23 @@
     margin-top: 16px;
     margin-bottom: 24px;
   }
+
+  textarea {
+    width: 100%;
+    height: auto;
+
+    resize: none;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--color-gray);
+    background-color: var(--color-white);
+
+    border: none;
+    outline: none;
+  }
 }
 
 .user_info {
@@ -61,21 +78,4 @@
   *:not(:last-child) {
     margin-right: 8px;
   }
-}
-
-.textarea {
-  width: 100%;
-  height: auto;
-
-  resize: none;
-
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 26px;
-  color: var(--color-gray);
-  background-color: var(--color-white);
-
-  border: none;
-  outline: none;
 }

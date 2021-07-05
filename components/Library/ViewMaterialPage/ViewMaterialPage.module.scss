@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+
+  margin-top: 38px;
+
+  h2 {
+    margin-bottom: 12px;
+
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 33px;
+  }
+}
+
+.categories {
+  max-width: 400px;
+
+  margin-right: 36px;
+
+  flex-shrink: 1;
+}
+
+.material {
+  flex-grow: 1;
+
+  background: #ffffff;
+  box-shadow: 0px 3px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}

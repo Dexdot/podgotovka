@@ -4,7 +4,15 @@ import cls from './Textarea.module.scss';
 import { TextareaProps as Props, defaultProps } from './TextareaProps';
 
 export const TextareaFlat: React.FC<Props> = (props) => {
-  const { value, onChange, onBlur, disabled, placeholder, name } = props;
+  const {
+    value,
+    onChange,
+    onBlur,
+    disabled,
+    placeholder,
+    name,
+    initialHeight
+  } = props;
 
   const ref = useRef(null);
 
@@ -13,7 +21,7 @@ export const TextareaFlat: React.FC<Props> = (props) => {
 
     // @ts-ignore
     const el = ref.current as HTMLTextAreaElement;
-    el.style.height = 'auto';
+    el.style.height = initialHeight ? `${initialHeight}px` : 'auto';
 
     const h = el.scrollHeight;
     if (el.value) {
@@ -21,7 +29,7 @@ export const TextareaFlat: React.FC<Props> = (props) => {
     } else {
       el.style.height = '';
     }
-  }, [value]);
+  }, [value, initialHeight]);
 
   return (
     <div className={cls.root}>
