@@ -12,7 +12,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { Input } from '@/components/common/Input/Input';
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 
-import { statuses, roles, anySubject } from './helpers';
+import { statuses, roles, anySubject, anyStatus, anyRole } from './helpers';
 import cls from './Users.module.scss';
 
 export const Search: React.FC = () => {
@@ -26,7 +26,7 @@ export const Search: React.FC = () => {
         id: String(item.id),
         text: item.name
       }));
-      return [anySubject, ...arr];
+      return arr;
     }
     return [];
   }, [subjects]);
@@ -68,7 +68,7 @@ export const Search: React.FC = () => {
 
       <div className={cn(cls.input)}>
         <Dropdown
-          items={statuses}
+          items={[anyStatus, ...statuses]}
           value={status}
           onChange={setStatus}
           placeholder="Статус"
@@ -76,7 +76,7 @@ export const Search: React.FC = () => {
       </div>
       <div className={cn(cls.input)}>
         <Dropdown
-          items={subjectOptions}
+          items={[anySubject, ...subjectOptions]}
           value={subject}
           onChange={setSubject}
           placeholder="Предмет"
@@ -84,7 +84,7 @@ export const Search: React.FC = () => {
       </div>
       <div className={cn(cls.input)}>
         <Dropdown
-          items={roles}
+          items={[anyRole, ...roles]}
           value={role}
           onChange={setRole}
           placeholder="Роль"
