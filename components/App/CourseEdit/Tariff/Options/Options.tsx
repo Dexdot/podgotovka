@@ -6,7 +6,7 @@ import { SelectOptions } from '@/components/common/SelectOptions/SelectOptions';
 import { AddButton } from '@/components/common/AddButton/AddButton';
 
 import { CourseEditContext } from '@/store/course-edit';
-import { useOptions } from '@/api/hooks/options/useOptions';
+import { useOptions } from '@/api/app/hooks/options/useOptions';
 
 import cls from './Options.module.scss';
 import { OptionsList } from './OptionsList';

@@ -1,6 +1,6 @@
 import { SubjectI } from '@/types/subjects';
 import { useState, useEffect, useCallback } from 'react';
-import { getSubjectDetail } from '@/api/subjects';
+import { getSubjectDetail } from '@/api/app/subjects';
 import { showAlert } from '@/utils/network';
 
 export function useSubject(subject_id: number): SubjectI | undefined {

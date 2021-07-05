@@ -8,7 +8,7 @@ import {
   ActionsDropdown,
   ActionType
 } from '@/components/common/ActionsDropdown/ActionsDropdown';
-import { LessonsAPI } from '@/api/lessons';
+import { LessonsAPI } from '@/api/app/lessons';
 import { showAlert } from '@/utils/network';
 
 import cls from './LessonItem.module.scss';

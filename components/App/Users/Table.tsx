@@ -3,7 +3,7 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { UsersContext } from '@/store/users';
 

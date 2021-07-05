@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { LessonI } from '@/types/lessons';
-import { LessonsAPI, LessonsFilters } from '@/api/lessons';
+import { LessonsAPI, LessonsFilters } from '@/api/app/lessons';
 import { showAlert } from '@/utils/network';
 
 export function useCourseLessons(

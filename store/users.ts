@@ -10,7 +10,7 @@ import {
   UserDetailsI
 } from '@/types/users';
 
-import { UsersAPI } from '@/api/users';
+import { UsersAPI } from '@/api/app/users';
 
 import { showAlert } from '@/utils/network';
 

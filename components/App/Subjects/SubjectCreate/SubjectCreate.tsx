@@ -9,7 +9,7 @@ import { SubjectEdit } from '@/components/App/Subjects/SubjectEdit/SubjectEdit';
 import { useDirections } from '@/hooks/useDirections';
 import { DirectionType } from '@/types/common';
 import { COLORS } from '@/utils/consts';
-import { createSubject } from '@/api/subjects';
+import { createSubject } from '@/api/app/subjects';
 import { showAlert } from '@/utils/network';
 
 import cls from './SubjectCreate.module.scss';

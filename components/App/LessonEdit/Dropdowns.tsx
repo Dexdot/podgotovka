@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 
 import { LessonEditContext } from '@/store/lesson-edit';
-import { useCourses } from '@/api/hooks/courses/useCourses';
+import { useCourses } from '@/api/app/hooks/courses/useCourses';
 import { LessonType } from '@/types/lessons';
 
 import cls from './LessonEdit.module.scss';

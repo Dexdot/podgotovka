@@ -12,7 +12,7 @@ import {
   UpdateMaterialI
 } from '@/types/library';
 
-import { LibraryAPI } from '@/api/library';
+import { LibraryAPI } from '@/api/app/library';
 
 import { showAlert } from '@/utils/network';
 

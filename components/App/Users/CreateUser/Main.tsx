@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormikProps } from 'formik';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { copyToClipboard } from '@/utils/copyToClipboard';
 

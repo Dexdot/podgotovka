@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import cls from './Subjects.module.scss';
 import { SubjectHeader } from './SubjectHeader/SubjectHeader';

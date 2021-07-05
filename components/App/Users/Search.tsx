@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { SearchParamsI, UserDetailsI } from '@/types/users';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { UsersContext } from '@/store/users';
 

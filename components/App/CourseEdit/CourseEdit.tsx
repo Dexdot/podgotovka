@@ -7,7 +7,7 @@ import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Tabs } from '@/components/common/Tabs/Tabs';
 
 import { TariffLevelType } from '@/types/common';
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 import { CourseEditContext } from '@/store/course-edit';
 
 import cls from './CourseEdit.module.scss';

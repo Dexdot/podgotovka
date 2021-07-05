@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { OptionI } from '@/types/common';
 import { SearchParamsI } from '@/types/options';
 
-import { fetchOptions } from '@/api/options';
+import { fetchOptions } from '@/api/app/options';
 
 import { showAlert } from '@/utils/network';
 

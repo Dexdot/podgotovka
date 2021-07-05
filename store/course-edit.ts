@@ -15,7 +15,7 @@ import {
   OptionValueType,
   TariffValueType
 } from '@/types/common';
-import { CoursesAPI } from '@/api/courses';
+import { CoursesAPI } from '@/api/app/courses';
 import { showAlert } from '@/utils/network';
 
 const ONE_LEVEL_ID = -1;

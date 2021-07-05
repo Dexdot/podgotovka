@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { BackLink } from '@/components/common/BackLink/BackLink';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';

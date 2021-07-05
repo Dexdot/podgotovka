@@ -10,7 +10,7 @@ import {
   UpdateHWI
 } from '@/types/homeworks';
 import { showAlert } from '@/utils/network';
-import { HomeworksAPI } from '@/api/homeworks';
+import { HomeworksAPI } from '@/api/app/homeworks';
 import {
   getEmptyTestQuestions,
   isQuestionOneValid,

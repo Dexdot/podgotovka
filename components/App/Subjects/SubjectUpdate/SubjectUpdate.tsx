@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 import { SubjectHeader } from '@/components/App/Subjects/SubjectHeader/SubjectHeader';
 import { SectionCollapse } from '@/components/common/SectionCollapse/SectionCollapse';
 
-import { updateSubject } from '@/api/subjects';
+import { updateSubject } from '@/api/app/subjects';
 
-import { useSubject } from '@/api/hooks/subjects/useSubject';
+import { useSubject } from '@/api/app/hooks/subjects/useSubject';
 import { showAlert } from '@/utils/network';
 import cls from './SubjectUpdate.module.scss';
 import { SubjectEdit } from '../SubjectEdit/SubjectEdit';

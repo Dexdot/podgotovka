@@ -15,7 +15,7 @@ import { SubjectI } from '@/types/subjects';
 
 import { LibraryContext } from '@/store/library';
 
-import { LibraryAPI } from '@/api/library';
+import { LibraryAPI } from '@/api/app/library';
 
 import { useDebounce } from '@/hooks/useDebounce';
 

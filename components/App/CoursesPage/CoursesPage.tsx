@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import { BackLink } from '@/components/common/BackLink/BackLink';
 import { Button } from '@/components/common/Button/Button';
 
-import { CoursesAPI } from '@/api/courses';
-import { useSubject } from '@/api/hooks/subjects/useSubject';
+import { CoursesAPI } from '@/api/app/courses';
+import { useSubject } from '@/api/app/hooks/subjects/useSubject';
 import { showAlert } from '@/utils/network';
 
 import cls from './CoursesPage.module.scss';

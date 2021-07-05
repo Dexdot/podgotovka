@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { CourseI } from '@/types/courses';
-import { CoursesAPI, CoursesFilters } from '@/api/courses';
+import { CoursesAPI, CoursesFilters } from '@/api/app/courses';
 import { showAlert } from '@/utils/network';
 
 export function useCourses(filters: CoursesFilters): CourseI[] | undefined {

@@ -15,7 +15,7 @@ import {
 
 import { CourseI } from '@/types/courses';
 import { getDateText } from '@/utils/date';
-import { CoursesAPI } from '@/api/courses';
+import { CoursesAPI } from '@/api/app/courses';
 import { showAlert } from '@/utils/network';
 
 import cls from './Course.module.scss';

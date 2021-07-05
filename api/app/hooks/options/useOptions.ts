@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { OptionI } from '@/types/common';
 
-import { fetchOptions } from '@/api/options';
+import { fetchOptions } from '@/api/app/options';
 
 import { showAlert } from '@/utils/network';
 

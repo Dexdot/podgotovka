@@ -3,7 +3,7 @@ import { action, makeAutoObservable, runInAction } from 'mobx';
 import type { OutputBlockData } from '@editorjs/editorjs';
 
 import { showAlert } from '@/utils/network';
-import { LessonsAPI } from '@/api/lessons';
+import { LessonsAPI } from '@/api/app/lessons';
 import { LessonEditDetailI, LessonType, UpdateLessonI } from '@/types/lessons';
 import { FileI } from '@/types/common';
 import { HWEditStore } from '@/store/homework-edit';

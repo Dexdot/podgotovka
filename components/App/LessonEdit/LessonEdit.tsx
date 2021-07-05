@@ -10,7 +10,7 @@ import { DateTimePicker } from '@/components/common/DateTimePicker/DateTimePicke
 
 import { LessonEditContext } from '@/store/lesson-edit';
 import { CreateLessonI, LessonType } from '@/types/lessons';
-import { LessonsAPI } from '@/api/lessons';
+import { LessonsAPI } from '@/api/app/lessons';
 import { showAlert } from '@/utils/network';
 import { HWEditContext, HWEditStore } from '@/store/homework-edit';
 

@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { TariffLevelType } from '@/types/common';
-import { useLevels } from '@/api/hooks/useLevels';
+import { useLevels } from '@/api/app/hooks/useLevels';
 import { CourseEditContext } from '@/store/course-edit';
 
 import cls from './Tariff.module.scss';

@@ -5,8 +5,8 @@ import cn from 'classnames';
 import { OptionI } from '@/types/common';
 import { SearchParamsI } from '@/types/options';
 
-import { OptionsAPI } from '@/api/options';
-import { useFilteredOptions } from '@/api/hooks/options/useFilteredOptions';
+import { OptionsAPI } from '@/api/app/options';
+import { useFilteredOptions } from '@/api/app/hooks/options/useFilteredOptions';
 import { useDebounce } from '@/hooks/useDebounce';
 
 import { showAlert } from '@/utils/network';

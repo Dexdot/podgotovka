@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-import { useCourses } from '@/api/hooks/courses/useCourses';
+import { useCourses } from '@/api/app/hooks/courses/useCourses';
 import { Input } from '@/components/common/Input/Input';
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { CourseStatus } from '@/types/courses';

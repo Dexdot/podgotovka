@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { FormikProps } from 'formik';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { LevelI } from '@/types/common';
-import { getLevels } from '@/api/levels';
+import { getLevels } from '@/api/app/levels';
 import { showAlert } from '@/utils/network';
 
 export function useLevels(): LevelI[] | undefined {
