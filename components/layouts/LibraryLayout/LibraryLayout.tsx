@@ -36,7 +36,7 @@ export const LibraryLayout: React.FC<PropsI> = ({ children }) => {
   return (
     <LibraryContext.Provider value={libraryStore}>
       <section className={cls.root}>
-        <Search />
+        <Search subjects={subjects} />
 
         <div className={cls.search_subjects}>
           {subjects?.map((item) => (

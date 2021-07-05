@@ -182,7 +182,6 @@
 
   textarea {
     width: 100%;
-    height: 38px;
 
     margin-bottom: 16px;
 
@@ -198,4 +197,13 @@
   ul {
     z-index: 2;
   }
+}
+
+.status_dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin-right: 8px;
+
+  border-radius: 50%;
 }

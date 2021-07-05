@@ -146,7 +146,7 @@ export function orderMaterials({
   category_id: number;
 }): Promise<AxiosResponse<{ result: boolean }>> {
   return axios.patch<{ result: boolean }>(
-    `${SERVICE_PATH_MATERIALS}/${category_id}/order`,
+    `${SERVICE_PATH_MATERIALS}/category/${category_id}/order`,
     { id_order_list }
   );
 }

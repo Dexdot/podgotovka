@@ -1,10 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useMemo, useState } from 'react';
 import { Collapse } from 'react-collapse';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 import { CategoryI } from '@/types/library';
+
+import { useRefState } from '@/hooks/useRefState';
 
 import { ChevronRight, ListBullet, PlusIcon } from '../Icons';
 import { CreateMaterial } from './Create/CreateMaterial';
@@ -15,12 +19,16 @@ interface PropsI {
   category: CategoryI;
   isOpened: boolean;
   toggleCategory: (newCategory: number) => void;
+  openCategory: (newCategory: number) => void;
+  dragInProgress: boolean;
 }
 
 export const Category: React.FC<PropsI> = ({
   category,
   isOpened,
-  toggleCategory
+  toggleCategory,
+  openCategory,
+  dragInProgress
 }) => {
   const router = useRouter();
   const { pathname } = router;
@@ -42,53 +50,107 @@ export const Category: React.FC<PropsI> = ({
   );
 
   const [creatingMaterial, toggleCreatingMaterial] = useState<boolean>(false);
+  const [, setCategoryHovered, stateRef] = useRefState<boolean>(false);
+  const [categoryListHovered, setCategoryListHovered] =
+    useRefState<boolean>(false);
+
+  const handleMouseOver = () => {
+    setCategoryHovered(true);
+    setTimeout(() => {
+      if (dragInProgress && stateRef.current) {
+        openCategory(category.id);
+      }
+    }, 1000);
+  };
 
   return (
-    <ul key={category.id} className={cn({ [cls.category_active]: isOpened })}>
-      <button type="button" onClick={() => toggleCategory(category.id)}>
-        <ChevronRight />
-        {category.name}
-      </button>
-      <Collapse isOpened={isOpened}>
-        {category.materials.map((item) => (
-          <li
-            key={item.id}
-            className={cn({
-              [cls.material_active]: materialId === item.id,
-              [cls.material_draft]: !item.is_published
-            })}
+    <Droppable
+      droppableId={`droppable-category-${category.id}`}
+      direction="vertical"
+      isDropDisabled={!editMode}
+    >
+      {(providedCategory) => (
+        <ul
+          ref={providedCategory.innerRef}
+          key={category.id}
+          className={cn({
+            [cls.category_active]: isOpened,
+            [cls.category_drop_target]: categoryListHovered && dragInProgress
+          })}
+          onMouseEnter={() => {
+            setCategoryListHovered(true);
+          }}
+          onMouseLeave={() => {
+            setCategoryListHovered(false);
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => toggleCategory(category.id)}
+            onMouseEnter={handleMouseOver}
+            onMouseLeave={() => setCategoryHovered(false)}
           >
-            {!editMode && <ListBullet />}
-            <Link
-              href={`/library/subject/${subjectId}/material/${item.id}${
-                editMode ? '/edit' : ''
-              }`}
-            >
-              {item.name}
-            </Link>
-          </li>
-        ))}
-        {editMode && (
-          <>
-            <button
-              className={cn(cls.create_material_btn, {
-                [cls.create_material_btn_closed]: creatingMaterial
-              })}
-              type="button"
-              disabled={!!creatingMaterial}
-              onClick={() => toggleCreatingMaterial(true)}
-            >
-              <PlusIcon />
-              <span>Добавить материал</span>
-            </button>
-            <CreateMaterial
-              toggle={toggleCreatingMaterial}
-              isOpen={creatingMaterial}
-              categoryId={category.id}
-            />
-          </>
-        )}
-      </Collapse>
-    </ul>
+            <ChevronRight />
+            {category.name}
+          </button>
+          <Collapse isOpened={isOpened}>
+            {category.materials.map((item, index) => (
+              <Draggable
+                key={item.id}
+                draggableId={`draggable-material-${item.id}`}
+                index={index}
+                isDragDisabled={!editMode}
+              >
+                {(
+                  { innerRef, draggableProps, dragHandleProps },
+                  { isDragging }
+                ) => (
+                  <li
+                    ref={innerRef}
+                    {...draggableProps}
+                    {...dragHandleProps}
+                    className={cn({
+                      [cls.material_active]: materialId === item.id,
+                      [cls.material_draft]: !item.is_published,
+                      [cls.material_dragging]: isDragging
+                    })}
+                  >
+                    {!editMode && <ListBullet />}
+                    <Link
+                      href={`/library/subject/${subjectId}/material/${item.id}${
+                        editMode ? '/edit' : ''
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {providedCategory.placeholder}
+            {editMode && (
+              <>
+                <button
+                  className={cn(cls.create_material_btn, {
+                    [cls.create_material_btn_closed]: creatingMaterial
+                  })}
+                  type="button"
+                  disabled={!!creatingMaterial}
+                  onClick={() => toggleCreatingMaterial(true)}
+                >
+                  <PlusIcon />
+                  <span>Добавить материал</span>
+                </button>
+                <CreateMaterial
+                  toggle={toggleCreatingMaterial}
+                  isOpen={creatingMaterial}
+                  categoryId={category.id}
+                />
+              </>
+            )}
+          </Collapse>
+        </ul>
+      )}
+    </Droppable>
   );
 };

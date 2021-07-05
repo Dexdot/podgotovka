@@ -288,25 +288,83 @@ export class LibraryStore {
     category_id: number;
   }): void => {
     const id_order_list = args.orderedMaterials.map((item) => item.id);
+
+    const fallbackCategories = [...this.categories];
+
+    const newCategories = this.categories.map((item) => {
+      if (args.category_id === item.id) {
+        return { ...item, materials: args.orderedMaterials };
+      }
+      return item;
+    });
+    this.upd(newCategories);
+
     LibraryAPI.orderMaterials({
       category_id: args.category_id,
       id_order_list
     }).then(
       action('fetchSuccess', ({ data }) => {
-        if (data) {
-          const newCategories = this.categories.map((item) => {
-            if (args.category_id === item.id) {
-              return { ...item, materials: args.orderedMaterials };
-            }
-            return item;
-          });
-          this.upd(newCategories);
-        } else {
+        if (!data) {
+          this.upd(fallbackCategories);
           showAlert({ type: 'error', text: 'Не удалось изменить порядок' });
         }
       }),
       action('fetchError', (error) => {
         showAlert({ error });
+      })
+    );
+  };
+
+  reorderMaterialsBetweenCategories = (args: {
+    material_id: number;
+    category_id: number;
+    position: number;
+  }): void => {
+    const { material_id, category_id, position } = args;
+    const fallbackCategories = [...this.categories];
+
+    let filteredMaterial: MaterialI;
+    let id_order_list: number[];
+
+    const newCategories = this.categories
+      .map((item) => {
+        const newMaterials = item.materials.filter((material) => {
+          if (material.id === material_id) {
+            filteredMaterial = material;
+            return false;
+          }
+          return true;
+        });
+        return { ...item, materials: newMaterials };
+      })
+      .map((item) => {
+        const newMaterials = [...item.materials];
+        if (item.id === category_id) {
+          newMaterials.splice(position, 0, filteredMaterial);
+          id_order_list = newMaterials.map(({ id }) => id);
+        }
+        return { ...item, materials: newMaterials };
+      });
+    this.categories = newCategories;
+
+    LibraryAPI.updateMaterial({ material_id, category_id }).then(
+      action('fetchSuccess', ({ data }) => {
+        this.updMaterial(data);
+        LibraryAPI.orderMaterials({ category_id, id_order_list }).then(
+          action('fetchSuccess', ({ data: res }) => {
+            if (!res) {
+              this.upd(fallbackCategories);
+              showAlert({ type: 'error', text: 'Не удалось изменить порядок' });
+            }
+          }),
+          action('fetchError', (error) => {
+            showAlert({ error });
+          })
+        );
+      }),
+      action('fetchError', (error) => {
+        showAlert({ error });
+        this.upd(fallbackCategories);
       })
     );
   };

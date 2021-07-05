@@ -5,11 +5,12 @@ import { LibraryContext } from '@/store/library';
 
 import { getDDMMYY } from '@/utils/date';
 
-import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { Button } from '@/components/common/Button/Button';
 import { Avatar } from '@/components/common/Avatar/Avatar';
-
+import { TextareaFlat } from '@/components/common/Textarea/TextareaFlat';
 import {
+  getStatusColor,
   moreOpitons,
   statusOptions,
   STATUS_DRAFT,
@@ -19,7 +20,7 @@ import {
 import cls from '../Material.module.scss';
 
 interface PropsI {
-  onMoreClick: (value: DropdownItem) => void;
+  onMoreClick: (value: DropdownType) => void;
   onStatusChange: () => void;
   onSave: () => void;
 }
@@ -29,7 +30,7 @@ export const HeaderEdit: React.FC<PropsI> = observer(
     const { material, laodingMaterial, updateMaterialName } =
       useContext(LibraryContext);
 
-    const statusValue = useMemo<DropdownItem | null>(() => {
+    const statusValue = useMemo<DropdownType | null>(() => {
       if (material.is_published) {
         return (
           statusOptions.find((item) => item.id === STATUS_PUBLISHED) || null
@@ -37,6 +38,11 @@ export const HeaderEdit: React.FC<PropsI> = observer(
       }
       return statusOptions.find((item) => item.id === STATUS_DRAFT) || null;
     }, [material]);
+
+    const statusColor = useMemo(() => {
+      const statusID = statusValue?.id;
+      return getStatusColor(statusID);
+    }, [statusValue]);
 
     return (
       <div className={cls.header_edit}>
@@ -52,6 +58,12 @@ export const HeaderEdit: React.FC<PropsI> = observer(
             items={statusOptions}
             value={statusValue}
             placeholder="Статус"
+            beforeText={
+              <span
+                style={{ background: statusColor }}
+                className={cls.status_dot}
+              />
+            }
             onChange={onStatusChange}
             disabled={laodingMaterial === 'loading'}
           />
@@ -59,9 +71,10 @@ export const HeaderEdit: React.FC<PropsI> = observer(
             Сохранить
           </Button>
         </div>
-        <textarea
+        <TextareaFlat
           value={material.name}
           onChange={(e) => updateMaterialName(e.currentTarget.value)}
+          initialHeight={38}
         />
         <div className={cls.user_info}>
           <div className={cls.avatar}>

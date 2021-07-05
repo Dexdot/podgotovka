@@ -9,6 +9,8 @@ import { LibraryAPI } from '@/api/library';
 import { pluralize } from '@/utils/pluralize';
 import { showAlert } from '@/utils/network';
 
+import { getDescription } from './helpers';
+
 import cls from './SearchPage.module.scss';
 
 export const SearchPage: React.FC = () => {
@@ -62,8 +64,9 @@ export const SearchPage: React.FC = () => {
                     href={`/library/subject/${item.subject.id}/material/${item.id}`}
                   >
                     <p className={cls.material_card_link_name}>{item.name}</p>
-                    {/* todo get proper text from here */}
-                    <p className={cls.material_card_link_desc}>{item.text}</p>
+                    <p className={cls.material_card_link_desc}>
+                      {getDescription(item.text, search as string)}
+                    </p>
                     <p className={cls.material_card_link_subject}>
                       {item.subject.name}
                     </p>

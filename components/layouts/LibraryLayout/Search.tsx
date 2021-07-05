@@ -11,6 +11,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 
 import { SearchMaterialI } from '@/types/library';
+import { SubjectI } from '@/types/subjects';
 
 import { LibraryContext } from '@/store/library';
 
@@ -29,7 +30,11 @@ import { ClearIcon } from '../../Library/Icons';
 
 import cls from './LibraryLayout.module.scss';
 
-export const Search: React.FC = observer(() => {
+interface PropsI {
+  subjects: SubjectI[] | undefined;
+}
+
+export const Search: React.FC<PropsI> = observer(({ subjects }) => {
   const router = useRouter();
   const { subject_id } = router.query;
 
@@ -113,7 +118,11 @@ export const Search: React.FC = observer(() => {
     <>
       <header>
         <h1>Читальня</h1>
-        <ButtonLink href={`/library/subject/${subject_id}/create`}>
+        <ButtonLink
+          href={`/library/subject/${
+            subject_id || (subjects && subjects[0].id)
+          }/create`}
+        >
           Добавить материал
         </ButtonLink>
       </header>

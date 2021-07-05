@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, {
   useCallback,
   useContext,
@@ -8,14 +9,18 @@ import React, {
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import cn from 'classnames';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import { SubjectI } from '@/types/subjects';
 
 import { LibraryContext } from '@/store/library';
 
 import { useDebounce } from '@/hooks/useDebounce';
+import { useRefState } from '@/hooks/useRefState';
 
-import { Dropdown, DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { reorderDND } from '@/utils/common';
+
+import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { Input } from '@/components/common/Input/Input';
 import { Button } from '@/components/common/Button/Button';
 import { Spinner } from '@/components/common/Spinner/Spinner';
@@ -49,20 +54,36 @@ export const Categories: React.FC<PropsI> = observer(({ subjects }) => {
     [pathname]
   );
 
-  const { categories, loading, fetchCategories } = useContext(LibraryContext);
+  const {
+    categories,
+    loading,
+    fetchCategories,
+    reorderMaterials,
+    reorderMaterialsBetweenCategories
+  } = useContext(LibraryContext);
 
   const [opened, setOpened] = useState<number[]>([]);
   const [search, setSearch] = useState<string>('');
   const debouncedSearch = useDebounce(search, 200);
   const [isAutoOpened, toggleAutoOpened] = useState<boolean>(false);
-  const [subject, setSubject] = useState<DropdownItem | null>(null);
+  const [subject, setSubject] = useState<DropdownType | null>(null);
   const [creatingCategory, toggleCreatingCategory] = useState<boolean>(false);
+  const [dragInProgress, toggleDragInProgress] = useRefState<boolean>(false);
 
-  const subjectsToOptions = useMemo<DropdownItem[]>(
+  const subjectsToOptions = useMemo<DropdownType[]>(
     () =>
       subjects?.map(({ id, name }) => ({ id: id.toString(), text: name })) ||
       [],
     [subjects]
+  );
+
+  const openCategory = useCallback(
+    (categoryId) => {
+      if (!opened.includes(categoryId)) {
+        setOpened([...opened, categoryId]);
+      }
+    },
+    [opened]
   );
 
   const toggleCategory = useCallback(
@@ -117,6 +138,40 @@ export const Categories: React.FC<PropsI> = observer(({ subjects }) => {
     }
   }, [subject, subjectId, router]);
 
+  const handleDrag = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+    if (destination) {
+      const newCategoryId = Number(destination.droppableId.replace(/\D/g, ''));
+      const draggedMaterialId = Number(draggableId.replace(/\D/g, ''));
+
+      const changedCategory = categories.find(
+        (item) => item.id === newCategoryId
+      )!;
+
+      const reordered = reorderDND(
+        changedCategory.materials,
+        source.index,
+        destination.index
+      );
+
+      const isSameCategory = destination.droppableId === source.droppableId;
+
+      if (isSameCategory) {
+        reorderMaterials({
+          orderedMaterials: reordered,
+          category_id: newCategoryId
+        });
+      } else {
+        reorderMaterialsBetweenCategories({
+          material_id: draggedMaterialId,
+          category_id: newCategoryId,
+          position: destination.index
+        });
+      }
+    }
+    toggleDragInProgress(false);
+  };
+
   return (
     <div className={cn(cls.wrapper, { [cls.wrapper_edit]: editMode })}>
       {editMode && (
@@ -135,29 +190,36 @@ export const Categories: React.FC<PropsI> = observer(({ subjects }) => {
           />
         </div>
       )}
-      <div className={cls.categories}>
-        {loading !== 'loading' &&
-          categories.map((category) => (
-            <Category
-              key={category.id}
-              category={category}
-              isOpened={opened.includes(category.id)}
-              toggleCategory={toggleCategory}
-            />
-          ))}
-        {!categories.length && loading !== 'loading' && (
-          <p className={cls.categories_empty}>
-            {debouncedSearch
-              ? 'Ничего не найдено'
-              : 'У этого предмета пока нет категорий'}
-          </p>
-        )}
-        {loading === 'loading' && (
-          <div className={cls.spinner}>
-            <Spinner />
-          </div>
-        )}
-      </div>
+      <DragDropContext
+        onDragStart={() => toggleDragInProgress(true)}
+        onDragEnd={handleDrag}
+      >
+        <div className={cls.categories}>
+          {loading !== 'loading' &&
+            categories.map((category) => (
+              <Category
+                key={category.id}
+                category={category}
+                isOpened={opened.includes(category.id)}
+                toggleCategory={toggleCategory}
+                openCategory={openCategory}
+                dragInProgress={dragInProgress}
+              />
+            ))}
+          {!categories.length && loading !== 'loading' && (
+            <p className={cls.categories_empty}>
+              {debouncedSearch
+                ? 'Ничего не найдено'
+                : 'У этого предмета пока нет категорий'}
+            </p>
+          )}
+          {loading === 'loading' && (
+            <div className={cls.spinner}>
+              <Spinner />
+            </div>
+          )}
+        </div>
+      </DragDropContext>
       <CreateCategory
         isOpen={creatingCategory}
         toggle={toggleCreatingCategory}

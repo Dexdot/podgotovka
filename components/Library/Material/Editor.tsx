@@ -33,7 +33,7 @@ export const Editor: React.FC<PropsI> = observer(({ editMode, onChange }) => {
             blocks: material.text ? JSON.parse(material.text) : []
           }}
           readOnly={!editMode}
-          placeholder="Добавьте содержание материала сюда"
+          placeholder={editMode ? 'Добавьте содержание материала сюда' : ''}
           onChange={(data) => onChange(data.blocks)}
           onReady={() => toggleReady(true)}
         />

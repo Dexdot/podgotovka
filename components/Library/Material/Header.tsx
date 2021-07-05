@@ -6,7 +6,7 @@ import { MaterialI } from '@/types/library';
 
 import { LibraryContext } from '@/store/library';
 
-import { DropdownItem } from '@/components/common/Dropdown/Dropdown';
+import { DropdownType } from '@/components/common/Dropdown/Dropdown';
 import { ConfirmModal } from '@/components/modals/ConfirmModal/ConfirmModal';
 
 import { HeaderReadOnly } from './Header/HeaderReadOnly';
@@ -60,7 +60,7 @@ export const Header: React.FC<PropsI> = observer(
     }, [material, removeMaterial, subjectId, router, nextMaterial]);
 
     const handleMoreClick = useCallback(
-      (value: DropdownItem) => {
+      (value: DropdownType) => {
         if (value.id === ACTION_DELETE) {
           toggle(true);
         } else {
