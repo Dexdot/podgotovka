@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import { CoursesPage } from '@/components/CoursesPage/CoursesPage';
+import { CoursesPage } from '@/components/App/CoursesPage/CoursesPage';
 
 const AppCoursesPage: React.FC = () => {
   const router = useRouter();

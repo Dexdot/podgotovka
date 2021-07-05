@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { UsersContext, usersStore } from '@/store/users';
+import { UsersContext, usersStore } from '@/store/app/users';
 
-import { Users } from '@/components/Users/Users';
+import { Users } from '@/components/App/Users/Users';
 
 const UsersPage: React.FC = () => {
   return (

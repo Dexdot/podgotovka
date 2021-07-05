@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { LessonI } from '@/types/lessons';
+import { LessonI } from '@/types/app/lessons';
 import { getDateText, toHHMM } from '@/utils/date';
 import {
   ActionsDropdown,
   ActionType
 } from '@/components/common/ActionsDropdown/ActionsDropdown';
-import { LessonsAPI } from '@/api/lessons';
+import { LessonsAPI } from '@/api/app/lessons';
 import { showAlert } from '@/utils/network';
 
 import cls from './LessonItem.module.scss';

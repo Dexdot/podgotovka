@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-import { SubjectUpdate } from '@/components/Subjects/SubjectUpdate/SubjectUpdate';
+import { SubjectUpdate } from '@/components/App/Subjects/SubjectUpdate/SubjectUpdate';
 
 const SubjectUpdatePage: React.FC = () => {
   const router = useRouter();

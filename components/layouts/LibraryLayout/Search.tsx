@@ -12,21 +12,16 @@ import { observer } from 'mobx-react-lite';
 
 import { SearchMaterialI } from '@/types/library';
 import { SubjectI } from '@/types/subjects';
-
 import { LibraryContext } from '@/store/library';
-
-import { LibraryAPI } from '@/api/library';
-
+import { LibraryAPI } from '@/api/app/library';
 import { useDebounce } from '@/hooks/useDebounce';
-
 import { showAlert } from '@/utils/network';
 
 import { ButtonLink } from '@/components/common/Button/ButtonLink';
 import { Input } from '@/components/common/Input/Input';
 import { HighlightText } from '@/components/common/HighlightText/HighlighText';
 import { Spinner } from '@/components/common/Spinner/Spinner';
-
-import { ClearIcon } from '../../Library/Icons';
+import { ClearIcon } from '@/components/Library/Icons';
 
 import cls from './LibraryLayout.module.scss';
 

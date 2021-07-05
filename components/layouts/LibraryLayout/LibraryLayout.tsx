@@ -1,7 +1,7 @@
 import React, { cloneElement } from 'react';
 import { useRouter } from 'next/router';
 
-import { useSubjects } from '@/api/hooks/subjects/useSubjects';
+import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { LibraryContext, libraryStore } from '@/store/library';
 
