@@ -1354,10 +1354,10 @@ duplexer2@^0.1.2, duplexer2@~0.1.0, duplexer2@~0.1.2:
   dependencies:
     readable-stream "^2.0.2"
 
-editorjs-attaches-readonly@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/editorjs-attaches-readonly/-/editorjs-attaches-readonly-1.1.0.tgz#ca3c8d0933fe39bef42631d7b8274903360a783c"
-  integrity sha512-Lrb0lQ+7jBTTmHoZHFkJzsxYpUjfvOsM3lNITJDIQwgbgRRtIo33To4gjKqIukvrnpzB2wRbXZ4V+aHxcC8EzA==
+editorjs-attaches-readonly@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/editorjs-attaches-readonly/-/editorjs-attaches-readonly-1.1.3.tgz#60c8e1e21790e4ee31e9127a7570b660c5c72cf3"
+  integrity sha512-vV0fo3w0uQfUcYQN6XztwPG0CUwHtRnAaGzTn6JzzlrTZ81DCkXLCE99DDweM9zAVLjQGP4S0T6kcMpk0Ylp0w==
 
 editorjs-table-readonly@1.1.0:
   version "1.1.0"
