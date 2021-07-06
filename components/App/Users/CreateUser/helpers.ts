@@ -49,7 +49,7 @@ export const validate = (values: FormI, isUserNew: boolean): Errors => {
     errors.password = 'Введите пароль';
   }
 
-  if (subject_id === -1 && hasSubjects(role)) {
+  if (!subject_id && hasSubjects(role)) {
     errors.subject_id = 'Выберите предмет';
   }
 
