@@ -12,9 +12,14 @@ import { observer } from 'mobx-react-lite';
 
 import { SearchMaterialI } from '@/types/library';
 import { SubjectI } from '@/types/subjects';
+
 import { LibraryContext } from '@/store/library';
+import { authStore } from '@/store/auth';
+
 import { LibraryAPI } from '@/api/app/library';
+
 import { useDebounce } from '@/hooks/useDebounce';
+
 import { showAlert } from '@/utils/network';
 
 import { ButtonLink } from '@/components/common/Button/ButtonLink';
@@ -34,6 +39,7 @@ export const Search: React.FC<PropsI> = observer(({ subjects }) => {
   const { subject_id } = router.query;
 
   const { fetchCategories } = useContext(LibraryContext);
+  const { isStudent, state: authState } = authStore;
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -113,13 +119,15 @@ export const Search: React.FC<PropsI> = observer(({ subjects }) => {
     <>
       <header>
         <h1>Читальня</h1>
-        <ButtonLink
-          href={`/library/subject/${
-            subject_id || (subjects && subjects[0].id)
-          }/create`}
-        >
-          Добавить материал
-        </ButtonLink>
+        {authState !== 'initial' && !isStudent && (
+          <ButtonLink
+            href={`/app/library/subject/${
+              subject_id || (subjects && subjects[0].id)
+            }/create`}
+          >
+            Добавить материал
+          </ButtonLink>
+        )}
       </header>
 
       <div className={cls.searchbar}>

@@ -5,7 +5,7 @@ import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 
-import { roles, statuses } from '../helpers';
+import { roleHasSubject, roles, statuses } from '../helpers';
 import { FormI } from './helpers';
 
 import cls from './EditUser.module.scss';
@@ -34,7 +34,7 @@ export const RolesAndSubjects: React.FC<PropsI> = ({ form }) => {
   const selectedSubject = useMemo<DropdownType | null>(
     () =>
       subjectOptions?.find(
-        (item) => item.id === form.values.subject_id.toString()
+        (item) => item.id === form.values.subject_id?.toString()
       ) || null,
     [form.values.subject_id, subjectOptions]
   );
@@ -57,17 +57,19 @@ export const RolesAndSubjects: React.FC<PropsI> = ({ form }) => {
           placeholder="Роль"
         />
       </div>
-      <div className={cls.dropdown}>
-        <p>Предмет</p>
-        <Dropdown
-          items={subjectOptions}
-          value={selectedSubject}
-          onChange={(value) =>
-            form.setFieldValue('subject_id', JSON.parse(value.id))
-          }
-          placeholder="Предмет"
-        />
-      </div>
+      {roleHasSubject(form.values.role) && (
+        <div className={cls.dropdown}>
+          <p>Предмет</p>
+          <Dropdown
+            items={subjectOptions}
+            value={selectedSubject}
+            onChange={(value) =>
+              form.setFieldValue('subject_id', JSON.parse(value.id))
+            }
+            placeholder="Предмет"
+          />
+        </div>
+      )}
       <div className={cls.dropdown}>
         <p>Статус</p>
         <Dropdown

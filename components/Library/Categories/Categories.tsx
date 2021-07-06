@@ -134,7 +134,7 @@ export const Categories: React.FC<PropsI> = observer(({ subjects }) => {
       subjectId &&
       Number(subject.id) !== subjectId
     ) {
-      router.push(`/library/subject/${subject.id}/create`);
+      router.push(`/app/library/subject/${subject.id}/create`);
     }
   }, [subject, subjectId, router]);
 

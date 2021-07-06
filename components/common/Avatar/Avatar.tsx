@@ -4,6 +4,7 @@ import React, { useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useImage } from '@/hooks/useImage';
 import { COLORS } from '@/utils/consts';
+import { randomColor } from '@/utils/randomColor';
 
 import cls from './Avatar.module.scss';
 
@@ -78,7 +79,7 @@ export function Avatar({
           <div
             className={cls.placeholder}
             style={{
-              backgroundColor: COLORS.primary,
+              backgroundColor: user?.id ? randomColor(user.id) : COLORS.primary,
               fontSize: (size || 32) / 2.25
             }}
           >

@@ -49,7 +49,7 @@ export const Table: React.FC = observer(() => {
               <Avatar
                 src={user.photo_link}
                 size={48}
-                user={{ name: user.name || '', id: user.id }}
+                user={{ name: user.name || '', id: user.id || -1 }}
               />
               <div className={cls.name_and_login}>
                 <Link href={`/app/users/${user.id}`}>

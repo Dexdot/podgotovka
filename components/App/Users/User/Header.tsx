@@ -41,7 +41,7 @@ export const Header: React.FC<PropsI> = ({ details, onStatusChange }) => {
           <Avatar
             href={details.photo_link}
             size={72}
-            user={{ name: details.name || '', id: details.id }}
+            user={{ name: details.name || '', id: details.id || -1 }}
           />
           <div className={cls.user}>
             <h1 className={cls.user_name}>{details.name}</h1>

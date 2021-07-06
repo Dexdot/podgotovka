@@ -1,5 +1,7 @@
 import { RoleType } from '@/types/app/users';
 
+import { roleHasSubject } from '../helpers';
+
 export const ROLE_COLLAPSE = 1;
 export const MAIN_COLLAPSE = 2;
 
@@ -12,7 +14,7 @@ export interface FormI {
   password: string;
   name: string;
   role: RoleType;
-  subject_id: number;
+  subject_id?: number;
   vk_link?: string;
   photo_link?: string;
 }
@@ -23,7 +25,7 @@ export const initialValues: FormI = {
   login: '',
   vk_link: undefined,
   password: '',
-  subject_id: -1,
+  subject_id: undefined,
   photo_link: undefined
 };
 
@@ -47,7 +49,7 @@ export const validate = (values: FormI, isUserNew: boolean): Errors => {
     errors.password = 'Введите пароль';
   }
 
-  if (subject_id === -1) {
+  if (!subject_id && roleHasSubject(role)) {
     errors.subject_id = 'Выберите предмет';
   }
 
