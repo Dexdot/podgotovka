@@ -1,21 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
 
 import { Avatar } from '@/components/common/Avatar/Avatar';
 import { AuthContext } from '@/store/auth';
 import { useWindowClick } from '@/hooks/useWindowClick';
-import { useOwnAccount } from '@/api/app/hooks/useOwnAccount';
+import { useOwnStudentAccount } from '@/api/app/hooks/useOwnStudentAccount';
 
 import cls from './Header.module.scss';
-import { SettingsIcon, ExitIcon } from './icons';
+import { ExitIcon } from './icons';
 
-export const HeaderAvatar: React.FC = observer(() => {
+export const HeaderAvatarStudent: React.FC = observer(() => {
   const router = useRouter();
   const { auth, remove } = useContext(AuthContext);
-  const [ownAccount, loadOwnAccount] = useOwnAccount();
+  const [ownAccount, loadOwnAccount] = useOwnStudentAccount();
 
   const [isOpen, setOpen] = useState(false);
   const signout = () => {
@@ -45,19 +44,6 @@ export const HeaderAvatar: React.FC = observer(() => {
       />
 
       <ul className={cn(cls.right_list, { [cls.right_list_open]: isOpen })}>
-        {ownAccount && (
-          <li>
-            <Link href={`/app/users/${ownAccount.id}/edit`}>
-              <a
-                href={`/app/users/${ownAccount.id}/edit`}
-                onClick={() => setOpen(false)}
-              >
-                <SettingsIcon />
-                Настройки
-              </a>
-            </Link>
-          </li>
-        )}
         <li>
           <button type="button" onClick={() => signout()}>
             <ExitIcon />

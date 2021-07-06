@@ -48,7 +48,7 @@ export const SignupForm: React.FC<Props> = observer(({ onSubmit }) => {
 
   return (
     <form className={cls.form} onSubmit={form.handleSubmit}>
-      <h2 className={cls.title}>Авторизация</h2>
+      <h2 className={cls.title}>Регистрация</h2>
       <Input
         type="text"
         name="name"

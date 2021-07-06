@@ -1,5 +1,5 @@
 export interface StudentI {
-  id: string;
+  id: number;
   email: string;
   name: string;
   photo_link?: string;

@@ -8,6 +8,7 @@ import { COLORS } from '@/utils/consts';
 import cls from './Avatar.module.scss';
 
 type AvatarUser = {
+  id: number;
   name: string;
 };
 
