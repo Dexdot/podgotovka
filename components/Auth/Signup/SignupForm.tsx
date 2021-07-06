@@ -19,7 +19,7 @@ type Props = {
   onSubmit: (form: FormI) => Promise<AxiosResponse<AuthI>>;
 };
 
-export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
+export const SignupForm: React.FC<Props> = observer(({ onSubmit }) => {
   const router = useRouter();
   const authStore = useContext(AuthContext);
 
@@ -51,12 +51,22 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       <h2 className={cls.title}>Авторизация</h2>
       <Input
         type="text"
-        name="username"
-        placeholder="Логин"
-        value={form.values.username}
+        name="name"
+        placeholder="Как вас зовут?"
+        value={form.values.name}
         onChange={form.handleChange}
         onBlur={form.handleBlur}
-        errorText={form.touched.username ? form.errors.username : ''}
+        errorText={form.touched.name ? form.errors.name : ''}
+      />
+      <div className={cls.margin} />
+      <Input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={form.values.email}
+        onChange={form.handleChange}
+        onBlur={form.handleBlur}
+        errorText={form.touched.email ? form.errors.email : ''}
       />
       <div className={cls.margin} />
       <Input
@@ -75,11 +85,11 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
         loading={form.isSubmitting}
         disabled={form.isSubmitting || !form.isValid}
       >
-        Войти
+        Зарегистрироваться
       </Button>
       <div className={cls.margin} />
-      <ButtonLink fullWidth href="/signup" variant="grey">
-        Зарегистрироваться
+      <ButtonLink fullWidth href="/signin" variant="grey">
+        У меня уже есть аккаунт
       </ButtonLink>
     </form>
   );

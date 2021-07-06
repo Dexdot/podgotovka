@@ -5,11 +5,16 @@ import { AuthI } from '@/types/auth';
 import { getFormData } from '@/utils/network';
 import { StudentI } from '@/types/students';
 import { FormI as AuthFormI } from '@/components/Auth/Signin/helpers';
+import { FormI as RegisterFormI } from '@/components/Auth/Signup/helpers';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/accounts-student';
 
-function register(form: any): Promise<AxiosResponse<AuthI>> {
+interface RegFormI extends RegisterFormI {
+  photo_link?: string;
+}
+
+function register(form: RegFormI): Promise<AxiosResponse<AuthI>> {
   return axios.post<AuthI>(`${SERVICE_PATH}/register`, form);
 }
 
