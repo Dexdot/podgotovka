@@ -6,13 +6,14 @@ import { useRouter } from 'next/router';
 
 import { Input } from '@/components/common/Input/Input';
 import { Button } from '@/components/common/Button/Button';
+import { ButtonLink } from '@/components/common/Button/ButtonLink';
 
 import { AuthContext } from '@/store/auth';
 import type { AuthI } from '@/types/auth';
 import { showAlert } from '@/utils/network';
 
+import cls from '@/components/Auth/Auth.module.scss';
 import { FormI, initialValues, validate } from './helpers';
-import cls from './Signin.module.scss';
 
 type Props = {
   onSubmit: (form: FormI) => Promise<AxiosResponse<AuthI>>;
@@ -30,7 +31,7 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       helpers.setSubmitting(false);
       helpers.resetForm();
 
-      router.push('/app/subjects');
+      router.push('/');
     } catch (error) {
       showAlert({ error });
       helpers.setSubmitting(false);
@@ -76,6 +77,10 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       >
         Войти
       </Button>
+      <div className={cls.margin} />
+      <ButtonLink fullWidth href="/signup" variant="grey">
+        Зарегистрироваться
+      </ButtonLink>
     </form>
   );
 });

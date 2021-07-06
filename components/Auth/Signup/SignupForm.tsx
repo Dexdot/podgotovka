@@ -6,19 +6,20 @@ import { useRouter } from 'next/router';
 
 import { Input } from '@/components/common/Input/Input';
 import { Button } from '@/components/common/Button/Button';
+import { ButtonLink } from '@/components/common/Button/ButtonLink';
 
 import { AuthContext } from '@/store/auth';
 import type { AuthI } from '@/types/auth';
 import { showAlert } from '@/utils/network';
 
+import cls from '@/components/Auth/Auth.module.scss';
 import { FormI, initialValues, validate } from './helpers';
-import cls from './Signin.module.scss';
 
 type Props = {
   onSubmit: (form: FormI) => Promise<AxiosResponse<AuthI>>;
 };
 
-export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
+export const SignupForm: React.FC<Props> = observer(({ onSubmit }) => {
   const router = useRouter();
   const authStore = useContext(AuthContext);
 
@@ -30,7 +31,7 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
       helpers.setSubmitting(false);
       helpers.resetForm();
 
-      router.push('/app/subjects');
+      router.push('/');
     } catch (error) {
       showAlert({ error });
       helpers.setSubmitting(false);
@@ -47,15 +48,25 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
 
   return (
     <form className={cls.form} onSubmit={form.handleSubmit}>
-      <h2 className={cls.title}>Авторизация</h2>
+      <h2 className={cls.title}>Регистрация</h2>
       <Input
         type="text"
-        name="username"
-        placeholder="Логин"
-        value={form.values.username}
+        name="name"
+        placeholder="Как вас зовут?"
+        value={form.values.name}
         onChange={form.handleChange}
         onBlur={form.handleBlur}
-        errorText={form.touched.username ? form.errors.username : ''}
+        errorText={form.touched.name ? form.errors.name : ''}
+      />
+      <div className={cls.margin} />
+      <Input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={form.values.email}
+        onChange={form.handleChange}
+        onBlur={form.handleBlur}
+        errorText={form.touched.email ? form.errors.email : ''}
       />
       <div className={cls.margin} />
       <Input
@@ -74,8 +85,12 @@ export const SigninForm: React.FC<Props> = observer(({ onSubmit }) => {
         loading={form.isSubmitting}
         disabled={form.isSubmitting || !form.isValid}
       >
-        Войти
+        Зарегистрироваться
       </Button>
+      <div className={cls.margin} />
+      <ButtonLink fullWidth href="/signin" variant="grey">
+        У меня уже есть аккаунт
+      </ButtonLink>
     </form>
   );
 });

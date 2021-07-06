@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { HeaderLogo } from '@/components/layouts/SidebarLayout/Header/HeaderLogo';
-import { authApp } from '@/api/app/auth';
+import cls from '@/components/Auth/Auth.module.scss';
+import { AccountsStudentAPI } from '@/api/accounts-student';
 
-import cls from './Signin.module.scss';
-import { SigninForm } from './SigninForm';
+import { SignupForm } from './SignupForm';
 import { FormI } from './helpers';
 
-export const Signin: React.FC = () => {
+export const Signup: React.FC = () => {
   const submit = (f: FormI) => {
-    return authApp(f);
+    return AccountsStudentAPI.register(f);
   };
 
   return (
@@ -19,7 +19,7 @@ export const Signin: React.FC = () => {
           <HeaderLogo />
         </div>
 
-        <SigninForm onSubmit={submit} />
+        <SignupForm onSubmit={submit} />
       </div>
     </section>
   );

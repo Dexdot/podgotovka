@@ -1,0 +1,52 @@
+$mob: 500px;
+
+.root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafbfc;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 80px;
+
+  svg {
+    width: 320px;
+    height: 54px;
+
+    @media (max-width: $mob) {
+      width: 240px;
+      height: 40px;
+    }
+  }
+}
+
+.form {
+  background: #ffffff;
+  box-shadow: 0px 3px 5px rgba(9, 30, 66, 0.05),
+    0px 0px 1px rgba(9, 30, 66, 0.31);
+  border-radius: 4px;
+
+  width: 400px;
+  padding: 36px;
+
+  @media (max-width: $mob) {
+    width: 100%;
+    padding: 32px;
+  }
+}
+
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 40px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.margin {
+  height: 12px;
+  opacity: 0;
+}
