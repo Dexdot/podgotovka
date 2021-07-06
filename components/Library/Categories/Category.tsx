@@ -117,9 +117,11 @@ export const Category: React.FC<PropsI> = ({
                   >
                     {!editMode && <ListBullet />}
                     <Link
-                      href={`/library/subject/${subjectId}/material/${item.id}${
-                        editMode ? '/edit' : ''
-                      }`}
+                      href={
+                        editMode
+                          ? `/app/library/subject/${subjectId}/material/${item.id}/edit`
+                          : `/library/subject/${subjectId}/material/${item.id}`
+                      }
                     >
                       {item.name}
                     </Link>

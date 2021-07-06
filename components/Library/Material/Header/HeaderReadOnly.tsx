@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import { LibraryContext } from '@/store/library';
+import { authStore } from '@/store/auth';
 
 import { getDDMMYY } from '@/utils/date';
 
@@ -21,6 +22,7 @@ interface PropsI {
 export const HeaderReadOnly: React.FC<PropsI> = observer(
   ({ subjectId, onCopy }) => {
     const { material, loadingMaterial } = useContext(LibraryContext);
+    const { isStudent, state: authState } = authStore;
 
     return (
       <>
@@ -42,24 +44,26 @@ export const HeaderReadOnly: React.FC<PropsI> = observer(
             )}
           </div>
         </div>
-        <div className={cls.header_btns}>
-          <Button
-            variant="grey"
-            onClick={onCopy}
-            loading={loadingMaterial === 'loading'}
-          >
-            <CopyIcon />
-            Создать копию
-          </Button>
-          <ButtonLink
-            variant="grey"
-            href={`/library/subject/${subjectId}/material/${material.id}/edit`}
-            loading={loadingMaterial === 'loading'}
-          >
-            <EditIcon />
-            Изменить
-          </ButtonLink>
-        </div>
+        {authState !== 'initial' && !isStudent && (
+          <div className={cls.header_btns}>
+            <Button
+              variant="grey"
+              onClick={onCopy}
+              loading={loadingMaterial === 'loading'}
+            >
+              <CopyIcon />
+              Создать копию
+            </Button>
+            <ButtonLink
+              variant="grey"
+              href={`/app/library/subject/${subjectId}/material/${material.id}/edit`}
+              loading={loadingMaterial === 'loading'}
+            >
+              <EditIcon />
+              Изменить
+            </ButtonLink>
+          </div>
+        )}
       </>
     );
   }
