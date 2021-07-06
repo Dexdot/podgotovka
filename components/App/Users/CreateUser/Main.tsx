@@ -9,7 +9,7 @@ import { Input } from '@/components/common/Input/Input';
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 import { ImagePicker } from '@/components/common/ImagePicker/ImagePicker';
 
-import { hasSubjects } from '../helpers';
+import { roleHasSubject } from '../helpers';
 import { CopyIcon } from '../Icons';
 import { FormI } from './helpers';
 
@@ -93,7 +93,7 @@ export const Main: React.FC<PropsI> = ({ form, onFileLoad }) => {
         </button>
       </div>
 
-      {hasSubjects(form.values.role) && (
+      {roleHasSubject(form.values.role) && (
         <>
           <div className={cls.br} />
 

@@ -1,6 +1,6 @@
 import { RoleType } from '@/types/app/users';
 
-import { hasSubjects } from '../helpers';
+import { roleHasSubject } from '../helpers';
 
 export const ROLE_COLLAPSE = 1;
 export const MAIN_COLLAPSE = 2;
@@ -43,7 +43,7 @@ export const validate = (values: FormI): Errors => {
     errors.login = 'Введите логин';
   }
 
-  if (!subject_id && hasSubjects(role)) {
+  if (!subject_id && roleHasSubject(role)) {
     errors.subject_id = 'Выберите предмет';
   }
 

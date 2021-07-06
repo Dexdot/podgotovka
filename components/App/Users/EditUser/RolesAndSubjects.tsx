@@ -5,7 +5,7 @@ import { useSubjects } from '@/api/app/hooks/subjects/useSubjects';
 
 import { Dropdown, DropdownType } from '@/components/common/Dropdown/Dropdown';
 
-import { hasSubjects, roles, statuses } from '../helpers';
+import { roleHasSubject, roles, statuses } from '../helpers';
 import { FormI } from './helpers';
 
 import cls from './EditUser.module.scss';
@@ -57,7 +57,7 @@ export const RolesAndSubjects: React.FC<PropsI> = ({ form }) => {
           placeholder="Роль"
         />
       </div>
-      {hasSubjects(form.values.role) && (
+      {roleHasSubject(form.values.role) && (
         <div className={cls.dropdown}>
           <p>Предмет</p>
           <Dropdown
