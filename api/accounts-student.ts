@@ -4,6 +4,7 @@ import { PodgotovkaAPI } from '@/api/instance';
 import { AuthI } from '@/types/auth';
 import { getFormData } from '@/utils/network';
 import { StudentI } from '@/types/students';
+import { FormI as AuthFormI } from '@/components/Auth/Signin/helpers';
 
 const { axios } = PodgotovkaAPI;
 const SERVICE_PATH = '/core/v1/accounts-student';
@@ -12,7 +13,7 @@ function register(form: any): Promise<AxiosResponse<AuthI>> {
   return axios.post<AuthI>(`${SERVICE_PATH}/register`, form);
 }
 
-function auth(form: any): Promise<AxiosResponse<AuthI>> {
+function auth(form: AuthFormI): Promise<AxiosResponse<AuthI>> {
   return axios.post<AuthI>(
     `${SERVICE_PATH}/auth/base`,
     getFormData({ ...form })

@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { HeaderLogo } from '@/components/layouts/SidebarLayout/Header/HeaderLogo';
-import { authApp } from '@/api/app/auth';
+import cls from '@/components/Auth/Auth.module.scss';
+import { AccountsStudentAPI } from '@/api/accounts-student';
 
-import cls from './Signin.module.scss';
 import { SigninForm } from './SigninForm';
 import { FormI } from './helpers';
 
 export const Signin: React.FC = () => {
   const submit = (f: FormI) => {
-    return authApp(f);
+    return AccountsStudentAPI.auth(f);
   };
 
   return (
