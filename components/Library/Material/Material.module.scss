@@ -1,6 +1,6 @@
 .root {
   width: 100%;
-  padding: 24px;
+  padding: 24px 36px;
 
   &_edit {
     padding-right: 0px;
@@ -84,6 +84,15 @@
 
     .codex-editor__loader {
       height: 40px;
+    }
+
+    .cdx-warning::before {
+      left: -28px;
+    }
+
+    .ce-toolbar__content {
+      width: 100%;
+      max-width: unset;
     }
   }
 

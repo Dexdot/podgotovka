@@ -39,9 +39,9 @@ export const Header: React.FC<PropsI> = observer(
     const handleCopy = useCallback(() => {
       copyMaterial(material.id).then((res) => {
         router.push(
-          `/library/subject/${subjectId}/material/${res.id}${
-            editMode ? '/edit' : ''
-          }`
+          editMode
+            ? `/app/library/subject/${subjectId}/material/${res.id}/edit`
+            : `/library/subject/${subjectId}/material/${res.id}`
         );
       });
     }, [material, copyMaterial, router, subjectId, editMode]);
@@ -50,10 +50,10 @@ export const Header: React.FC<PropsI> = observer(
       removeMaterial(material.id).then(() => {
         if (nextMaterial) {
           router.push(
-            `/library/subject/${subjectId}/material/${nextMaterial.id}/edit`
+            `/app/library/subject/${subjectId}/material/${nextMaterial.id}/edit`
           );
         } else {
-          router.push(`/library/subject/${subjectId}/create`);
+          router.push(`/app/library/subject/${subjectId}/create`);
         }
         toggle(false);
       });

@@ -11,7 +11,7 @@ export interface UpdateOptionI {
 }
 
 export interface SearchParamsI {
-  search?: string;
+  q?: string;
   type?: string;
   limit?: number;
   skip?: number;

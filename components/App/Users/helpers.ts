@@ -1,3 +1,5 @@
+import { RoleType } from '@/types/app/users';
+
 import { DropdownType } from '@/components/common/Dropdown/Dropdown';
 
 export const anyStatus: DropdownType = { id: '', text: 'Все' };
@@ -16,3 +18,6 @@ export const roles: DropdownType[] = [
   { id: 'curator', text: 'Куратор' },
   { id: 'helper', text: 'Хэлпер' }
 ];
+
+export const roleHasSubject = (role: RoleType): boolean =>
+  role === 'teacher' || role === 'checker';

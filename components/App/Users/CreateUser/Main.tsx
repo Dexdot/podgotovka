@@ -9,6 +9,7 @@ import { Input } from '@/components/common/Input/Input';
 import { Checkbox } from '@/components/common/Checkbox/Checkbox';
 import { ImagePicker } from '@/components/common/ImagePicker/ImagePicker';
 
+import { roleHasSubject } from '../helpers';
 import { CopyIcon } from '../Icons';
 import { FormI } from './helpers';
 
@@ -92,23 +93,27 @@ export const Main: React.FC<PropsI> = ({ form, onFileLoad }) => {
         </button>
       </div>
 
-      <div className={cls.br} />
+      {roleHasSubject(form.values.role) && (
+        <>
+          <div className={cls.br} />
 
-      <h2>Предмет</h2>
-      <h3>Выберите предмет, к которому будет закреплен пользователь</h3>
+          <h2>Предмет</h2>
+          <h3>Выберите предмет, к которому будет закреплен пользователь</h3>
 
-      {subjects?.map((item) => (
-        <div key={item.id} className={cls.checkbox}>
-          <Checkbox
-            id={`subject_${item.id}`}
-            onChange={() => form.setFieldValue('subject_id', item.id)}
-            checked={form.values.subject_id === item.id}
-          />
-          <label htmlFor={`subject_${item.id}`}>{item.name}</label>
-        </div>
-      ))}
-      {form.touched.subject_id && form.errors.subject_id && (
-        <p className={cls.error}>{form.errors.subject_id}</p>
+          {subjects?.map((item) => (
+            <div key={item.id} className={cls.checkbox}>
+              <Checkbox
+                id={`subject_${item.id}`}
+                onChange={() => form.setFieldValue('subject_id', item.id)}
+                checked={form.values.subject_id === item.id}
+              />
+              <label htmlFor={`subject_${item.id}`}>{item.name}</label>
+            </div>
+          ))}
+          {form.touched.subject_id && form.errors.subject_id && (
+            <p className={cls.error}>{form.errors.subject_id}</p>
+          )}
+        </>
       )}
     </div>
   );

@@ -39,7 +39,7 @@ export const CreateMaterial: React.FC<PropsI> = observer(
             setNewMaterialName('');
             toggle(false);
             router.push(
-              `/library/subject/${subject_id}/material/${res.id}/edit`
+              `/app/library/subject/${subject_id}/material/${res.id}/edit`
             );
           })
           .finally(() => {
