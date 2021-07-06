@@ -32,7 +32,6 @@ export const HeaderReadOnly: React.FC<PropsI> = observer(
               href={material.author?.photo_link}
               user={material.author}
               size={36}
-              idForColor={material.author?.id}
             />
           </div>
           <div>

@@ -40,7 +40,7 @@ export const HeaderAvatar: React.FC = observer(() => {
     <div className={cls.right}>
       <Avatar
         src={ownAccount?.photo_link || ''}
-        user={{ name: ownAccount?.name || '' }}
+        user={{ name: ownAccount?.name || '', id: ownAccount?.id || -1 }}
         onClick={() => setOpen(!isOpen)}
       />
 
